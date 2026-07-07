@@ -116,6 +116,38 @@
 .game-trend-tycoon .tt-thumb-gray { background: hsl(220 14% 94%); }
 .game-trend-tycoon .tt-thumb-dark { background: hsl(217 33% 17%); }
 
+/* ---------- 실시간 민원 알림 배너 ---------- */
+.game-trend-tycoon .tt-complaint-banner {
+  background: hsl(var(--tt-yellow) / 0.14);
+  border: 1px solid hsl(35 90% 50% / 0.45);
+  color: hsl(28 75% 30%);
+}
+.game-trend-tycoon .tt-complaint-caption {
+  color: hsl(28 45% 38%);
+}
+.game-trend-tycoon .tt-complaint-icon {
+  animation: tt-megaphone-ring 1.8s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+@keyframes tt-megaphone-ring {
+  0%, 50%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(-12deg); }
+  20% { transform: rotate(10deg); }
+  30% { transform: rotate(-8deg); }
+  40% { transform: rotate(6deg); }
+}
+
+/* ---------- "누리마을의 반응" 오버레이 ---------- */
+.game-trend-tycoon .tt-aftermath-headline {
+  background: hsl(var(--tt-brand) / 0.08);
+  border-left: 4px solid hsl(var(--tt-brand));
+}
+.game-trend-tycoon .tt-aftermath-bubble {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.375rem 1rem 1rem 1rem; /* 채팅 말풍선 모양 */
+}
+
 /* ---------- 클리어 화면 ---------- */
 .game-trend-tycoon .tt-clear-bg {
   background: linear-gradient(135deg, hsl(262 83% 50%), hsl(243 75% 55%), hsl(217 91% 55%));

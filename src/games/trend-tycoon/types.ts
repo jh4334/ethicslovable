@@ -24,6 +24,24 @@ export interface IntroContent {
   feedSortLabel: string;
 }
 
+/** 미션 클리어 후 "누리마을의 반응"에 나오는 시민 댓글 한 줄 */
+export interface AftermathComment {
+  /** 댓글 작성자 별명 (가상 인물) */
+  author: string;
+  text: string;
+}
+
+/**
+ * 미션 클리어 후 보여 주는 "누리마을의 반응" —
+ * 방금 내린 알고리즘 결정이 마을 사람들에게 어떤 영향을 줬는지 보여 준다.
+ */
+export interface AftermathContent {
+  /** 누리마을 뉴스 헤드라인 한 줄 */
+  headline: string;
+  /** 시민 댓글 2~3개 */
+  comments: AftermathComment[];
+}
+
 /** 미션(레벨) — 판정 규칙은 missions.ts 의 같은 id 에 있다 */
 export interface MissionContent {
   /** missions.ts 의 판정 함수와 연결되는 고유 id */
@@ -35,6 +53,8 @@ export interface MissionContent {
   description: string;
   /** 아이들에게 보여 줄 힌트 한 줄 */
   hint: string;
+  /** (선택) 미션 클리어 후 누리마을의 반응 — 지우면 반응 화면 없이 바로 다음 미션으로 넘어간다 */
+  aftermath?: AftermathContent;
 }
 
 /** 추천 피드에 나오는 가상 영상 */
@@ -79,6 +99,17 @@ export interface ClearContent {
   restartLabel: string;
 }
 
+/** 클리어 화면의 "연구소장의 최종 보고서" — 배움 정리 + 학습지 연계 질문 */
+export interface FinalReportContent {
+  title: string;
+  /** 정리 문단 2~3개 */
+  paragraphs: string[];
+  /** 학습지에 적을 되돌아보기 질문 3개 */
+  questions: string[];
+  /** 마지막 안내 한 줄 (예: 답은 학습지에 적어 보세요!) */
+  worksheetNote?: string;
+}
+
 /** trend-tycoon.json 전체 스키마 */
 export interface TrendTycoonContent {
   intro: IntroContent;
@@ -86,6 +117,8 @@ export interface TrendTycoonContent {
   videos: VideoContent[];
   grades: GradeContent[];
   clear: ClearContent;
+  /** (선택) 클리어 화면 하단의 최종 보고서 — 지우면 보고서 없이 기존 화면만 보인다 */
+  finalReport?: FinalReportContent;
 }
 
 /* ---------- 런타임(코드 내부) 타입 ---------- */

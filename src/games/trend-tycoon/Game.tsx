@@ -1,12 +1,13 @@
 import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, Heart, MousePointer, TrendingUp, Zap } from "lucide-react";
-import type { RankedVideo, TrendTycoonContent, Weights } from "./types";
+import { Clock, Heart, Megaphone, MousePointer, TrendingUp, Zap } from "lucide-react";
+import type { AftermathContent, RankedVideo, TrendTycoonContent, Weights } from "./types";
 import { checkMission, isCleanTop5 } from "./missions";
 import GameHeader from "./GameHeader";
 import MissionCard from "./MissionCard";
 import WeightSlider from "./WeightSlider";
 import VideoCard from "./VideoCard";
+import AftermathPanel from "./AftermathPanel";
 import ClearScreen from "./ClearScreen";
 
 /** 레벨 시작 시 기본 가중치 */
@@ -30,6 +31,14 @@ const ADJUST_BONUS = 50;
 const BALANCE_BONUS = 500;
 const BALANCE_MISSION_ID = "golden-balance";
 
+/*
+ * 실시간 민원 알림 기준 — 상위 5위 안에 자극도 4 이상 영상이
+ * 2개 이상이면 학부모 민원 배너를 띄운다. (정보 제공용 —
+ * 미션 조건·점수·클리어 가능 여부에는 아무 영향이 없다.)
+ */
+const COMPLAINT_INTENSITY = 4;
+const COMPLAINT_THRESHOLD = 2;
+
 interface GameProps {
   content: TrendTycoonContent;
 }
@@ -44,6 +53,8 @@ export default function Game({ content }: GameProps) {
 
   const [levelIndex, setLevelIndex] = useState(0);
   const [showClearScreen, setShowClearScreen] = useState(false);
+  // 미션 클리어 직후 보여 줄 "누리마을의 반응" (null 이면 오버레이 없음)
+  const [pendingAftermath, setPendingAftermath] = useState<AftermathContent | null>(null);
   const [totalScore, setTotalScore] = useState(0);
   const [levelScores, setLevelScores] = useState<number[]>([]);
   const [weights, setWeights] = useState<Weights>(DEFAULT_WEIGHTS);
@@ -76,6 +87,13 @@ export default function Game({ content }: GameProps) {
     [mission.id, sortedVideos]
   );
 
+  // 실시간 민원 알림 — 상위 5위 중 자극도 4 이상 영상 수 (정보 제공용)
+  const complaintCount = useMemo(
+    () => sortedVideos.slice(0, 5).filter((v) => v.intensity >= COMPLAINT_INTENSITY).length,
+    [sortedVideos]
+  );
+  const showComplaintBanner = complaintCount >= COMPLAINT_THRESHOLD;
+
   /** 가중치 변경 (드래그 중 실시간) */
   const handleWeightChange = (key: keyof Weights) => (value: number) => {
     setWeights((prev) => ({ ...prev, [key]: value }));
@@ -106,12 +124,9 @@ export default function Game({ content }: GameProps) {
     committedWeights.current = DEFAULT_WEIGHTS;
   };
 
-  const handleNextLevel = () => {
-    if (!missionStatus.complete || !hasMoved) return;
-    const levelScore = calculateLevelScore();
-    setLevelScores((prev) => [...prev, levelScore]);
-    setTotalScore((prev) => prev + levelScore);
-
+  /** 다음 레벨 또는 최종 결과 화면으로 실제 이동 */
+  const advanceLevel = () => {
+    setPendingAftermath(null);
     if (levelIndex < missions.length - 1) {
       setLevelIndex((prev) => prev + 1);
       startLevelState();
@@ -120,9 +135,25 @@ export default function Game({ content }: GameProps) {
     }
   };
 
+  const handleNextLevel = () => {
+    if (!missionStatus.complete || !hasMoved || pendingAftermath) return;
+    const levelScore = calculateLevelScore();
+    setLevelScores((prev) => [...prev, levelScore]);
+    setTotalScore((prev) => prev + levelScore);
+
+    // "누리마을의 반응"이 있으면 먼저 보여 주고, 없으면(교사가 지웠으면) 바로 이동
+    const aftermath = mission.aftermath;
+    if (aftermath && aftermath.headline && Array.isArray(aftermath.comments) && aftermath.comments.length > 0) {
+      setPendingAftermath(aftermath);
+    } else {
+      advanceLevel();
+    }
+  };
+
   const handleReset = () => {
     setLevelIndex(0);
     setShowClearScreen(false);
+    setPendingAftermath(null);
     setTotalScore(0);
     setLevelScores([]);
     startLevelState();
@@ -135,6 +166,7 @@ export default function Game({ content }: GameProps) {
         levelScores={levelScores}
         grades={content.grades}
         clear={content.clear}
+        finalReport={content.finalReport}
         onReset={handleReset}
       />
     );
@@ -162,6 +194,28 @@ export default function Game({ content }: GameProps) {
             isLastLevel={levelIndex === missions.length - 1}
             onNextLevel={handleNextLevel}
           />
+
+          {/* 실시간 민원 알림 — 정보 제공용 배너 (미션·점수와 무관) */}
+          <AnimatePresence initial={false}>
+            {showComplaintBanner && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="tt-complaint-banner mx-4 mt-4 rounded-lg p-3 md:mx-5" role="status">
+                  <div className="flex items-start gap-2 text-xs font-bold">
+                    <Megaphone size={16} className="tt-complaint-icon mt-0.5 shrink-0" aria-hidden />
+                    <span>학부모 민원 {complaintCount}건 접수! 자극적인 영상이 추천 맨 위에 있어요</span>
+                  </div>
+                  <p className="tt-complaint-caption mt-1.5 pl-6 text-[11px]">
+                    알고리즘이 자극적인 것만 올리면 민원이 늘어나요
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="flex flex-col gap-5 p-4 md:p-5">
             <div className="mb-1">
@@ -243,6 +297,15 @@ export default function Game({ content }: GameProps) {
           </div>
         </main>
       </div>
+
+      {/* 미션 클리어 후 "누리마을의 반응" 오버레이 */}
+      {pendingAftermath && (
+        <AftermathPanel
+          aftermath={pendingAftermath}
+          isLastLevel={levelIndex === missions.length - 1}
+          onProceed={advanceLevel}
+        />
+      )}
     </div>
   );
 }

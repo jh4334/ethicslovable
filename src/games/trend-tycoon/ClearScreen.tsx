@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Medal, RotateCcw, Sparkles, Star, Trophy } from "lucide-react";
+import { Medal, PencilLine, RotateCcw, ScrollText, Sparkles, Star, Trophy } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
 import { cn } from "@/lib/utils";
-import type { ClearContent, GradeContent } from "./types";
+import type { ClearContent, FinalReportContent, GradeContent } from "./types";
 
 interface ClearScreenProps {
   totalScore: number;
   levelScores: number[];
   grades: GradeContent[];
   clear: ClearContent;
+  /** (선택) 연구소장의 최종 보고서 — 콘텐츠 JSON 에서 지우면 표시되지 않는다 */
+  finalReport?: FinalReportContent;
   onReset: () => void;
 }
 
@@ -37,7 +39,15 @@ const GRADE_CLASSES: Record<string, string> = {
 };
 
 /** 5레벨 클리어 후 최종 결과 화면 */
-export default function ClearScreen({ totalScore, levelScores, grades, clear, onReset }: ClearScreenProps) {
+export default function ClearScreen({ totalScore, levelScores, grades, clear, finalReport, onReset }: ClearScreenProps) {
+  // 교사가 JSON 에서 항목을 지웠을 수도 있으니 방어적으로 확인한다
+  const hasReport = Boolean(
+    finalReport &&
+      Array.isArray(finalReport.paragraphs) &&
+      finalReport.paragraphs.length > 0 &&
+      Array.isArray(finalReport.questions) &&
+      finalReport.questions.length > 0
+  );
   const { grade, message } = getGrade(grades, totalScore);
   const gradeClass = GRADE_CLASSES[grade] ?? "tt-grade-d";
 
@@ -122,6 +132,45 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, on
           </span>
         ))}
       </motion.p>
+
+      {/* 연구소장의 최종 보고서 — 배움 정리 + 학습지 연계 질문 */}
+      {hasReport && finalReport && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="tt-final-report z-10 mb-8 w-full max-w-2xl rounded-2xl bg-white/10 p-5 text-left backdrop-blur-md md:p-6"
+          aria-label={finalReport.title}
+        >
+          <h2 className="mb-3 flex items-center gap-2 text-xl font-bold">
+            <ScrollText size={22} className="shrink-0 text-yellow-300" aria-hidden />
+            {finalReport.title}
+          </h2>
+
+          <div className="mb-4 space-y-2.5">
+            {finalReport.paragraphs.map((paragraph, idx) => (
+              <p key={idx} className="text-sm leading-relaxed text-white/90">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          {/* 되돌아보기 질문 — 학습지에 답을 적는다 */}
+          <div className="tt-report-questions rounded-xl bg-white/15 p-4">
+            <ol className="list-decimal space-y-2 pl-5 text-sm font-semibold leading-relaxed">
+              {finalReport.questions.map((question, idx) => (
+                <li key={idx}>{question}</li>
+              ))}
+            </ol>
+            {finalReport.worksheetNote && (
+              <p className="mt-3 flex items-center gap-1.5 border-t border-white/20 pt-3 text-sm font-bold text-yellow-200">
+                <PencilLine size={16} className="shrink-0" aria-hidden />
+                {finalReport.worksheetNote}
+              </p>
+            )}
+          </div>
+        </motion.section>
+      )}
 
       <motion.button
         onClick={onReset}
