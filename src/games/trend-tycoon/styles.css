@@ -36,6 +36,31 @@
   backdrop-filter: blur(6px);
 }
 
+/* 누리TV 로고 락업 — 흰 라운드 타일 + 인디고 스파클 심볼 (재생버튼·빨강 금지 → 별/스파클 + 브랜드 인디고) */
+.game-trend-tycoon .tt-logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  background: hsl(0 0% 100%);
+  color: hsl(var(--tt-brand));
+  box-shadow:
+    inset 0 -2px 4px hsl(var(--tt-brand) / 0.18),
+    0 1px 3px hsl(var(--tt-brand-deep) / 0.4);
+}
+.game-trend-tycoon .tt-wordmark {
+  letter-spacing: -0.03em;
+}
+/* 워드마크 옆 "알고리즘 연구소" 칩 — 플랫폼 화면 vs 운영자 도구 대비를 살짝 드러낸다 */
+.game-trend-tycoon .tt-lab-chip {
+  background: hsl(0 0% 100% / 0.16);
+  border: 1px solid hsl(0 0% 100% / 0.3);
+  color: hsl(0 0% 100% / 0.92);
+}
+
 /* ---------- 가중치 슬라이더 (radix) ---------- */
 .game-trend-tycoon .tt-slider {
   position: relative;
@@ -144,6 +169,40 @@
   box-shadow: 0 2px 6px -1px hsl(var(--tt-brand-deep) / 0.45);
 }
 
+/* ---------- 피드 상단 — 검색창 모양 장식 + 카테고리 칩 행 ---------- */
+/* 검색창 모양 — 진짜 입력창이 아니라 동영상 앱 분위기를 내는 장식 */
+.game-trend-tycoon .tt-search-bar {
+  background: hsl(var(--card));
+  border: 1.5px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  box-shadow: inset 0 1px 2px hsl(232 32% 15% / 0.04);
+  cursor: default;
+  user-select: none;
+}
+
+/* 카테고리 칩 — 클릭하면 active 스타일만 바뀐다 (필터 기능 없음) */
+.game-trend-tycoon .tt-filter-chip {
+  flex-shrink: 0;
+  border-radius: 9999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 1px solid hsl(var(--border));
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.game-trend-tycoon .tt-filter-chip:hover {
+  background: hsl(var(--muted));
+}
+/* 눌린 칩 — 어두운 잉크색 (일반적인 동영상 앱 문법, 특정 브랜드색 아님) */
+.game-trend-tycoon .tt-filter-chip-active,
+.game-trend-tycoon .tt-filter-chip-active:hover {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  border-color: hsl(var(--foreground));
+}
+
 /* ---------- 영상 카드 (50장 동시 렌더 — 그림자 얕게!) ---------- */
 .game-trend-tycoon .tt-video-card {
   box-shadow: 0 1px 2px hsl(232 32% 15% / 0.06), 0 3px 8px -4px hsl(232 32% 15% / 0.1);
@@ -162,6 +221,50 @@
 .game-trend-tycoon .tt-chip-hot {
   background: hsl(var(--destructive) / 0.1);
   color: hsl(var(--destructive));
+}
+
+/* ---------- 영상 카드 — 동영상 플랫폼 요소 ---------- */
+/* 원형 채널 아바타 (카테고리 이모지, 카테고리별 옅은 배경) */
+.game-trend-tycoon .tt-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  border: 1px solid hsl(232 32% 15% / 0.06);
+}
+.game-trend-tycoon .tt-avatar-learning { background: hsl(var(--tt-blue) / 0.16); }
+.game-trend-tycoon .tt-avatar-game { background: hsl(var(--tt-purple) / 0.16); }
+.game-trend-tycoon .tt-avatar-news { background: hsl(220 14% 92%); }
+.game-trend-tycoon .tt-avatar-ad { background: hsl(var(--tt-yellow) / 0.22); }
+
+/* 메타 라인의 "광고" 노랑 칩 (채널명 자리) */
+.game-trend-tycoon .tt-ad-chip {
+  border-radius: 0.25rem;
+  padding: 0 0.35rem;
+  font-size: 10px;
+  font-weight: 800;
+  background: hsl(var(--warning));
+  color: hsl(var(--warning-foreground));
+}
+
+/* hover 시 썸네일 하단 진행바 힌트 — opacity 만 전환 (50장 렌더에도 저렴) */
+.game-trend-tycoon .tt-progress-hint {
+  background: hsl(var(--tt-brand));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.game-trend-tycoon .group:hover .tt-progress-hint {
+  opacity: 1;
+}
+
+/* 알고리즘 점수 스트립 — 점선 테두리로 '플랫폼 화면 위에 겹친 분석 도구'임을 드러낸다 */
+.game-trend-tycoon .tt-score-strip {
+  background: hsl(var(--tt-brand) / 0.06);
+  border: 1px dashed hsl(var(--tt-brand) / 0.35);
 }
 
 /* ---------- 순위 배지 — 그라디언트 원 ---------- */

@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, Heart, Megaphone, MousePointer, TrendingUp, Zap } from "lucide-react";
+import { Clock, Heart, Megaphone, MousePointer, Search, TrendingUp, Zap } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { AftermathContent, RankedVideo, TrendTycoonContent, Weights } from "./types";
 import { checkMission, isCleanTop5 } from "./missions";
 import GameHeader from "./GameHeader";
@@ -39,6 +40,13 @@ const BALANCE_MISSION_ID = "golden-balance";
 const COMPLAINT_INTENSITY = 4;
 const COMPLAINT_THRESHOLD = 2;
 
+/*
+ * 피드 상단 카테고리 칩 — 동영상 앱 홈 화면처럼 보이게 하는 장식.
+ * 클릭하면 눌린 표시(active)만 바뀌고, 피드 정렬·필터에는 아무 영향이 없다.
+ * (피드는 언제나 알고리즘 점수 순 — 그게 이 게임의 학습 포인트)
+ */
+const FILTER_CHIPS = ["전체", "게임", "학습", "뉴스", "광고"] as const;
+
 interface GameProps {
   content: TrendTycoonContent;
 }
@@ -64,6 +72,8 @@ export default function Game({ content }: GameProps) {
   const [hasMoved, setHasMoved] = useState(false);
   // 마지막으로 확정(commit)된 가중치 — 값이 안 바뀐 클릭은 조정 횟수로 세지 않는다
   const committedWeights = useRef<Weights>(DEFAULT_WEIGHTS);
+  // 피드 상단 카테고리 칩의 눌린 표시 (순수 장식 — 정렬·필터·점수와 무관)
+  const [activeChip, setActiveChip] = useState<string>(FILTER_CHIPS[0]);
 
   const mission = missions[levelIndex];
 
@@ -272,14 +282,38 @@ export default function Game({ content }: GameProps) {
         {/* 오른쪽: 실시간 추천 피드 */}
         <main className="flex-1 bg-background p-4 md:overflow-y-auto md:p-6">
           <div className="mx-auto max-w-6xl">
-            <div className="mb-5 flex items-center justify-between gap-2">
-              <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight">
-                <TrendingUp className="text-primary" aria-hidden />
-                <span>{content.intro.feedTitle}</span>
-              </h2>
-              <span className="mlq-chip border border-border bg-card text-muted-foreground shadow-soft">
-                {content.intro.feedSortLabel}
-              </span>
+            {/* 피드 상단 — 동영상 앱 홈 화면 문법: 제목 + 검색창 + 카테고리 칩 행 */}
+            <div className="mb-5 flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-2">
+                <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight">
+                  <TrendingUp className="text-primary" aria-hidden />
+                  <span>{content.intro.feedTitle}</span>
+                </h2>
+                <span className="mlq-chip border border-border bg-card text-muted-foreground shadow-soft">
+                  {content.intro.feedSortLabel}
+                </span>
+              </div>
+
+              {/* 검색창 모양 장식 — 진짜 검색 기능은 없다 (꾸며진 화면) */}
+              <div className="tt-search-bar flex items-center gap-2.5 rounded-full px-4 py-2" aria-hidden="true">
+                <Search size={16} className="shrink-0" />
+                <span className="truncate text-sm">누리TV 검색 — 꾸며진 화면이에요</span>
+              </div>
+
+              {/* 카테고리 칩 행 — 눌린 표시만 바뀌는 장식 (정렬·필터 없음) */}
+              <div className="flex gap-2 overflow-x-auto pb-0.5">
+                {FILTER_CHIPS.map((chip) => (
+                  <button
+                    key={chip}
+                    type="button"
+                    onClick={() => setActiveChip(chip)}
+                    aria-pressed={activeChip === chip}
+                    className={cn("tt-filter-chip", activeChip === chip && "tt-filter-chip-active")}
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <motion.div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4" layout>
