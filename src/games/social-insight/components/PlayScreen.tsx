@@ -26,7 +26,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
   return (
     <div className="relative mx-auto flex min-h-[calc(100vh-2.75rem)] w-full max-w-sm flex-col overflow-hidden border-x bg-background shadow-xl">
-      {/* 상단 바: 반짝피드 브랜드 + 점수/콤보/시간 */}
+      {/* 상단 바: 누리피드 브랜드 + 점수/콤보/시간 */}
       <header className="sticky top-0 z-10 w-full border-b bg-card px-3 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">

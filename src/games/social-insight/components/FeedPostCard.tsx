@@ -2,7 +2,7 @@ import { ThumbsUp, MessageSquareText, Star } from "lucide-react";
 import type { RoundQuestion } from "../types";
 
 /**
- * 가상 SNS "반짝피드"의 게시물 카드.
+ * 가상 SNS "누리피드"의 게시물 카드.
  * 특정 실제 SNS를 흉내 내지 않도록 자체 디자인:
  * 카테고리 배지가 달린 헤더, 이모지 타일, 알약 모양 반응 버튼 줄.
  */

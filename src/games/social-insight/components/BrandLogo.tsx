@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * 가상 SNS "반짝피드"의 자체 로고 마크.
+ * 가상 SNS "누리피드"의 자체 로고 마크.
  * 청록→보라 그라데이션의 둥근 사각형 안에 네 갈래 반짝임(✨) 별 —
  * 실제 어떤 SNS 상표와도 닮지 않게 직접 그린 도형이다.
  */
@@ -11,7 +11,7 @@ export default function BrandLogo({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       className={cn("h-6 w-6", className)}
       role="img"
-      aria-label="반짝피드 로고"
+      aria-label="누리피드 로고"
     >
       <defs>
         <linearGradient id="si-brand-gradient" x1="0%" y1="0%" x2="100%" y2="100%">

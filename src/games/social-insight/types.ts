@@ -55,7 +55,7 @@ export interface SiComboPraise {
 /** 게임 소개·미션 문구 */
 export interface SiMeta {
   gameTitle: string;
-  /** 가상 SNS 이름 (반짝피드) */
+  /** 가상 SNS 이름 (누리피드) */
   snsName: string;
   tagline: string;
   intro: string;
