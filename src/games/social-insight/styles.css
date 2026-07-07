@@ -15,15 +15,146 @@
     hsl(var(--background));
 }
 
-.game-social-insight .si-logo {
+/* ---------- 스마트폰 프레임 ---------- */
+
+/* 둥근 베젤 + 좌우로 살짝 퍼지는 그림자. 저사양을 위해 그라데이션·그림자만 사용 */
+.game-social-insight .si-phone {
+  max-width: 420px;
+  margin-inline: auto;
+  padding: 0.4rem;
+  border-radius: 2rem;
+  background: linear-gradient(160deg, hsl(232 24% 24%), hsl(232 30% 10%));
+  box-shadow:
+    -16px 20px 36px -20px hsl(232 40% 20% / 0.55),
+    16px 20px 36px -20px hsl(258 60% 30% / 0.45),
+    inset 0 1px 2px hsl(0 0% 100% / 0.28);
+}
+
+.game-social-insight .si-phone-screen {
+  overflow: hidden;
+  border-radius: 1.65rem;
+  background: hsl(var(--background));
+}
+
+/* 작은 화면에서는 베젤을 걷어 내고 전체 폭으로 (시작 화면 미리보기는 예외) */
+@media (max-width: 460px) {
+  .game-social-insight .si-phone:not(.si-phone-mini) {
+    max-width: none;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .game-social-insight .si-phone:not(.si-phone-mini) .si-phone-screen {
+    border-radius: 0.9rem;
+    border: 1px solid hsl(var(--border));
+  }
+}
+
+/* 시작 화면용 작은 미리보기 프레임 */
+.game-social-insight .si-phone-mini {
+  max-width: 300px;
+  padding: 0.3rem;
+  border-radius: 1.4rem;
+}
+.game-social-insight .si-phone-mini .si-phone-screen {
+  border-radius: 1.15rem;
+}
+
+/* 상단 바 하트 위 알림 점 */
+.game-social-insight .si-noti-dot {
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  height: 0.4rem;
+  width: 0.4rem;
+  border-radius: 9999px;
+  background: hsl(340 84% 55%);
+  border: 1.5px solid hsl(var(--card));
+}
+
+/* ---------- 스토리 줄 · 링 아바타 ---------- */
+
+/* 청록→보라 그라데이션 링 (누리피드 브랜드 축 — 특정 SNS의 색 배합이 아님) */
+.game-social-insight .si-story-ring {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 9999px;
   background: linear-gradient(135deg, hsl(174 62% 42%), hsl(258 82% 62%));
 }
 
-/* 시작 화면 큰 로고 타일 — 은은한 글로우 */
-.game-social-insight .si-logo-glow {
-  box-shadow:
-    0 12px 28px -10px hsl(258 82% 62% / 0.55),
-    0 4px 14px -6px hsl(174 62% 42% / 0.45);
+/* "내 스토리"는 회색 링 */
+.game-social-insight .si-story-ring-plain {
+  background: hsl(var(--border));
+}
+
+/* 게시물 헤더·보기 카드용 얇은 링 */
+.game-social-insight .si-ring-sm {
+  padding: 1.5px;
+}
+
+.game-social-insight .si-story-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--card));
+  background: linear-gradient(135deg, hsl(174 60% 92%), hsl(258 80% 94%));
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* "내 스토리" + 배지 */
+.game-social-insight .si-story-plus {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 0.95rem;
+  width: 0.95rem;
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--card));
+  background: hsl(210 90% 48%);
+  color: #fff;
+}
+
+/* 스토리 줄 가로 스크롤바 숨김 */
+.game-social-insight .si-stories {
+  scrollbar-width: none;
+}
+.game-social-insight .si-stories::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- SNS 게시물 요소 ---------- */
+
+/* 인증 배지 — 파란 원 안 흰 체크 (lucide BadgeCheck의 fill/stroke 활용) */
+.game-social-insight .si-verified {
+  color: hsl(var(--card));
+  fill: hsl(205 92% 48%);
+}
+
+/* 파란 해시태그 */
+.game-social-insight .si-hashtag {
+  color: hsl(210 90% 42%);
+  font-weight: 600;
+}
+
+/* 팔로우 텍스트 버튼 (장식용) */
+.game-social-insight .si-follow-btn {
+  font-size: 11px;
+  font-weight: 800;
+  color: hsl(210 90% 45%);
+}
+
+/* 눌린 하트 — 분홍으로 채워진 상태 */
+.game-social-insight .si-heart-liked {
+  color: hsl(340 84% 55%);
+  fill: hsl(340 84% 55%);
 }
 
 /* 누리피드 브랜드 그라데이션 텍스트 (청록 → 보라) */
@@ -62,10 +193,6 @@
 }
 .game-social-insight .si-btn-cta:active {
   transform: scale(0.97);
-}
-
-.game-social-insight .si-avatar {
-  background: linear-gradient(135deg, hsl(174 60% 88%), hsl(258 80% 91%));
 }
 
 /* 게시물 이모지 미디어 타일 — 부드러운 안쪽 그림자 */

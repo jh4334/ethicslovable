@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 import type { SiContent } from "../types";
 import type { SocialInsightGame } from "../useSocialInsightGame";
 import { LEADERBOARD_SHOW } from "../storage";
-import BrandLogo from "./BrandLogo";
+import PhoneFrame, { AppTopBar, PhoneStatusBar } from "./PhoneFrame";
+import StoriesRow from "./StoriesRow";
 
 /** 난이도별 강조색 (콘텐츠 JSON의 id 기준, 모르는 id는 기본색) */
 const DIFF_STYLES: Record<string, { active: string; text: string }> = {
@@ -41,9 +42,12 @@ export default function StartScreen({ content, game }: StartScreenProps) {
   return (
     <div className="flex min-h-[calc(100vh-2.75rem)] items-center justify-center p-4">
       <div className="mlq-card w-full max-w-sm animate-scale-in p-6 text-center">
-        <div className="si-logo si-logo-glow mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[1.375rem]">
-          <BrandLogo className="h-12 w-12" />
-        </div>
+        {/* 스마트폰 속 누리피드 미리보기 — 게임 분위기 잡기용 장식 */}
+        <PhoneFrame className="si-phone-mini pointer-events-none mb-4 select-none">
+          <PhoneStatusBar />
+          <AppTopBar snsName={content.meta.snsName} />
+          <StoriesRow content={content} />
+        </PhoneFrame>
         <h1 className="mb-1 text-2xl font-black tracking-tight">{content.meta.gameTitle}</h1>
         <p className="si-brand-text mb-1.5 text-xs font-extrabold">{content.meta.tagline}</p>
         <p className="mb-4 text-xs text-muted-foreground">{content.meta.intro}</p>
