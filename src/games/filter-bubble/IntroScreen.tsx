@@ -17,13 +17,13 @@ export function IntroScreen({ categories, onStart }: IntroScreenProps) {
 
         <div>
           <h1 className="mb-3 text-3xl font-black leading-tight text-foreground">
-            알고리즘
+            누리피드
             <br />
-            성향 테스트
+            성향 분석 실험실
           </h1>
           <p className="text-lg text-muted-foreground">
-            매번 공평하게 주어지는 정보 속에서
-            <br />내 <strong className="text-foreground">선택이 어디로 쏠리는지</strong> 알아봐요
+            매번 공평하게 주어지는 카드 속에서
+            <br />내 <strong className="text-foreground">선택이 어디로 쏠리는지</strong> 실험해요
           </p>
         </div>
 

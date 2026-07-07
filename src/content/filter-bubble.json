@@ -1,8 +1,8 @@
 {
   "_설명": {
-    "안내": "이 파일은 '필터버블 탐지기' 게임의 모든 이야기 내용입니다. 텍스트만 고치면 게임에 바로 반영됩니다 (배포본에서는 data/filter-bubble.json 수정).",
+    "안내": "이 파일은 '필터버블 탐지기'(누리피드 성향 분석 실험실) 게임의 모든 이야기 내용입니다. 텍스트만 고치면 게임에 바로 반영됩니다 (배포본에서는 data/filter-bubble.json 수정). 모든 콘텐츠는 docs/worldview.md의 누리마을 세계관(가상 IP)만 사용합니다.",
     "categories": "8개 분야. id는 코드가 아이콘·색을 찾는 열쇠이므로 바꾸지 마세요. label(분야 이름), adjective(수식어), nickname(별명)은 자유롭게 수정 가능합니다.",
-    "items": "카드 200개. category는 categories의 id 중 하나, intensity는 자극 정도(1~5, 4 이상이면 빨간 점 표시).",
+    "items": "카드 200개. category는 categories의 id 중 하나, intensity는 자극 정도(1~5, 4 이상이면 빨간 점 표시). 높은 intensity 카드는 낚시성 제목을 알아보는 연습용이므로 일부러 자극적인 말투를 씁니다.",
     "personas": "결과 화면의 성향 칭호. {수식어}=1위 분야 adjective, {두번째수식어}=2위 분야 adjective, {별명}=1위 분야 nickname, {분야}=1위 분야 label, {두번째분야}=2위 분야 label 로 자동 치환됩니다.",
     "gaugeLevels": "필터버블 위험도(0~100점) 구간별 문구. minScore 이상이면 해당 구간이 적용됩니다."
   },
@@ -11,37 +11,37 @@
       "id": "GAME",
       "label": "게임",
       "adjective": "승부욕 넘치는",
-      "nickname": "게이머"
+      "nickname": "게임 달인"
     },
     {
       "id": "LEARNING",
       "label": "지식",
-      "adjective": "지적인",
+      "adjective": "궁금한 게 많은",
       "nickname": "척척박사"
     },
     {
       "id": "NEWS",
       "label": "뉴스",
-      "adjective": "현실적인",
+      "adjective": "발 빠른",
       "nickname": "소식통"
     },
     {
       "id": "SENSATIONAL",
       "label": "이슈",
-      "adjective": "자극을 쫓는",
-      "nickname": "도파민 헌터"
+      "adjective": "눈이 번쩍 뜨이는",
+      "nickname": "화제 수집가"
     },
     {
       "id": "FOOD",
       "label": "푸드",
-      "adjective": "배고픈",
-      "nickname": "미식가"
+      "adjective": "맛에 진심인",
+      "nickname": "꼬마 미식가"
     },
     {
       "id": "SHOPPING",
       "label": "쇼핑",
-      "adjective": "트렌디한",
-      "nickname": "지름신"
+      "adjective": "구경을 좋아하는",
+      "nickname": "장바구니 요정"
     },
     {
       "id": "TRAVEL",
@@ -53,27 +53,27 @@
       "id": "ANIMAL",
       "label": "동물",
       "adjective": "다정한",
-      "nickname": "집사"
+      "nickname": "동물 친구"
     }
   ],
   "personas": {
     "focusedMinPicks": 6,
     "explorerMaxPicks": 2,
     "focused": {
-      "title": "진성 {별명}",
-      "description": "공평한 선택지 속에서도 내 손은 {분야} 콘텐츠만 찾았어요. 확실한 취향도 좋지만, 정보를 편식할 위험이 있어요."
+      "title": "{분야}에 푹 빠진 {별명}",
+      "description": "공평하게 나온 선택지 속에서도 내 손은 {분야} 카드만 골랐어요. 확실한 취향은 멋지지만, 이대로면 다른 정보를 놓치는 '정보 편식'이 생길 수 있어요."
     },
     "explorer": {
-      "title": "우유부단한 탐험가",
-      "description": "모든 분야를 조금씩 골고루 맛보았네요! 알고리즘이 나를 분류하기 어려워해요. 아주 드문 유형이에요."
+      "title": "골고루 탐험가",
+      "description": "모든 분야를 조금씩 골고루 맛보았네요! 알고리즘이 나를 한 가지 유형으로 분류하기 어려워해요. 아주 드문 멋진 유형이에요."
     },
     "single": {
       "title": "{수식어} {별명}",
-      "description": "{분야} 분야에 가장 큰 관심을 보였어요. 이제 알고리즘은 나에게 이 분야의 광고를 집중해서 보여 줄 거예요."
+      "description": "{분야} 분야에 가장 큰 관심을 보였어요. 이제 알고리즘은 나에게 {분야} 이야기와 광고를 더 많이 보여 줄 거예요."
     },
     "dual": {
       "title": "{두번째수식어} {별명}",
-      "description": "{분야}, {두번째분야} 두 분야에 관심이 많네요. 두 분야가 섞인 정보가 내 피드를 가득 채울 거예요."
+      "description": "{분야}와 {두번째분야}, 두 분야에 관심이 많네요. 앞으로 내 피드는 이 두 분야의 이야기로 가득 찰 거예요."
     }
   },
   "gaugeLevels": [
@@ -81,206 +81,206 @@
       "id": "safe",
       "minScore": 0,
       "label": "안전",
-      "description": "다양한 주제에 관심을 보이며 균형 있게 정보를 보고 있어요."
+      "description": "여러 주제를 골고루 살펴보고 있어요. 균형 잡힌 눈으로 정보를 보고 있네요!"
     },
     {
       "id": "warning",
       "minScore": 41,
       "label": "주의",
-      "description": "관심사가 한쪽으로 쏠리고 있어요. 알고리즘이 나를 특정 유형으로 분류하기 시작했어요."
+      "description": "관심이 한쪽으로 쏠리기 시작했어요. 알고리즘이 나를 특정 유형으로 분류하기 시작했어요."
     },
     {
       "id": "danger",
       "minScore": 71,
       "label": "위험",
-      "description": "특정 주제에만 아주 심하게 쏠려 있어요. '필터 버블'에 갇힐 위험이 매우 높아요."
+      "description": "한 가지 주제에만 아주 심하게 쏠려 있어요. 비슷한 정보만 보이는 '필터 버블'에 갇힐 위험이 매우 높아요!"
     }
   ],
   "items": [
     {
       "id": 1,
       "category": "GAME",
-      "title": "롤 챔피언 티어 정리",
+      "title": "전설의 수호자 최강 캐릭 정리",
       "intensity": 3
     },
     {
       "id": 2,
       "category": "GAME",
-      "title": "배그 고인물 플레이",
+      "title": "이게 가능해? 네모월드 초고수 플레이",
       "intensity": 4
     },
     {
       "id": 3,
       "category": "GAME",
-      "title": "신작 콘솔 게임 리뷰",
+      "title": "신작 게임 솔직 리뷰",
       "intensity": 2
     },
     {
       "id": 4,
       "category": "GAME",
-      "title": "프로게이머 연봉 공개",
+      "title": "충격! 프로게이머의 하루 최초 공개",
       "intensity": 5
     },
     {
       "id": 5,
       "category": "GAME",
-      "title": "공포게임 비명 모음",
+      "title": "심장 떨어질 뻔! 게임 놀람 모음",
       "intensity": 4
     },
     {
       "id": 6,
       "category": "GAME",
-      "title": "메이플 장사 꿀팁",
+      "title": "달리는 감자 아이템 모으기 꿀팁",
       "intensity": 3
     },
     {
       "id": 7,
       "category": "GAME",
-      "title": "마인크래프트 건축 강좌",
+      "title": "네모월드 건축 강좌",
       "intensity": 1
     },
     {
       "id": 8,
       "category": "GAME",
-      "title": "스팀 할인 추천작",
+      "title": "이번 주 할인 게임 추천",
       "intensity": 2
     },
     {
       "id": 9,
       "category": "GAME",
-      "title": "게임 속 버그 악용 논란",
+      "title": "게임 버그 악용, 결국 이렇게 됐다!",
       "intensity": 5
     },
     {
       "id": 10,
       "category": "GAME",
-      "title": "e스포츠 결승전 하이라이트",
+      "title": "전설의 수호자 결승전 명장면",
       "intensity": 4
     },
     {
       "id": 11,
       "category": "GAME",
-      "title": "고전 게임 스피드런",
+      "title": "고전 게임 빨리 깨기 도전",
       "intensity": 2
     },
     {
       "id": 12,
       "category": "GAME",
-      "title": "모바일 게임 가챠 대박",
+      "title": "뽑기에 용돈 다 쓴 결과는?!",
       "intensity": 4
     },
     {
       "id": 13,
       "category": "GAME",
-      "title": "게임 개발 비하인드",
+      "title": "게임 개발자의 하루",
       "intensity": 1
     },
     {
       "id": 14,
       "category": "GAME",
-      "title": "VR 게임 체험 반응",
+      "title": "가상 현실 게임 첫 체험 반응",
       "intensity": 3
     },
     {
       "id": 15,
       "category": "GAME",
-      "title": "게이밍 컴퓨터 견적",
+      "title": "게임용 컴퓨터 고르는 법",
       "intensity": 2
     },
     {
       "id": 16,
       "category": "GAME",
-      "title": "스트리머 샷건 모음",
+      "title": "달리는 감자 세계 신기록, 실화?!",
       "intensity": 5
     },
     {
       "id": 17,
       "category": "GAME",
-      "title": "망겜이 된 이유 분석",
+      "title": "인기 게임이 망한 이유 분석",
       "intensity": 3
     },
     {
       "id": 18,
       "category": "GAME",
-      "title": "게임 OST 명곡 모음",
+      "title": "게임 배경 음악 명곡 모음",
       "intensity": 1
     },
     {
       "id": 19,
       "category": "GAME",
-      "title": "무과금 공략 가이드",
+      "title": "돈 안 쓰고 이기는 공략법",
       "intensity": 2
     },
     {
       "id": 20,
       "category": "GAME",
-      "title": "NPC의 소름돋는 비밀",
+      "title": "게임 속 캐릭터의 숨은 비밀",
       "intensity": 3
     },
     {
       "id": 21,
       "category": "GAME",
-      "title": "게임 회사 취업 현실",
+      "title": "게임 만드는 회사 구경하기",
       "intensity": 2
     },
     {
       "id": 22,
       "category": "GAME",
-      "title": "초보자 필독 가이드",
+      "title": "게임 초보 첫걸음 안내서",
       "intensity": 1
     },
     {
       "id": 23,
       "category": "GAME",
-      "title": "랭커 초대석 인터뷰",
+      "title": "전설의 수호자 1등 인터뷰",
       "intensity": 3
     },
     {
       "id": 24,
       "category": "GAME",
-      "title": "패치노트 상세 분석",
+      "title": "새 업데이트 꼼꼼 분석",
       "intensity": 2
     },
     {
       "id": 25,
       "category": "GAME",
-      "title": "게임 캐릭터 이상형 월드컵",
+      "title": "게임 캐릭터 인기투표",
       "intensity": 1
     },
     {
       "id": 26,
       "category": "LEARNING",
-      "title": "3분 만에 배우는 심리학",
+      "title": "3분 만에 배우는 기억력 과학",
       "intensity": 2
     },
     {
       "id": 27,
       "category": "LEARNING",
-      "title": "우주의 크기 체감하기",
+      "title": "우주는 얼마나 클까? 상상 초월",
       "intensity": 3
     },
     {
       "id": 28,
       "category": "LEARNING",
-      "title": "영어 쉐도잉 꿀팁",
+      "title": "영어 따라 말하기 꿀팁",
       "intensity": 1
     },
     {
       "id": 29,
       "category": "LEARNING",
-      "title": "주식 차트 보는 법",
+      "title": "어른들은 왜 주식 얘기를 할까?",
       "intensity": 2
     },
     {
       "id": 30,
       "category": "LEARNING",
-      "title": "역사 속 최악의 실수",
+      "title": "역사 속 최악의 실수 모음",
       "intensity": 3
     },
     {
       "id": 31,
       "category": "LEARNING",
-      "title": "코딩 독학 로드맵",
+      "title": "코딩 처음 배우는 순서",
       "intensity": 2
     },
     {
@@ -298,25 +298,25 @@
     {
       "id": 34,
       "category": "LEARNING",
-      "title": "양자역학 아주 쉽게 설명",
+      "title": "어려운 과학 아주 쉽게 설명",
       "intensity": 2
     },
     {
       "id": 35,
       "category": "LEARNING",
-      "title": "면접 프리패스 화법",
+      "title": "떨지 않고 말하는 법",
       "intensity": 1
     },
     {
       "id": 36,
       "category": "LEARNING",
-      "title": "엑셀 단축키 모음",
+      "title": "컴퓨터 단축키 모음",
       "intensity": 1
     },
     {
       "id": 37,
       "category": "LEARNING",
-      "title": "세계지리 상식 퀴즈",
+      "title": "세계 지리 상식 퀴즈",
       "intensity": 1
     },
     {
@@ -328,43 +328,43 @@
     {
       "id": 39,
       "category": "LEARNING",
-      "title": "미적분의 쓸모",
+      "title": "수학은 어디에 쓰일까?",
       "intensity": 1
     },
     {
       "id": 40,
       "category": "LEARNING",
-      "title": "독서법만 바꿔도 천재",
+      "title": "독서법만 바꿔도 천재가 된다?",
       "intensity": 2
     },
     {
       "id": 41,
       "category": "LEARNING",
-      "title": "노션 활용법 A to Z",
+      "title": "공책 정리 잘하는 법",
       "intensity": 1
     },
     {
       "id": 42,
       "category": "LEARNING",
-      "title": "MBTI 성격 유형 분석",
+      "title": "내 공부 습관 유형 테스트",
       "intensity": 3
     },
     {
       "id": 43,
       "category": "LEARNING",
-      "title": "협상의 기술",
+      "title": "말다툼 없이 설득하는 대화법",
       "intensity": 2
     },
     {
       "id": 44,
       "category": "LEARNING",
-      "title": "부자들의 습관",
+      "title": "공부 잘하는 사람들의 아침 습관",
       "intensity": 3
     },
     {
       "id": 45,
       "category": "LEARNING",
-      "title": "Chat-GPT 활용 가이드",
+      "title": "인공지능 똑똑하게 쓰는 법",
       "intensity": 2
     },
     {
@@ -376,301 +376,301 @@
     {
       "id": 47,
       "category": "LEARNING",
-      "title": "알고리즘의 원리",
+      "title": "추천 알고리즘의 원리",
       "intensity": 2
     },
     {
       "id": 48,
       "category": "LEARNING",
-      "title": "미술관 도슨트 투어",
+      "title": "미술관 그림 해설 여행",
       "intensity": 1
     },
     {
       "id": 49,
       "category": "LEARNING",
-      "title": "클래식 음악 입문",
+      "title": "클래식 음악 처음 듣기",
       "intensity": 1
     },
     {
       "id": 50,
       "category": "LEARNING",
-      "title": "심폐소생술 교육",
+      "title": "심폐소생술 배우기",
       "intensity": 1
     },
     {
       "id": 51,
       "category": "NEWS",
-      "title": "내일 날씨 전국 비",
+      "title": "내일 날씨, 전국에 비 소식",
       "intensity": 1
     },
     {
       "id": 52,
       "category": "NEWS",
-      "title": "부동산 정책 긴급 발표",
+      "title": "누리랜드 새 놀이기구 긴급 발표!",
       "intensity": 4
     },
     {
       "id": 53,
       "category": "NEWS",
-      "title": "기준 금리 인상 여파",
+      "title": "학용품 가격, 왜 자꾸 오를까",
       "intensity": 3
     },
     {
       "id": 54,
       "category": "NEWS",
-      "title": "선거 출구조사 결과",
+      "title": "전교 회장 선거 결과 대공개!",
       "intensity": 4
     },
     {
       "id": 55,
       "category": "NEWS",
-      "title": "대중교통 요금 인상",
+      "title": "버스 요금 인상, 누리마을 술렁",
       "intensity": 3
     },
     {
       "id": 56,
       "category": "NEWS",
-      "title": "신종 바이러스 주의보",
+      "title": "유행병 비상! 손 씻기 주의보",
       "intensity": 4
     },
     {
       "id": 57,
       "category": "NEWS",
-      "title": "연말정산 환급금 조회",
+      "title": "누리마을 도서관 새 책 소식",
       "intensity": 2
     },
     {
       "id": 58,
       "category": "NEWS",
-      "title": "최저임금 협상 타결",
+      "title": "급식 메뉴 투표 결과 발표",
       "intensity": 3
     },
     {
       "id": 59,
       "category": "NEWS",
-      "title": "국제 유가 급등",
+      "title": "누리마을 전기 아껴 쓰기 캠페인",
       "intensity": 2
     },
     {
       "id": 60,
       "category": "NEWS",
-      "title": "올해의 뉴스 TOP 10",
+      "title": "올해의 누리마을 10대 뉴스",
       "intensity": 2
     },
     {
       "id": 61,
       "category": "NEWS",
-      "title": "수능 난이도 분석",
+      "title": "한글 왕중왕전 예선 문제 분석",
       "intensity": 2
     },
     {
       "id": 62,
       "category": "NEWS",
-      "title": "주요 기업 채용 공고",
+      "title": "누리소프트 새 앱 출시 소식",
       "intensity": 2
     },
     {
       "id": 63,
       "category": "NEWS",
-      "title": "교통사고 목격자 찾습니다",
+      "title": "학교 앞 사라진 고양이를 찾습니다",
       "intensity": 3
     },
     {
       "id": 64,
       "category": "NEWS",
-      "title": "지역 축제 일정",
+      "title": "누리마을 골목축제 일정 안내",
       "intensity": 1
     },
     {
       "id": 65,
       "category": "NEWS",
-      "title": "전세 사기 예방법",
+      "title": "공짜 선물 문자, 알고 보니 사기?!",
       "intensity": 4
     },
     {
       "id": 66,
       "category": "NEWS",
-      "title": "우주선 발사 성공",
+      "title": "우주선 발사 성공 소식",
       "intensity": 2
     },
     {
       "id": 67,
       "category": "NEWS",
-      "title": "국회 의원 입법 발의",
+      "title": "어린이 의회, 새 규칙 제안",
       "intensity": 1
     },
     {
       "id": 68,
       "category": "NEWS",
-      "title": "올림픽 메달 순위",
+      "title": "누리마을 체육대회 종합 순위",
       "intensity": 2
     },
     {
       "id": 69,
       "category": "NEWS",
-      "title": "노벨상 수상자 발표",
+      "title": "올해의 발명왕 수상자 발표",
       "intensity": 2
     },
     {
       "id": 70,
       "category": "NEWS",
-      "title": "태풍 북상 경로",
+      "title": "태풍 북상, 주말 나들이 주의",
       "intensity": 3
     },
     {
       "id": 71,
       "category": "NEWS",
-      "title": "전기차 화재 우려",
+      "title": "자전거 도로 사고 잇따라 주의",
       "intensity": 3
     },
     {
       "id": 72,
       "category": "NEWS",
-      "title": "출산율 역대 최저",
+      "title": "문 닫는 문방구, 점점 늘어난다",
       "intensity": 3
     },
     {
       "id": 73,
       "category": "NEWS",
-      "title": "공휴일 대체 휴무 안내",
+      "title": "다음 주 대체 휴일 안내",
       "intensity": 1
     },
     {
       "id": 74,
       "category": "NEWS",
-      "title": "독감 백신 접종 안내",
+      "title": "독감 예방 주사 접종 안내",
       "intensity": 1
     },
     {
       "id": 75,
       "category": "NEWS",
-      "title": "주간 증시 요약",
+      "title": "무지개시장 이번 주 가격 소식",
       "intensity": 2
     },
     {
       "id": 76,
       "category": "SENSATIONAL",
-      "title": "충격! 연예인 A씨 비밀",
+      "title": "충격! 몽실이의 숨겨진 비밀",
       "intensity": 5
     },
     {
       "id": 77,
       "category": "SENSATIONAL",
-      "title": "이거 모르면 인생 손해",
+      "title": "이거 모르면 손해라고?!",
       "intensity": 4
     },
     {
       "id": 78,
       "category": "SENSATIONAL",
-      "title": "100억 당첨된 사람 근황",
+      "title": "충격! 급식에서 이게 나왔다?!",
       "intensity": 5
     },
     {
       "id": 79,
       "category": "SENSATIONAL",
-      "title": "소름 돋는 심령 사진",
+      "title": "운동장에 나타난 수상한 발자국?!",
       "intensity": 5
     },
     {
       "id": 80,
       "category": "SENSATIONAL",
-      "title": "분노 주의! 갑질 논란",
+      "title": "분노 주의! 새치기 목격 영상",
       "intensity": 5
     },
     {
       "id": 81,
       "category": "SENSATIONAL",
-      "title": "방송 사고 레전드",
+      "title": "생방송 중 웃음 참기 실패 모음",
       "intensity": 4
     },
     {
       "id": 82,
       "category": "SENSATIONAL",
-      "title": "절대 검색하면 안 되는 것",
+      "title": "절대 누르면 안 되는 버튼?!",
       "intensity": 5
     },
     {
       "id": 83,
       "category": "SENSATIONAL",
-      "title": "성형 전후 대박 반전",
+      "title": "1년 만에 달라진 몽실이, 대반전!",
       "intensity": 4
     },
     {
       "id": 84,
       "category": "SENSATIONAL",
-      "title": "다이어트 -20kg 감량 비법",
+      "title": "일주일 만에 달리기 1등 된 비법?!",
       "intensity": 4
     },
     {
       "id": 85,
       "category": "SENSATIONAL",
-      "title": "당신이 속고 있는 거짓말",
+      "title": "당신이 속고 있는 거짓 정보",
       "intensity": 4
     },
     {
       "id": 86,
       "category": "SENSATIONAL",
-      "title": "실제상황! 곰과 마주침",
+      "title": "실제 상황! 교실에 벌이 들어왔다",
       "intensity": 5
     },
     {
       "id": 87,
       "category": "SENSATIONAL",
-      "title": "지구 멸망 시나리오",
+      "title": "지구 멸망? 소행성 소문의 진실",
       "intensity": 3
     },
     {
       "id": 88,
       "category": "SENSATIONAL",
-      "title": "복권 당첨 번호 패턴",
+      "title": "뽑기 100번, 용돈은 어떻게 됐을까?!",
       "intensity": 4
     },
     {
       "id": 89,
       "category": "SENSATIONAL",
-      "title": "유튜버 뒷광고 폭로",
+      "title": "유명 크리에이터 몰래 광고 논란!",
       "intensity": 5
     },
     {
       "id": 90,
       "category": "SENSATIONAL",
-      "title": "충격적인 실험 결과",
+      "title": "충격적인 실험 결과 공개",
       "intensity": 4
     },
     {
       "id": 91,
       "category": "SENSATIONAL",
-      "title": "세상에서 가장 비싼 음식",
+      "title": "세상에서 가장 비싼 음식은?",
       "intensity": 3
     },
     {
       "id": 92,
       "category": "SENSATIONAL",
-      "title": "공포의 엘리베이터 괴담",
+      "title": "밤마다 들리는 소리의 정체는?!",
       "intensity": 4
     },
     {
       "id": 93,
       "category": "SENSATIONAL",
-      "title": "막장 드라마 하이라이트",
+      "title": "인기 드라마 반전 장면 모음",
       "intensity": 3
     },
     {
       "id": 94,
       "category": "SENSATIONAL",
-      "title": "층간소음 참교육 후기",
+      "title": "쓰레기 몰래 버린 사람, 통쾌한 결말!",
       "intensity": 5
     },
     {
       "id": 95,
       "category": "SENSATIONAL",
-      "title": "바람핀 연인 잡는 법",
+      "title": "거짓말 찾아내는 법, 소름 주의?!",
       "intensity": 4
     },
     {
       "id": 96,
       "category": "SENSATIONAL",
-      "title": "얼굴 천재 아이돌 직캠",
+      "title": "은하수 다섯 무대 몰아보기",
       "intensity": 3
     },
     {
@@ -682,19 +682,19 @@
     {
       "id": 98,
       "category": "SENSATIONAL",
-      "title": "사이다 참교육 썰",
+      "title": "댓글로 싸운 두 사람의 최후?!",
       "intensity": 4
     },
     {
       "id": 99,
       "category": "SENSATIONAL",
-      "title": "관상 테스트 소름",
+      "title": "10초 착시 그림 테스트, 소름!",
       "intensity": 3
     },
     {
       "id": 100,
       "category": "SENSATIONAL",
-      "title": "혈액형별 성격 팩트",
+      "title": "좋아하는 색으로 보는 오늘의 기분",
       "intensity": 2
     },
     {
@@ -712,37 +712,37 @@
     {
       "id": 103,
       "category": "FOOD",
-      "title": "미슐랭 3스타 솔직 후기",
+      "title": "무지개시장 맛집 솔직 후기",
       "intensity": 2
     },
     {
       "id": 104,
       "category": "FOOD",
-      "title": "시장 떡볶이 달인",
+      "title": "무지개시장 떡볶이 달인",
       "intensity": 2
     },
     {
       "id": 105,
       "category": "FOOD",
-      "title": "통삼겹 에어프라이어 구이",
+      "title": "왕돈가스 통째로 먹방",
       "intensity": 4
     },
     {
       "id": 106,
       "category": "FOOD",
-      "title": "매운맛 챌린지 불닭",
+      "title": "매운 떡볶이 챌린지, 눈물 폭발?!",
       "intensity": 5
     },
     {
       "id": 107,
       "category": "FOOD",
-      "title": "백종원 만능 양념장",
+      "title": "요리왕 뚝딱의 만능 양념장",
       "intensity": 3
     },
     {
       "id": 108,
       "category": "FOOD",
-      "title": "3만원대 가성비 오마카세",
+      "title": "천 원으로 간식상 차리기 도전",
       "intensity": 3
     },
     {
@@ -760,85 +760,85 @@
     {
       "id": 111,
       "category": "FOOD",
-      "title": "대용량 팝콘 ASMR",
+      "title": "소리까지 맛있는 팝콘 영상",
       "intensity": 2
     },
     {
       "id": 112,
       "category": "FOOD",
-      "title": "제주도 흑돼지 맛집",
+      "title": "누리마을 숨은 김밥 맛집",
       "intensity": 3
     },
     {
       "id": 113,
       "category": "FOOD",
-      "title": "자취생 간단 요리",
+      "title": "혼자서도 만드는 간단 요리",
       "intensity": 2
     },
     {
       "id": 114,
       "category": "FOOD",
-      "title": "탕후루 만드는 법",
+      "title": "설탕 과일 꼬치 만들기",
       "intensity": 3
     },
     {
       "id": 115,
       "category": "FOOD",
-      "title": "엽떡 착한맛 vs 매운맛",
+      "title": "아이스크림 산더미 먹방 도전?!",
       "intensity": 4
     },
     {
       "id": 116,
       "category": "FOOD",
-      "title": "노포 맛집 도장깨기",
+      "title": "오래된 맛집 도장 깨기",
       "intensity": 2
     },
     {
       "id": 117,
       "category": "FOOD",
-      "title": "비건 식단 일주일 도전",
+      "title": "채소 반찬 일주일 도전",
       "intensity": 1
     },
     {
       "id": 118,
       "category": "FOOD",
-      "title": "빵지순례 베스트 5",
+      "title": "누리마을 빵집 순례 다섯 곳",
       "intensity": 2
     },
     {
       "id": 119,
       "category": "FOOD",
-      "title": "치킨 브랜드 블라인드 테스트",
+      "title": "치킨 눈 감고 맛 비교 대결",
       "intensity": 3
     },
     {
       "id": 120,
       "category": "FOOD",
-      "title": "코스트코 추천 식품",
+      "title": "무지개시장 장보기 추천 목록",
       "intensity": 3
     },
     {
       "id": 121,
       "category": "FOOD",
-      "title": "집밥 김선생 레시피",
+      "title": "집밥 반찬 쉬운 레시피",
       "intensity": 1
     },
     {
       "id": 122,
       "category": "FOOD",
-      "title": "한우 오마카세 먹방",
+      "title": "불판 가득 소고기 먹방",
       "intensity": 4
     },
     {
       "id": 123,
       "category": "FOOD",
-      "title": "야식 메뉴 추천 월드컵",
+      "title": "간식 메뉴 인기투표",
       "intensity": 3
     },
     {
       "id": 124,
       "category": "FOOD",
-      "title": "급식 메뉴 레전드",
+      "title": "역대 최고 급식 메뉴 모음",
       "intensity": 2
     },
     {
@@ -850,67 +850,67 @@
     {
       "id": 126,
       "category": "SHOPPING",
-      "title": "다이소 꿀템 BEST 10",
+      "title": "천 원 가게 알뜰템 10가지",
       "intensity": 3
     },
     {
       "id": 127,
       "category": "SHOPPING",
-      "title": "명품 하울 언박싱",
+      "title": "용돈 다 털어 산 물건 공개?!",
       "intensity": 4
     },
     {
       "id": 128,
       "category": "SHOPPING",
-      "title": "올리브영 세일 추천템",
+      "title": "무지개시장 문구점 세일 소식",
       "intensity": 3
     },
     {
       "id": 129,
       "category": "SHOPPING",
-      "title": "내돈내산 삶의 질 상승템",
+      "title": "내 돈으로 산 학용품 솔직 후기",
       "intensity": 2
     },
     {
       "id": 130,
       "category": "SHOPPING",
-      "title": "아이폰 vs 갤럭시 비교",
+      "title": "새 휴대폰 두 기종 비교",
       "intensity": 3
     },
     {
       "id": 131,
       "category": "SHOPPING",
-      "title": "자라/H&M 가을 신상",
+      "title": "가을 새 옷 구경하기",
       "intensity": 2
     },
     {
       "id": 132,
       "category": "SHOPPING",
-      "title": "신혼 가전 견적 공유",
+      "title": "필통 정리 아이디어 모음",
       "intensity": 2
     },
     {
       "id": 133,
       "category": "SHOPPING",
-      "title": "무신사 랭킹 룩북",
+      "title": "이번 주 인기 옷차림 모음",
       "intensity": 2
     },
     {
       "id": 134,
       "category": "SHOPPING",
-      "title": "알리/테무 깡 후기",
+      "title": "해외 직구 상자, 열어 보니 충격?!",
       "intensity": 4
     },
     {
       "id": 135,
       "category": "SHOPPING",
-      "title": "1+1 할인 대란 정보",
+      "title": "하나 사면 하나 더! 할인 대란",
       "intensity": 4
     },
     {
       "id": 136,
       "category": "SHOPPING",
-      "title": "운동화 한정판 드로우",
+      "title": "한정판 운동화 추첨 도전기",
       "intensity": 3
     },
     {
@@ -922,139 +922,139 @@
     {
       "id": 138,
       "category": "SHOPPING",
-      "title": "캠핑 용품 장비빨",
+      "title": "캠핑 용품 구경하기",
       "intensity": 2
     },
     {
       "id": 139,
       "category": "SHOPPING",
-      "title": "데스크테리어 소품",
+      "title": "책상 꾸미기 소품 추천",
       "intensity": 1
     },
     {
       "id": 140,
       "category": "SHOPPING",
-      "title": "백화점 VIP 라운지 털기",
+      "title": "문구 백화점 구석구석 구경",
       "intensity": 3
     },
     {
       "id": 141,
       "category": "SHOPPING",
-      "title": "20대 여자 가방 추천",
+      "title": "새 학기 가방 추천",
       "intensity": 2
     },
     {
       "id": 142,
       "category": "SHOPPING",
-      "title": "30대 남자 시계 추천",
+      "title": "어린이 손목시계 추천",
       "intensity": 2
     },
     {
       "id": 143,
       "category": "SHOPPING",
-      "title": "향수 블라인드 테스트",
+      "title": "향기 나는 펜 비교 테스트",
       "intensity": 2
     },
     {
       "id": 144,
       "category": "SHOPPING",
-      "title": "편의점 신상 털기",
+      "title": "편의점 신상 간식 몽땅 리뷰",
       "intensity": 3
     },
     {
       "id": 145,
       "category": "SHOPPING",
-      "title": "가성비 노트북 TOP 5",
+      "title": "가성비 학습용 컴퓨터 비교",
       "intensity": 2
     },
     {
       "id": 146,
       "category": "SHOPPING",
-      "title": "아이패드 악세사리 추천",
+      "title": "필통 속 필기구 추천",
       "intensity": 1
     },
     {
       "id": 147,
       "category": "SHOPPING",
-      "title": "룸 투어 & 인테리어",
+      "title": "방 꾸미기 구경 영상",
       "intensity": 2
     },
     {
       "id": 148,
       "category": "SHOPPING",
-      "title": "당근마켓 쿨거래 꿀팁",
+      "title": "중고 장터 알뜰 거래 꿀팁",
       "intensity": 2
     },
     {
       "id": 149,
       "category": "SHOPPING",
-      "title": "블랙프라이데이 직구 방법",
+      "title": "연말 왕창 세일 준비법",
       "intensity": 3
     },
     {
       "id": 150,
       "category": "SHOPPING",
-      "title": "와디즈 펀딩 성공템",
+      "title": "신기한 발명품 소개",
       "intensity": 2
     },
     {
       "id": 151,
       "category": "TRAVEL",
-      "title": "일본 온천 여행 브이로그",
+      "title": "온천 마을 여행 브이로그",
       "intensity": 3
     },
     {
       "id": 152,
       "category": "TRAVEL",
-      "title": "한달 살기 비용 공개",
+      "title": "시골 할머니 댁 한 달 살기",
       "intensity": 2
     },
     {
       "id": 153,
       "category": "TRAVEL",
-      "title": "유럽 배낭여행 짐싸기",
+      "title": "배낭여행 짐 싸기 꿀팁",
       "intensity": 2
     },
     {
       "id": 154,
       "category": "TRAVEL",
-      "title": "제주도 숨은 명소",
+      "title": "바닷가 마을 숨은 명소",
       "intensity": 2
     },
     {
       "id": 155,
       "category": "TRAVEL",
-      "title": "호캉스 200% 즐기기",
+      "title": "물놀이장 하루 알차게 놀기",
       "intensity": 3
     },
     {
       "id": 156,
       "category": "TRAVEL",
-      "title": "비행기 좌석 무료 업그레이드",
+      "title": "기차 명당 자리 고르는 법",
       "intensity": 3
     },
     {
       "id": 157,
       "category": "TRAVEL",
-      "title": "차박 캠핑 감성 세팅",
+      "title": "가족 캠핑 준비물 총정리",
       "intensity": 2
     },
     {
       "id": 158,
       "category": "TRAVEL",
-      "title": "디즈니랜드 오픈런 꿀팁",
+      "title": "누리랜드 줄 안 서는 꿀팁",
       "intensity": 3
     },
     {
       "id": 159,
       "category": "TRAVEL",
-      "title": "세계일주 부부 인터뷰",
+      "title": "세계 일주 탐험가 인터뷰",
       "intensity": 2
     },
     {
       "id": 160,
       "category": "TRAVEL",
-      "title": "나만 알고 싶은 휴양지",
+      "title": "나만 알고 싶은 물놀이 계곡",
       "intensity": 3
     },
     {
@@ -1066,103 +1066,103 @@
     {
       "id": 162,
       "category": "TRAVEL",
-      "title": "야경이 예쁜 도시 TOP 5",
+      "title": "야경이 예쁜 도시 다섯 곳",
       "intensity": 2
     },
     {
       "id": 163,
       "category": "TRAVEL",
-      "title": "승무원이 추천하는 맛집",
+      "title": "여행 고수 추천 휴게소 간식",
       "intensity": 2
     },
     {
       "id": 164,
       "category": "TRAVEL",
-      "title": "여권 재발급 준비물",
+      "title": "가족 여행 준비물 점검표",
       "intensity": 1
     },
     {
       "id": 165,
       "category": "TRAVEL",
-      "title": "환전 싸게 하는 법",
+      "title": "여행 용돈 아껴 쓰는 법",
       "intensity": 1
     },
     {
       "id": 166,
       "category": "TRAVEL",
-      "title": "동남아 야시장 투어",
+      "title": "골목축제 야시장 먹거리 투어",
       "intensity": 3
     },
     {
       "id": 167,
       "category": "TRAVEL",
-      "title": "스위스 융프라우 풍경",
+      "title": "눈 덮인 산꼭대기 풍경",
       "intensity": 2
     },
     {
       "id": 168,
       "category": "TRAVEL",
-      "title": "뉴욕 타임스퀘어 실시간",
+      "title": "누리마을 광장 실시간 풍경",
       "intensity": 2
     },
     {
       "id": 169,
       "category": "TRAVEL",
-      "title": "풀빌라 펜션 추천",
+      "title": "수영장 딸린 펜션 추천",
       "intensity": 3
     },
     {
       "id": 170,
       "category": "TRAVEL",
-      "title": "혼자 여행하기 좋은 곳",
+      "title": "가족 나들이 하기 좋은 곳",
       "intensity": 1
     },
     {
       "id": 171,
       "category": "TRAVEL",
-      "title": "게스트하우스 파티 후기",
+      "title": "여행지에서 만난 친구들 이야기",
       "intensity": 3
     },
     {
       "id": 172,
       "category": "TRAVEL",
-      "title": "공항 라운지 무료 이용",
+      "title": "기차역에서 시간 보내는 꿀팁",
       "intensity": 2
     },
     {
       "id": 173,
       "category": "TRAVEL",
-      "title": "오로라 헌팅 여행",
+      "title": "평생 한 번! 오로라 직접 보기?!",
       "intensity": 4
     },
     {
       "id": 174,
       "category": "TRAVEL",
-      "title": "부산 2박 3일 코스",
+      "title": "바닷가 도시 2박 3일 코스",
       "intensity": 2
     },
     {
       "id": 175,
       "category": "TRAVEL",
-      "title": "글램핑 바베큐 먹방",
+      "title": "캠핑장 바비큐 먹방",
       "intensity": 3
     },
     {
       "id": 176,
       "category": "ANIMAL",
-      "title": "아기 고양이의 꾹꾹이",
+      "title": "심쿵 주의! 아기 고양이 꾹꾹이",
       "intensity": 5
     },
     {
       "id": 177,
       "category": "ANIMAL",
-      "title": "주인 반기는 리트리버",
+      "title": "학교 끝나고 달려오는 강아지",
       "intensity": 4
     },
     {
       "id": 178,
       "category": "ANIMAL",
-      "title": "판다 먹방 ASMR",
+      "title": "판다 대나무 먹방, 소리 최고!",
       "intensity": 5
     },
     {
@@ -1180,7 +1180,7 @@
     {
       "id": 181,
       "category": "ANIMAL",
-      "title": "햄스터의 볼주머니 비밀",
+      "title": "햄스터 볼주머니의 비밀",
       "intensity": 3
     },
     {
@@ -1204,13 +1204,13 @@
     {
       "id": 185,
       "category": "ANIMAL",
-      "title": "웰시코기 엉덩이 모음",
+      "title": "몽실이 엉덩이춤 모음",
       "intensity": 4
     },
     {
       "id": 186,
       "category": "ANIMAL",
-      "title": "고양이 액체설 증명",
+      "title": "고양이는 액체일까? 증명 영상",
       "intensity": 3
     },
     {
@@ -1222,7 +1222,7 @@
     {
       "id": 188,
       "category": "ANIMAL",
-      "title": "수의사가 알려주는 양치법",
+      "title": "수의사가 알려 주는 양치법",
       "intensity": 1
     },
     {
@@ -1240,31 +1240,31 @@
     {
       "id": 191,
       "category": "ANIMAL",
-      "title": "물고기 물멍 힐링",
+      "title": "어항 물멍 힐링 영상",
       "intensity": 2
     },
     {
       "id": 192,
       "category": "ANIMAL",
-      "title": "알파카 침 뱉는 장면",
+      "title": "알파카가 침을 뱉는 이유",
       "intensity": 3
     },
     {
       "id": 193,
       "category": "ANIMAL",
-      "title": "카피바라 친화력 갑",
+      "title": "붙임성 최고 카피바라",
       "intensity": 3
     },
     {
       "id": 194,
       "category": "ANIMAL",
-      "title": "다람쥐 먹방",
+      "title": "다람쥐 도토리 먹방",
       "intensity": 3
     },
     {
       "id": 195,
       "category": "ANIMAL",
-      "title": "펫 호텔 호캉스",
+      "title": "반려동물 호텔 체험기",
       "intensity": 2
     },
     {
@@ -1282,7 +1282,7 @@
     {
       "id": 198,
       "category": "ANIMAL",
-      "title": "돌고래의 지능",
+      "title": "돌고래는 얼마나 똑똑할까",
       "intensity": 2
     },
     {
@@ -1294,7 +1294,7 @@
     {
       "id": 200,
       "category": "ANIMAL",
-      "title": "반려동물 타로점",
+      "title": "반려동물 마음 읽기 상식",
       "intensity": 2
     }
   ]
