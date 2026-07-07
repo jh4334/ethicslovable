@@ -55,7 +55,12 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   build:
     mode === "offline"
-      ? { outDir: "dist-offline", reportCompressedSize: false }
+      ? {
+          outDir: "dist-offline",
+          reportCompressedSize: false,
+          // 폰트 등 에셋까지 전부 data URI로 인라인해 진짜 '한 파일'을 만든다
+          assetsInlineLimit: 100 * 1024 * 1024,
+        }
       : undefined,
   resolve: {
     alias: {
