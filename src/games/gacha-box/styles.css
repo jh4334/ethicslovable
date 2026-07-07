@@ -130,27 +130,58 @@
   }
 }
 
-/* 빛기둥 — 상자 뒤에서 위로 솟는다 */
+/* 빛기둥 — 상자 뒤에서 위로 솟았다가 카드가 공개되면 스르르 사라진다.
+ * 좌우는 mask로 부드럽게 페이드시켜 "넓적한 노란 사각형"이 아니라
+ * 진짜 광선처럼 보이게 하고, 애니메이션 끝에 opacity 0으로 마무리해
+ * 결과 카드 뒤에 노란 줄이 남지 않게 한다. */
 .game-gacha-box .gb-beam {
   background: linear-gradient(
     to top,
-    hsl(45 100% 60% / 0.9),
-    hsl(48 100% 78% / 0.55) 55%,
-    transparent
+    hsl(45 100% 62% / 0.75),
+    hsl(48 100% 80% / 0.4) 55%,
+    transparent 92%
   );
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 35%, #000 65%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 35%, #000 65%, transparent);
+  filter: blur(2px);
   transform-origin: bottom center;
-  animation: gb-beam-rise 0.7s ease-out both;
+  animation: gb-beam-rise 1.4s ease-out both;
   pointer-events: none;
 }
 
 @keyframes gb-beam-rise {
-  from {
+  0% {
     opacity: 0;
     transform: scaleY(0.1);
   }
-  to {
+  30% {
     opacity: 1;
     transform: scaleY(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+
+/* 결과 카드 뒤 방사형 글로우 — 등급 색(currentColor)으로 은은하게 */
+.game-gacha-box .gb-glow {
+  background: radial-gradient(closest-side, currentColor, transparent 72%);
+  opacity: 0.3;
+  animation: gb-glow-in 0.5s ease-out both;
+  pointer-events: none;
+}
+
+@keyframes gb-glow-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.3;
   }
 }
 
@@ -215,7 +246,13 @@
   .game-gacha-box .gb-beam,
   .game-gacha-box .gb-nearmiss-flash,
   .game-gacha-box .gb-bounce-in,
+  .game-gacha-box .gb-glow,
   .game-gacha-box .gb-pop-in {
     animation: none;
+  }
+  /* 애니메이션이 없으면 빛기둥은 은은한 정지 상태로만 */
+  .game-gacha-box .gb-beam {
+    animation: none;
+    opacity: 0.3;
   }
 }

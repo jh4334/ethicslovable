@@ -150,12 +150,12 @@ export interface DtContent {
 
 export type DtPhase = "intro" | "feed" | "journey" | "protect" | "result";
 
-export type DtActionKind = "like" | "open" | "search";
+export type DtActionKind = "like" | "open" | "search" | "comment" | "dm";
 
 /** 파트 A에서 남긴 행동 1건 — 메모리에만 존재 */
 export interface DtAction {
   kind: DtActionKind;
-  /** 좋아요/열어본 게시물 제목 또는 검색어 */
+  /** 좋아요·댓글·DM·열어본 게시물 제목 또는 검색어 */
   target: string;
   tags: string[];
   /** 피드 시작 후 경과 초 */

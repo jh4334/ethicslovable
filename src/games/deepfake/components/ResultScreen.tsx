@@ -1,12 +1,8 @@
-/**
- * 결과 화면 — 수사 보고서.
- * 점수·탐정 등급·단서 수첩 정리를 보여 주고, 마지막 배움(출처 확인)을 강조한다.
- * 완료 기록은 이 화면에 처음 도착했을 때 한 번만 저장한다 (StrictMode 안전).
- */
-import { useEffect, useRef } from "react";
-import { RotateCcw, Megaphone, Lock } from "lucide-react";
+import { useEffect, useMemo, useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Home, PencilLine, RotateCcw } from "lucide-react";
+import { Link } from "react-router-dom";
 import { markCompleted } from "@/lib/progress";
-import { cn } from "@/lib/utils";
 import type { DfContent } from "../types";
 import type { DeepfakeGame } from "../useDeepfakeGame";
 
@@ -15,106 +11,147 @@ interface ResultScreenProps {
   game: DeepfakeGame;
 }
 
+/**
+ * 결과 화면 — 눈(N/5) vs 검증(M/4) 비교 막대, 4단계 검증 수칙,
+ * 수사대 등급. 결론: 믿을 것은 눈이 아니라 절차.
+ */
 export default function ResultScreen({ content, game }: ResultScreenProps) {
-  const { result } = content;
-  const collectedCount = game.collectedClueIds.length;
+  const { result, grades, verificationRules } = content;
+  const { eyeScore, totalEyeRounds, verifyScore, totalCases, caseScore } = game;
+  const reduce = useReducedMotion();
 
-  // 완료 기록은 한 번만 — StrictMode 의 이펙트 2회 실행에도 안전하게 ref 로 막는다
-  const savedRef = useRef(false);
+  const eyePct = Math.round((eyeScore / totalEyeRounds) * 100);
+  const verifyPct = Math.round((verifyScore / totalCases) * 100);
+
+  // 2부 점수에 맞는 가장 높은 등급을 고른다
+  const grade = useMemo(() => {
+    const sorted = [...grades].sort((a, b) => a.min - b.min);
+    let chosen = sorted[0];
+    for (const g of sorted) if (caseScore >= g.min) chosen = g;
+    return chosen;
+  }, [grades, caseScore]);
+
+  // 결과 화면에 도착하면 학습 완료로 한 번만 기록 (StrictMode 안전)
+  const reportedRef = useRef(false);
   useEffect(() => {
-    if (savedRef.current) return;
-    savedRef.current = true;
-    markCompleted("deepfake", `${game.grade.name} 등급 · 단서 ${collectedCount}개 수집`);
-  }, [game.grade.name, collectedCount]);
+    if (reportedRef.current) return;
+    reportedRef.current = true;
+    markCompleted(
+      "deepfake",
+      `눈 ${eyeScore}/${totalEyeRounds} → 검증 ${verifyScore}/${totalCases} · ${grade.name} 등급`,
+    );
+  }, [eyeScore, totalEyeRounds, verifyScore, totalCases, grade.name]);
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-3 p-3 pb-8">
-      {/* 등급 카드 */}
-      <div className="mlq-card animate-scale-in p-5 text-center shadow-lift">
-        <p className="df-ink mb-2 text-xs font-bold opacity-80">{result.title}</p>
-        <div className="mb-1 text-6xl">{game.grade.emoji}</div>
-        <p className="text-[11px] font-semibold text-muted-foreground">{result.gradeLabel}</p>
-        <h2 className="df-gradient-text mb-1 text-3xl font-black">{game.grade.name}</h2>
-        <p className="mb-3 text-xs leading-relaxed text-muted-foreground">{game.grade.desc}</p>
-
-        <div className="grid grid-cols-3 gap-2">
-          <div className="rounded-xl bg-accent/25 p-2">
-            <p className="text-lg font-black">{game.score}점</p>
-            <p className="text-[10px] font-medium text-muted-foreground">
-              {content.ui.scoreLabel}
-            </p>
-          </div>
-          <div className="rounded-xl bg-accent/25 p-2">
-            <p className="text-lg font-black">
-              {game.judgeCorrectCount}/{game.totalRounds}
-            </p>
-            <p className="text-[10px] font-medium text-muted-foreground">{result.judgeStat}</p>
-          </div>
-          <div className="rounded-xl bg-accent/25 p-2">
-            <p className="text-lg font-black">
-              {game.clueFoundCount}/{game.fakeCount}
-            </p>
-            <p className="text-[10px] font-medium text-muted-foreground">{result.clueStat}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 단서 수첩 정리 */}
-      <div className="mlq-card animate-fade-in p-4">
-        <p className="df-ink mb-2.5 text-xs font-extrabold">
-          📔 {result.notebookTitle}{" "}
-          <span className="font-semibold text-muted-foreground">
-            ({collectedCount}/{content.clues.length})
-          </span>
-        </p>
-        <ul className="grid gap-1.5">
-          {content.clues.map((clue) => {
-            const collected = game.collectedClueIds.includes(clue.id);
-            return (
-              <li
-                key={clue.id}
-                className={cn(
-                  "rounded-xl px-2.5 py-2",
-                  collected
-                    ? "df-clue-card"
-                    : "border border-dashed border-border bg-muted/60 opacity-80",
-                )}
-              >
-                <p
-                  className={cn(
-                    "flex items-center gap-1.5 text-xs font-bold",
-                    !collected && "text-muted-foreground",
-                  )}
-                >
-                  {collected ? "✅" : <Lock className="h-3 w-3" />}
-                  {collected ? clue.name : result.lockedName}
-                </p>
-                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
-                  {collected ? clue.desc : result.lockedDesc}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      {/* 마무리 배움 — 출처 확인 */}
-      <div className="df-final-callout animate-fade-in rounded-2xl p-4">
-        <p className="df-ink mb-1.5 flex items-center gap-1.5 text-sm font-extrabold">
-          <Megaphone className="h-4 w-4 text-warning" />
-          {result.finalTitle}
-        </p>
-        <p className="text-[13px] font-semibold leading-relaxed">{result.finalMessage}</p>
-      </div>
-
-      <button
-        type="button"
-        onClick={game.retry}
-        className="df-btn-outline flex w-full items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold shadow-soft transition-all active:scale-95"
+    <div className="df-shell flex min-h-[calc(100vh-3rem)] items-center justify-center p-4">
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="mlq-card w-full max-w-md p-6"
       >
-        <RotateCcw className="h-4 w-4" />
-        {result.retryButton}
-      </button>
+        <div className="mb-2 text-center text-xs font-bold text-muted-foreground">
+          {result.title}
+        </div>
+
+        {/* 수사대 등급 */}
+        <div className="df-emblem mx-auto mb-3">
+          <span>{grade.emoji}</span>
+        </div>
+        <div className="text-center text-[11px] font-bold text-muted-foreground">
+          {result.gradeLabel} · {caseScore}점
+        </div>
+        <h2 className="df-gradient-text text-center text-2xl font-black">{grade.name}</h2>
+        <p className="mt-1 text-center text-sm leading-relaxed text-muted-foreground">
+          {grade.desc}
+        </p>
+
+        {/* 눈 vs 검증 비교 그래프 */}
+        <div className="my-5">
+          <h3 className="mb-2 text-sm font-extrabold">📊 {result.compareTitle}</h3>
+          <div className="space-y-2.5">
+            <div>
+              <div className="mb-1 flex justify-between text-xs font-bold">
+                <span className="text-muted-foreground">👀 {result.eyeBarLabel}</span>
+                <span>
+                  {eyeScore}/{totalEyeRounds}
+                </span>
+              </div>
+              <div className="df-bar-track">
+                <div className="df-bar-fill df-bar-eye" style={{ width: `${Math.max(eyePct, 12)}%` }}>
+                  {eyePct}%
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 flex justify-between text-xs font-bold">
+                <span className="text-muted-foreground">🧰 {result.verifyBarLabel}</span>
+                <span>
+                  {verifyScore}/{totalCases}
+                </span>
+              </div>
+              <div className="df-bar-track">
+                <div
+                  className="df-bar-fill df-bar-verify"
+                  style={{ width: `${Math.max(verifyPct, 12)}%` }}
+                >
+                  {verifyPct}%
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-2 text-[11.5px] leading-relaxed text-muted-foreground">
+            {result.compareNote}
+          </p>
+        </div>
+
+        {/* 4단계 검증 수칙 */}
+        <h3 className="mb-2 text-sm font-extrabold">✅ {result.rulesTitle}</h3>
+        <div className="mb-2.5 space-y-2">
+          {verificationRules.map((rule, i) => (
+            <div key={i} className="df-rule-card flex items-start gap-2 p-3">
+              <span className="df-rule-num mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold">
+                {i + 1}
+              </span>
+              <div className="min-w-0 text-sm leading-relaxed">
+                <span className="font-extrabold">
+                  {rule.emoji} {rule.title}
+                </span>
+                <span className="text-foreground/80"> — {rule.desc}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 학습지 옮겨 적기 안내 */}
+        <div className="df-worksheet-note mb-4 flex items-start gap-2 rounded-xl p-3 text-xs leading-relaxed">
+          <PencilLine className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+          <span>{result.worksheetNote}</span>
+        </div>
+
+        {/* 마무리 메시지 */}
+        <div className="df-reveal-card mb-5 rounded-2xl p-4 text-center">
+          <div className="text-sm font-black">{result.finalTitle}</div>
+          <p className="mt-1 text-sm leading-relaxed">{result.finalMessage}</p>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={game.restart}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-secondary py-3 text-sm font-bold text-secondary-foreground transition hover:brightness-95"
+          >
+            <RotateCcw className="h-4 w-4" />
+            {result.retryButton}
+          </button>
+          <Link
+            to="/"
+            className="df-btn-cta flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold"
+          >
+            <Home className="h-4 w-4" />
+            {result.homeButton}
+          </Link>
+        </div>
+      </motion.div>
     </div>
   );
 }
