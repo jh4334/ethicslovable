@@ -8,8 +8,8 @@ export interface GameMeta {
   id: GameId;
   /** 차시 (1~8) */
   lesson: number;
-  /** 챕터: 1부(추천 알고리즘) / 2부(AI 알고리즘) */
-  chapter: 1 | 2;
+  /** 챕터: 1부(추천 알고리즘) / 2부(AI 알고리즘) / 3부(디지털 생활) */
+  chapter: 1 | 2 | 3;
   title: string;
   subtitle: string;
   /** 학습 목표 한 줄 (교사·학생용 안내) */
@@ -21,7 +21,7 @@ export interface GameMeta {
 }
 
 export interface ChapterMeta {
-  chapter: 1 | 2;
+  chapter: 1 | 2 | 3;
   title: string;
   tagline: string;
 }
@@ -36,6 +36,11 @@ export const CHAPTERS: ChapterMeta[] = [
     chapter: 2,
     title: "2부 · 인공지능과 살아가기",
     tagline: "누리소프트 AI 연구소에서 인공지능의 속마음을 알아봐요",
+  },
+  {
+    chapter: 3,
+    title: "3부 · 슬기로운 누리 생활",
+    tagline: "누리마을 지킴이가 되어 매일 쓰는 앱 속 설계를 꿰뚫어 봐요",
   },
 ];
 
@@ -127,5 +132,49 @@ export const GAMES: GameMeta[] = [
     minutes: 15,
     emoji: "🧳",
     path: "/games/data-trail",
+  },
+  {
+    id: "short-form",
+    lesson: 9,
+    chapter: 3,
+    title: "멈출 수 없는 화면",
+    subtitle: "숏폼과 시간 감각",
+    goal: "무한 숏폼 피드를 체험하며 시간을 훔치는 설계를 알아채요",
+    minutes: 15,
+    emoji: "📱",
+    path: "/games/short-form",
+  },
+  {
+    id: "gacha-box",
+    lesson: 10,
+    chapter: 3,
+    title: "뽑기 상자의 비밀",
+    subtitle: "확률형 아이템과 소비",
+    goal: "뽑기를 직접 돌려 보고 확률과 상술의 비밀을 계산해요",
+    minutes: 15,
+    emoji: "🎁",
+    path: "/games/gacha-box",
+  },
+  {
+    id: "search-detective",
+    lesson: 11,
+    chapter: 3,
+    title: "검색 결과 탐정",
+    subtitle: "검색 리터러시",
+    goal: "검색 결과에서 광고·협찬·의심스러운 출처를 가려내요",
+    minutes: 15,
+    emoji: "🔎",
+    path: "/games/search-detective",
+  },
+  {
+    id: "chat-guard",
+    lesson: 12,
+    chapter: 3,
+    title: "단톡방을 지켜라",
+    subtitle: "메신저와 디지털 시민성",
+    goal: "우리 반 단톡방의 루머·피싱·저격 상황에 슬기롭게 대응해요",
+    minutes: 15,
+    emoji: "💬",
+    path: "/games/chat-guard",
   },
 ];
