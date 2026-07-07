@@ -73,7 +73,7 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
         </div>
 
         {/* 검색 칩 */}
-        <div className="mt-4 rounded-xl bg-card p-3 shadow-sm">
+        <div className="mlq-card mt-4 p-3">
           <p className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
             <Search className="h-3.5 w-3.5" />
             무엇을 찾아볼까요? 검색 칩을 눌러 보세요
@@ -108,9 +108,11 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
             const liked = likedIds.includes(post.id);
             const expanded = expandedId === post.id;
             return (
-              <div key={post.id} className="dt-post rounded-xl bg-card p-4 shadow-sm">
+              <div key={post.id} className="dt-post mlq-card p-4">
                 <div className="flex items-start gap-3">
-                  <span className="text-3xl">{post.emoji}</span>
+                  <span className="mlq-emoji-tile dt-post-tile h-12 w-12 shrink-0 text-2xl">
+                    {post.emoji}
+                  </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold leading-snug">{post.title}</p>
                     <div className="mt-1 flex flex-wrap gap-1">
@@ -146,7 +148,7 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
                     onClick={() => handleLike(post)}
                     className={cn(
                       "dt-btn flex-1 px-2 py-1.5 text-xs",
-                      liked ? "dt-chip-used border" : "dt-btn-outline",
+                      liked ? "dt-like-on" : "dt-btn-outline",
                     )}
                   >
                     <Heart className={cn("h-3.5 w-3.5", liked && "fill-current")} />
@@ -178,7 +180,7 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
-            className="fixed inset-x-0 bottom-0 z-40 border-t bg-card/95 backdrop-blur"
+            className="dt-banner fixed inset-x-0 bottom-0 z-40 backdrop-blur"
           >
             <div className="container flex max-w-2xl flex-wrap items-center justify-between gap-3 py-3">
               <p className="text-sm font-semibold">✨ {feed.goalBanner}</p>

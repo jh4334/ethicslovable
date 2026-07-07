@@ -1,26 +1,41 @@
 /*
  * 내 데이터의 여행 — 게임 고유 스타일.
  * 모든 선택자는 .game-data-trail 아래로만 적용되고, 커스텀 클래스는 dt- 접두사를 쓴다.
- * 테마: '데이터 여행' — 청록(여행 경로) + 남색(밤하늘 지도) 느낌.
+ * 테마: '데이터 여행' — 청록(hue 174, 여행 경로) → 하늘(199) 그라디언트 + 지도 위 점 패턴.
+ * 저사양 친화: 정적 그라디언트 위주, 애니메이션은 transform/배경 위치만 사용.
  */
 
 .game-data-trail {
-  --dt-surface: 195 45% 96%;
-  --dt-trail: 190 80% 36%; /* 여행 경로 청록 */
-  --dt-trail-soft: 190 70% 92%;
-  --dt-ink: 215 45% 22%;
+  --dt-surface: 174 45% 97%;
+  --dt-trail: 174 72% 34%; /* 여행 경로 청록 */
+  --dt-sky: 199 89% 46%; /* 하늘색 — 그라디언트 짝 */
+  --dt-trail-soft: 174 60% 92%;
+  --dt-ink: 205 45% 18%;
   --dt-piece: 262 70% 58%; /* 데이터 조각 보라 */
   --dt-piece-soft: 262 70% 95%;
   --dt-bait: 0 84% 60%; /* 낚시 광고 경고 빨강 */
   --dt-bait-soft: 0 86% 96%;
-  --dt-shield: 152 60% 40%;
+  --dt-shield: 152 60% 38%;
   --dt-shield-soft: 152 55% 93%;
 }
 
-/* 화면 한 판 — 상단 공통 바(h-11)를 뺀 높이를 채운다 */
+/* 화면 한 판 — 청록빛 지도 워시 + 은은한 경유지 점 패턴 */
 .game-data-trail .dt-screen {
   min-height: calc(100vh - 2.75rem);
   background-color: hsl(var(--dt-surface));
+  background-image:
+    radial-gradient(hsl(174 45% 55% / 0.1) 1px, transparent 1.4px),
+    radial-gradient(56rem 30rem at 88% -6%, hsl(199 85% 86% / 0.5), transparent 62%),
+    radial-gradient(48rem 30rem at -12% 34%, hsl(174 60% 86% / 0.55), transparent 60%);
+  background-size:
+    24px 24px,
+    auto,
+    auto;
+}
+
+/* 포인트 텍스트(차시 배지·역 번호) — 청록 */
+.game-data-trail .dt-accent-text {
+  color: hsl(174 80% 27%);
 }
 
 /* ---------- 버튼 ---------- */
@@ -30,12 +45,13 @@
   justify-content: center;
   gap: 0.5rem;
   border-radius: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    transform 0.1s ease,
+    transform 0.15s ease,
     box-shadow 0.2s ease,
+    filter 0.2s ease,
     opacity 0.2s ease;
   cursor: pointer;
 }
@@ -49,14 +65,20 @@
   cursor: not-allowed;
 }
 
+/* CTA — 청록→하늘 여행 그라디언트 */
 .game-data-trail .dt-btn-primary {
-  background-color: hsl(var(--dt-trail));
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--dt-trail)),
+    hsl(var(--dt-sky))
+  );
   color: #fff;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.12);
+  box-shadow: 0 8px 20px -6px hsl(187 75% 36% / 0.55);
 }
 
 .game-data-trail .dt-btn-primary:hover:not(:disabled) {
-  filter: brightness(1.08);
+  transform: translateY(-1px) scale(1.02);
+  filter: brightness(1.06);
 }
 
 .game-data-trail .dt-btn-outline {
@@ -66,12 +88,45 @@
 }
 
 .game-data-trail .dt-btn-outline:hover:not(:disabled) {
-  background-color: hsl(var(--muted));
+  border-color: hsl(var(--dt-trail) / 0.45);
+  color: hsl(174 80% 27%);
+  background-color: hsl(var(--dt-trail-soft) / 0.5);
+}
+
+/* ---------- 인트로 ---------- */
+
+/* 여행가방 히어로 타일 — mlq-emoji-tile에 청록 색상만 입힌다 */
+.game-data-trail .dt-hero-tile {
+  --tile-hue: 174;
+}
+
+/* 파트 안내 = 여행 티켓(승차권) 카드 — 점선 테두리 + 오른쪽 펀칭 구멍 */
+.game-data-trail .dt-ticket {
+  position: relative;
+  border: 1.5px dashed hsl(var(--dt-trail) / 0.4);
+  border-radius: 0.9rem;
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--dt-trail-soft) / 0.6),
+    hsl(var(--card)) 46%
+  );
+}
+
+.game-data-trail .dt-ticket::after {
+  content: "";
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  transform: translateY(-50%);
+  border-radius: 9999px;
+  border: 1.5px dashed hsl(var(--dt-trail) / 0.4);
+  background-color: hsl(var(--card));
 }
 
 /* ---------- 파트 A: 피드 ---------- */
 
-/* 데이터 조각 카운터 — 조각이 늘 때마다 톡 튀는 효과 */
 @keyframes dt-pop {
   0% {
     transform: scale(1);
@@ -84,14 +139,25 @@
   }
 }
 
+/* 데이터 조각 카운터 — 보라→하늘 그라디언트 알약, 늘 때마다 톡 */
 .game-data-trail .dt-counter {
-  background-color: hsl(var(--dt-piece-soft));
-  color: hsl(var(--dt-piece));
-  border: 1px solid hsl(var(--dt-piece) / 0.25);
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--dt-piece)),
+    hsl(var(--dt-sky))
+  );
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 16px -5px hsl(230 70% 52% / 0.5);
 }
 
 .game-data-trail .dt-counter-pop {
   animation: dt-pop 0.35s ease-in-out;
+}
+
+/* 게시물 이모지 미디어 타일 색상 */
+.game-data-trail .dt-post-tile {
+  --tile-hue: 174;
 }
 
 /* 검색 칩 */
@@ -99,22 +165,25 @@
   border: 1px solid hsl(var(--border));
   background-color: hsl(var(--card));
   border-radius: 9999px;
+  font-weight: 600;
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    transform 0.15s ease;
   cursor: pointer;
 }
 
 .game-data-trail .dt-chip:hover:not(:disabled) {
   border-color: hsl(var(--dt-trail));
-  color: hsl(var(--dt-trail));
+  color: hsl(174 80% 27%);
+  transform: translateY(-1px);
 }
 
 .game-data-trail .dt-chip-used {
   background-color: hsl(var(--dt-trail-soft));
   border-color: hsl(var(--dt-trail) / 0.4);
-  color: hsl(var(--dt-trail));
+  color: hsl(174 80% 27%);
 }
 
 .game-data-trail .dt-chip:disabled {
@@ -130,28 +199,94 @@
 }
 
 .game-data-trail .dt-post:hover {
-  box-shadow: 0 8px 16px -6px rgb(0 0 0 / 0.15);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow:
+    0 2px 4px hsl(232 32% 15% / 0.06),
+    0 16px 32px -8px hsl(174 72% 34% / 0.24);
+}
+
+/* 좋아요 토글 — 눌리면 분홍 물들고 하트가 뿅 */
+@keyframes dt-heart-pop {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.game-data-trail .dt-like-on {
+  background-color: hsl(347 90% 96%);
+  border: 1px solid hsl(347 80% 60% / 0.5);
+  color: hsl(347 75% 49%);
+}
+
+.game-data-trail .dt-like-on:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.game-data-trail .dt-like-on svg {
+  animation: dt-heart-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 그만 쓰기 배너 — 위쪽 그라디언트 라인 + 떠오르는 그림자 */
+.game-data-trail .dt-banner {
+  background-color: hsl(0 0% 100% / 0.92);
+  box-shadow: 0 -12px 32px -14px hsl(187 60% 25% / 0.4);
+}
+
+.game-data-trail .dt-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--dt-trail)),
+    hsl(var(--dt-sky))
+  );
 }
 
 /* ---------- 파트 B: 여행 지도(세로 스텝퍼) ---------- */
+
+/* 역 표지판 — 이모지 타일 느낌의 정거장 */
 .game-data-trail .dt-station-dot {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
-  background-color: hsl(var(--dt-trail-soft));
-  border: 2px solid hsl(var(--dt-trail));
+  font-size: 1.3rem;
+  background-image: linear-gradient(
+    145deg,
+    hsl(174 90% 96%),
+    hsl(190 85% 90%)
+  );
+  border: 2px solid hsl(var(--dt-trail) / 0.75);
+  box-shadow:
+    inset 0 -2px 6px hsl(174 60% 80% / 0.5),
+    0 4px 10px -4px hsl(174 72% 34% / 0.35);
   flex-shrink: 0;
+}
+
+/* 점선 경로 — 청록→하늘 대시가 아래로 흐른다 */
+@keyframes dt-dash-flow {
+  to {
+    background-position: 0 12px;
+  }
 }
 
 .game-data-trail .dt-connector {
   width: 3px;
   flex: 1;
-  min-height: 1.25rem;
+  min-height: 1.5rem;
   margin: 0.25rem auto;
   border-radius: 9999px;
   background-image: linear-gradient(
@@ -160,11 +295,55 @@
     transparent 55%
   );
   background-size: 100% 12px;
+  animation: dt-dash-flow 1.3s linear infinite;
 }
 
-/* 분석 역: 태그 막대 */
+@media (prefers-reduced-motion: reduce) {
+  .game-data-trail .dt-connector {
+    animation: none;
+  }
+}
+
+/* 역 카드 — 현재 역은 청록 그림자로 띄운다 */
+.game-data-trail .dt-station-card {
+  border: 1px solid hsl(var(--dt-trail) / 0.14);
+  box-shadow:
+    0 1px 2px hsl(232 32% 15% / 0.05),
+    0 6px 18px -6px hsl(232 32% 15% / 0.1);
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.game-data-trail .dt-station-current {
+  border-color: hsl(var(--dt-trail) / 0.45);
+  box-shadow:
+    0 2px 4px hsl(232 32% 15% / 0.06),
+    0 16px 32px -8px hsl(174 72% 34% / 0.3);
+}
+
+/* 저장 역: 데이터 창고 표 — 줄무늬 + 라운드 */
+.game-data-trail .dt-table {
+  border: 1px solid hsl(var(--dt-trail) / 0.22);
+  border-radius: 0.75rem;
+}
+
+.game-data-trail .dt-table thead tr {
+  background-color: hsl(var(--dt-trail-soft));
+  color: hsl(174 60% 24%);
+}
+
+.game-data-trail .dt-table tbody tr:nth-child(even) {
+  background-color: hsl(var(--dt-trail-soft) / 0.45);
+}
+
+.game-data-trail .dt-table tbody tr {
+  border-color: hsl(var(--dt-trail) / 0.14);
+}
+
+/* 분석 역: 태그 막대 — 그라디언트 채움 */
 .game-data-trail .dt-bar-track {
-  background-color: hsl(var(--muted));
+  background-color: hsl(174 30% 90%);
   border-radius: 9999px;
   height: 0.625rem;
   overflow: hidden;
@@ -173,29 +352,123 @@
 .game-data-trail .dt-bar-fill {
   height: 100%;
   border-radius: 9999px;
-  background-color: hsl(var(--dt-trail));
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--dt-trail)),
+    hsl(var(--dt-sky))
+  );
   transition: width 0.6s ease;
 }
 
-/* 프로필 역: 그림자 카드 */
+/* 프로필 역: '요원 신분증' ID 카드 — 그라디언트 테두리 + 홀로그램 사선광 */
 .game-data-trail .dt-profile-card {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--dt-ink)) 0%,
-    hsl(215 45% 32%) 100%
-  );
+  position: relative;
+  overflow: hidden;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(
+        140deg,
+        hsl(215 45% 17%),
+        hsl(203 45% 24%) 55%,
+        hsl(180 42% 19%)
+      )
+      padding-box,
+    linear-gradient(
+        135deg,
+        hsl(174 85% 45%),
+        hsl(199 90% 55%) 45%,
+        hsl(262 75% 62%)
+      )
+      border-box;
   color: #fff;
 }
 
+/* 홀로그램 느낌 사선 광택 — 정적 그라디언트라 저사양에도 가볍다 */
+.game-data-trail .dt-profile-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    115deg,
+    transparent 40%,
+    hsl(0 0% 100% / 0.09) 47%,
+    hsl(174 90% 70% / 0.14) 53%,
+    transparent 62%
+  );
+}
+
+/* ID 카드 아바타 타일 */
+.game-data-trail .dt-id-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  flex-shrink: 0;
+  background-image: linear-gradient(
+    145deg,
+    hsl(174 70% 88%),
+    hsl(199 80% 78%)
+  );
+  box-shadow: inset 0 -2px 5px hsl(199 60% 55% / 0.45);
+}
+
+/* ID 카드 라벨 행 — 모노스페이스 + 넓은 자간 */
+.game-data-trail .dt-id-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.14em;
+}
+
+.game-data-trail .dt-id-chip {
+  background-color: hsl(0 0% 100% / 0.14);
+  border: 1px solid hsl(0 0% 100% / 0.22);
+  font-variant-numeric: tabular-nums;
+}
+
+/* '그림자' 주의 문구 — 도장 찍힌 각주 느낌 */
 .game-data-trail .dt-shadow-note {
   border: 1.5px dashed hsl(var(--warning));
   background-color: hsl(var(--warning) / 0.12);
 }
 
-/* 광고 역 */
+.game-data-trail .dt-profile-card .dt-shadow-note {
+  transform: rotate(-0.6deg);
+  background-color: hsl(var(--warning) / 0.16);
+}
+
+/* 광고 역 — 전단지 느낌: 점선 테두리 + 위쪽 광고색 띠 */
 .game-data-trail .dt-ad-card {
-  border: 1px solid hsl(var(--border));
+  position: relative;
+  overflow: hidden;
+  border: 1.5px dashed hsl(var(--border));
   background-color: hsl(var(--card));
+  padding-top: 1.1rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.game-data-trail .dt-ad-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-image: linear-gradient(
+    90deg,
+    hsl(33 95% 58%),
+    hsl(320 82% 62%)
+  );
+}
+
+.game-data-trail .dt-ad-card:hover {
+  transform: translateY(-2px) rotate(-0.4deg);
+  box-shadow: 0 10px 22px -10px hsl(232 32% 15% / 0.25);
 }
 
 .game-data-trail .dt-ad-bait-revealed {
@@ -220,27 +493,75 @@
   border: 1px solid hsl(var(--dt-shield) / 0.3);
 }
 
+/* 방패 획득 시 카운터 알약 톡 */
+.game-data-trail .dt-shield.dt-counter-pop {
+  animation: dt-pop 0.35s ease-in-out;
+}
+
 .game-data-trail .dt-choice {
+  position: relative;
   border: 1.5px solid hsl(var(--border));
   background-color: hsl(var(--card));
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease,
-    transform 0.1s ease;
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
   cursor: pointer;
 }
 
 .game-data-trail .dt-choice:hover:not(:disabled) {
   border-color: hsl(var(--dt-trail));
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -8px hsl(174 72% 34% / 0.35);
 }
 
 .game-data-trail .dt-choice:disabled {
   cursor: default;
 }
 
+/* 좋은 선택 — 초록으로 물들며 색종이가 한 번 팡 */
+@keyframes dt-confetti {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
 .game-data-trail .dt-choice-good {
   border-color: hsl(var(--dt-shield));
   background-color: hsl(var(--dt-shield-soft));
+  animation: dt-pop 0.35s ease-in-out;
+}
+
+.game-data-trail .dt-choice-good::after {
+  content: "";
+  position: absolute;
+  inset: -0.8rem;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(circle 3px at 14% 18%, hsl(45 95% 58%) 98%, transparent),
+    radial-gradient(circle 3px at 82% 12%, hsl(174 80% 42%) 98%, transparent),
+    radial-gradient(circle 2.5px at 62% 92%, hsl(320 82% 62%) 98%, transparent),
+    radial-gradient(circle 2.5px at 28% 88%, hsl(199 89% 48%) 98%, transparent),
+    radial-gradient(circle 3px at 93% 68%, hsl(262 70% 58%) 98%, transparent),
+    radial-gradient(circle 2.5px at 6% 55%, hsl(152 60% 42%) 98%, transparent);
+  animation: dt-confetti 0.7s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-data-trail .dt-choice-good::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .game-data-trail .dt-choice-bad {
@@ -252,7 +573,21 @@
   opacity: 0.45;
 }
 
-/* 결과 화면 방패 슬롯 */
+/* ---------- 결과 화면 ---------- */
+
+/* 방패 개수 히어로 — 청록 그라디언트 숫자 */
+.game-data-trail .dt-result-count {
+  background-image: linear-gradient(
+    120deg,
+    hsl(174 78% 30%),
+    hsl(199 89% 40%)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 방패 수집 슬롯 */
 .game-data-trail .dt-shield-slot {
   width: 3.25rem;
   height: 3.25rem;
@@ -264,8 +599,13 @@
 }
 
 .game-data-trail .dt-shield-slot-filled {
-  background-color: hsl(var(--dt-shield-soft));
+  background-image: linear-gradient(
+    145deg,
+    hsl(152 60% 93%),
+    hsl(174 55% 87%)
+  );
   border: 2px solid hsl(var(--dt-shield));
+  box-shadow: 0 8px 16px -8px hsl(152 60% 38% / 0.55);
 }
 
 .game-data-trail .dt-shield-slot-empty {
