@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "gameTitle": "추천 요정 훈련소",
+    "snsName": "누리피드",
+    "tagline": "가상 SNS '누리피드'의 추천 요정이 되어 알고리즘의 비밀을 배워요!",
+    "intro": "여러분은 누리소프트에 갓 들어온 추천 요정 훈련생이에요. 친구가 방금 좋아요를 누른 게시물을 잘 살펴보고, 다음에 보여 줄 게시물을 골라 주세요.",
+    "mission": "이 게시물에 좋아요를 누른 친구에게 어떤 게시물을 추천하면 좋을까요?",
+    "resultNote": "추천 알고리즘은 이렇게 우리가 좋아요를 누른 것과 비슷한 게시물만 계속 보여 줘요. 새로운 이야기를 만나고 싶다면 스스로 찾아보는 습관이 필요해요!"
+  },
+  "rules": {
+    "totalRounds": 10,
+    "basePoints": 10
+  },
+  "difficulties": [
+    {
+      "id": "easy",
+      "label": "쉬움",
+      "emoji": "🌱",
+      "timeLimit": 10,
+      "choiceCount": 2,
+      "trapFromRound": null,
+      "description": "10초 안에 2개 중에서 골라요 · 함정 없음"
+    },
+    {
+      "id": "normal",
+      "label": "보통",
+      "emoji": "⚡",
+      "timeLimit": 7,
+      "choiceCount": 3,
+      "trapFromRound": 4,
+      "description": "7초 안에 3개 중에서 골라요 · 4라운드부터 함정 등장"
+    },
+    {
+      "id": "hard",
+      "label": "어려움",
+      "emoji": "🔥",
+      "timeLimit": 5,
+      "choiceCount": 4,
+      "trapFromRound": 1,
+      "description": "5초 안에 4개 중에서 골라요 · 처음부터 함정 등장"
+    }
+  ],
+  "comboPraise": [
+    { "minCombo": 3, "bonus": 5, "label": "✨ 좋았어요!" },
+    { "minCombo": 5, "bonus": 10, "label": "💫 굉장해요!" },
+    { "minCombo": 7, "bonus": 15, "label": "⚡ 불이 붙었어요!" },
+    { "minCombo": 10, "bonus": 20, "label": "🔥 막을 수 없어요!" }
+  ],
+  "categories": [
+    {
+      "id": "fashion",
+      "label": "패션/꾸미기",
+      "account": "오늘의꾸밈왕",
+      "posts": [
+        { "title": "봄 소풍 옷차림 추천", "icon": "👗", "mediaType": "사진", "tags": "#오늘의옷 #봄나들이코디" },
+        { "title": "필통 속 유행 문구템 공개", "icon": "✏️", "mediaType": "사진", "tags": "#문구템 #필통공개" },
+        { "title": "새 학기 가방 꾸미기", "icon": "🎒", "mediaType": "영상", "tags": "#가방꾸미기 #열쇠고리" },
+        { "title": "무지개시장에서 용돈을 다 써 버렸어요", "icon": "🛍️", "mediaType": "영상", "tags": "#무지개시장 #용돈쇼핑" },
+        { "title": "머리 묶는 법 세 가지", "icon": "💇‍♀️", "mediaType": "사진", "tags": "#머리묶기 #꾸미기꿀팁" }
+      ]
+    },
+    {
+      "id": "travel",
+      "label": "여행/나들이",
+      "account": "여행조아",
+      "posts": [
+        { "title": "가족 캠핑 모닥불 구경", "icon": "⛺️", "mediaType": "사진", "tags": "#가족캠핑 #모닥불" },
+        { "title": "누리랜드 하루 나들이 영상 일기", "icon": "🎢", "mediaType": "영상", "tags": "#누리랜드 #놀이기구" },
+        { "title": "기차 타고 바다 보러 간 날", "icon": "🚂", "mediaType": "사진", "tags": "#기차여행 #바다구경" },
+        { "title": "누리마을 골목축제 먹거리 탐험", "icon": "🏮", "mediaType": "영상", "tags": "#골목축제 #축제먹거리" },
+        { "title": "밤하늘 별 구경 명소 소개", "icon": "🌌", "mediaType": "사진", "tags": "#별구경 #밤하늘" }
+      ]
+    },
+    {
+      "id": "tech",
+      "label": "게임/과학",
+      "account": "발명왕콩이",
+      "posts": [
+        { "title": "전설의 수호자 멋진 장면 모음", "icon": "🎮", "mediaType": "영상", "tags": "#전설의수호자 #명장면" },
+        { "title": "네모월드에 우리 학교 만들기", "icon": "🧱", "mediaType": "영상", "tags": "#네모월드 #블록건축" },
+        { "title": "과학쌤 호기심 따라 화산 실험", "icon": "🌋", "mediaType": "영상", "tags": "#과학실험 #화산만들기" },
+        { "title": "블록 코딩으로 첫 게임 만들기", "icon": "💻", "mediaType": "사진", "tags": "#블록코딩 #게임만들기" },
+        { "title": "고무줄로 움직이는 로봇 팔 만들기", "icon": "🤖", "mediaType": "사진", "tags": "#만들기 #꼬마발명가" }
+      ]
+    },
+    {
+      "id": "pet",
+      "label": "반려동물",
+      "account": "몽실이집사",
+      "posts": [
+        { "title": "몽실이 산책 영상 일기", "icon": "🐶", "mediaType": "영상", "tags": "#몽실이 #강아지산책" },
+        { "title": "고양이 꾹꾹이 하는 순간", "icon": "🐱", "mediaType": "영상", "tags": "#고양이 #꾹꾹이" },
+        { "title": "햄스터 해바라기씨 먹는 모습", "icon": "🐹", "mediaType": "영상", "tags": "#햄스터 #볼주머니" },
+        { "title": "안녕이라고 말하는 앵무새", "icon": "🦜", "mediaType": "영상", "tags": "#앵무새 #개인기" },
+        { "title": "아기 수달 수영 교실", "icon": "🦦", "mediaType": "사진", "tags": "#아기수달 #동물친구" }
+      ]
+    }
+  ]
+}

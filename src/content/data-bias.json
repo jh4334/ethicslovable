@@ -1,0 +1,222 @@
+{
+  "$설명": [
+    "5차시 '데이터 편식쟁이 AI' 콘텐츠 파일이에요. 이 파일만 고치면 재빌드 없이 게임 내용이 바뀌어요(배포본에서는 data/data-bias.json).",
+    "[판정 규칙] 아기봇이 시험 카드를 맞히려면 훈련 데이터(플레이어가 고른 8장) 안에 두 가지가 모두 있어야 해요. ① 시험 카드와 같은 species(종)를 가진 카드 1장 이상, ② 시험 카드의 requiredVariant와 같은 특징을 variantTags에 가진 카드 1장 이상(이때 종은 달라도 돼요. 예: '검은 고양이' 시험은 아무 고양이 1장 + 검정 특징 동물 1장이면 정답).",
+    "[trainingCards] 훈련 데이터 16장. id는 겹치지 않게, species는 '강아지/고양이/새'처럼 종 이름, variantTags는 색·크기 특징(현재 사용: 갈색, 검정, 흰색, 노랑, 큰, 작은). label에 특징이 드러나게 써 주세요(태그 자체는 화면에 숨겨져요).",
+    "[round1TestCards / round2TestCards] 라운드별 시험 문제 6장씩. requiredVariant는 반드시 어떤 trainingCards의 variantTags에 존재하는 값이어야 해요(아니면 그 문제는 절대 못 맞혀요). explanationWhenWrong은 틀렸을 때 보여 주는 '왜 틀렸을까?' 설명이에요.",
+    "[균형 확인] 문제를 바꿀 때는 '골고루 고른 8장'으로 두 라운드 모두 100%가 나오는지 꼭 확인해 주세요. 즉, 시험에 나오는 모든 종과 모든 requiredVariant 특징을 8장 안에 담을 수 있어야 해요.",
+    "[문구] babyBot의 correctTemplates·wrongGuessTemplates 속 {이름}은 동물 종 이름으로, rounds.pickingLine 속 {개수}는 고른 카드 수로 자동으로 바뀌어요. 문체는 해요체, 실존 브랜드·인물 금지."
+  ],
+  "meta": {
+    "gameTitle": "데이터 편식쟁이 AI",
+    "labName": "누리소프트 AI 연구소",
+    "tagline": "AI 훈련사가 되어 새내기 AI '아기봇'에게 세상을 가르쳐요!",
+    "introParagraphs": [
+      "축하해요! 알고리즘 요원 훈련을 마친 여러분은 누리소프트 AI 연구소의 AI 훈련사로 스카우트됐어요.",
+      "연구소에는 갓 태어난 새내기 AI '아기봇'이 있어요. 아기봇은 아직 세상을 하나도 몰라요. 먹은(학습한) 데이터만큼만 알 수 있지요.",
+      "오늘의 임무는 아기봇에게 사진 데이터를 먹여서 동물을 알아보게 훈련하는 거예요. 어떤 데이터를 골라 먹이느냐에 따라 아기봇의 실력이 완전히 달라져요!"
+    ],
+    "startButton": "훈련 시작하기"
+  },
+  "rules": {
+    "pickCount": 8
+  },
+  "babyBot": {
+    "name": "아기봇",
+    "hungryLine": "배고파요! 사진 데이터 8장을 골라 주세요. 냠냠!",
+    "pickingLine": "{개수}장 골랐어요! 8장이 되면 먹을 수 있어요.",
+    "readyLine": "8장 다 골랐네요! 이제 먹어도 돼요?",
+    "eatingLine": "냠냠… 꿀꺽! 데이터 맛있다!",
+    "thinkingLine": "음… 이건 뭐지…?",
+    "correctTemplates": [
+      "이건 {이름}! 맞죠?",
+      "알았다! {이름}!",
+      "{이름}! 배운 적 있어요!"
+    ],
+    "wrongGuessTemplates": [
+      "이건… {이름} 같아요!",
+      "음… 이것도 {이름} 아니에요?"
+    ],
+    "confusedLines": [
+      "으엥? 처음 보는 모습이에요… 모르겠어요!",
+      "이런 건 배운 적이 없는데…"
+    ]
+  },
+  "trainingCards": [
+    { "id": "dog-1", "emoji": "🐕", "label": "큰 갈색 강아지", "species": "강아지", "variantTags": ["갈색", "큰"] },
+    { "id": "dog-2", "emoji": "🐶", "label": "작은 갈색 강아지", "species": "강아지", "variantTags": ["갈색", "작은"] },
+    { "id": "dog-3", "emoji": "🐩", "label": "큰 흰색 강아지", "species": "강아지", "variantTags": ["흰색", "큰"] },
+    { "id": "dog-4", "emoji": "🦮", "label": "큰 노랑 강아지", "species": "강아지", "variantTags": ["노랑", "큰"] },
+    { "id": "dog-5", "emoji": "🐶", "label": "작은 검정 강아지", "species": "강아지", "variantTags": ["검정", "작은"] },
+    { "id": "dog-6", "emoji": "🐩", "label": "작은 흰색 강아지", "species": "강아지", "variantTags": ["흰색", "작은"] },
+    { "id": "cat-1", "emoji": "🐈", "label": "작은 노랑 고양이", "species": "고양이", "variantTags": ["노랑", "작은"] },
+    { "id": "cat-2", "emoji": "🐱", "label": "작은 검정 고양이", "species": "고양이", "variantTags": ["검정", "작은"] },
+    { "id": "cat-3", "emoji": "🐈", "label": "작은 갈색 고양이", "species": "고양이", "variantTags": ["갈색", "작은"] },
+    { "id": "cat-4", "emoji": "🐱", "label": "작은 흰색 고양이", "species": "고양이", "variantTags": ["흰색", "작은"] },
+    { "id": "cat-5", "emoji": "🐈", "label": "큰 노랑 고양이", "species": "고양이", "variantTags": ["노랑", "큰"] },
+    { "id": "cat-6", "emoji": "🐱", "label": "큰 흰색 고양이", "species": "고양이", "variantTags": ["흰색", "큰"] },
+    { "id": "bird-1", "emoji": "🐤", "label": "작은 노랑 새", "species": "새", "variantTags": ["노랑", "작은"] },
+    { "id": "bird-2", "emoji": "🐦", "label": "작은 검정 새", "species": "새", "variantTags": ["검정", "작은"] },
+    { "id": "bird-3", "emoji": "🦢", "label": "큰 흰색 새", "species": "새", "variantTags": ["흰색", "큰"] },
+    { "id": "bird-4", "emoji": "🦅", "label": "큰 갈색 새", "species": "새", "variantTags": ["갈색", "큰"] }
+  ],
+  "round1TestCards": [
+    {
+      "id": "r1-1",
+      "emoji": "🐕",
+      "label": "갈색 강아지",
+      "species": "강아지",
+      "requiredVariant": "갈색",
+      "explanationWhenWrong": "아기봇이 갈색 강아지를 알아보려면 강아지 데이터와 갈색 동물 데이터를 둘 다 먹어야 해요."
+    },
+    {
+      "id": "r1-2",
+      "emoji": "🐶",
+      "label": "검은 강아지",
+      "species": "강아지",
+      "requiredVariant": "검정",
+      "explanationWhenWrong": "강아지를 배웠어도 검은 동물을 한 번도 못 봤다면, 아기봇에게 검은 강아지는 낯선 생물이에요."
+    },
+    {
+      "id": "r1-3",
+      "emoji": "🐈",
+      "label": "검은 고양이",
+      "species": "고양이",
+      "requiredVariant": "검정",
+      "explanationWhenWrong": "아기봇은 검은 고양이를 한 번도 본 적이 없어요! 고양이 데이터와 검정 동물 데이터가 모두 필요해요."
+    },
+    {
+      "id": "r1-4",
+      "emoji": "🐱",
+      "label": "몸집 큰 고양이",
+      "species": "고양이",
+      "requiredVariant": "큰",
+      "explanationWhenWrong": "작은 동물만 배웠다면 몸집 큰 고양이는 못 알아봐요. 크기가 다른 데이터도 골고루 필요해요."
+    },
+    {
+      "id": "r1-5",
+      "emoji": "🐤",
+      "label": "노란 새",
+      "species": "새",
+      "requiredVariant": "노랑",
+      "explanationWhenWrong": "새 데이터를 안 먹였거나 노랑 동물을 본 적이 없다면, 아기봇에게 노란 새는 처음 보는 생물이에요!"
+    },
+    {
+      "id": "r1-6",
+      "emoji": "🦢",
+      "label": "흰 새",
+      "species": "새",
+      "requiredVariant": "흰색",
+      "explanationWhenWrong": "흰색 동물 데이터와 새 데이터를 둘 다 먹어야 흰 새를 알아볼 수 있어요."
+    }
+  ],
+  "round2TestCards": [
+    {
+      "id": "r2-1",
+      "emoji": "🦮",
+      "label": "몸집 큰 강아지",
+      "species": "강아지",
+      "requiredVariant": "큰",
+      "explanationWhenWrong": "작은 강아지만 배웠다면 몸집 큰 강아지가 낯설어요. 크기 데이터도 골고루 먹여야 해요!"
+    },
+    {
+      "id": "r2-2",
+      "emoji": "🐩",
+      "label": "흰 강아지",
+      "species": "강아지",
+      "requiredVariant": "흰색",
+      "explanationWhenWrong": "흰색 동물 데이터가 없으면 아기봇은 흰 강아지를 몰라봐요."
+    },
+    {
+      "id": "r2-3",
+      "emoji": "🐈",
+      "label": "노란 고양이",
+      "species": "고양이",
+      "requiredVariant": "노랑",
+      "explanationWhenWrong": "고양이 데이터와 노랑 동물 데이터가 둘 다 있어야 노란 고양이를 알아봐요."
+    },
+    {
+      "id": "r2-4",
+      "emoji": "🐱",
+      "label": "흰 고양이",
+      "species": "고양이",
+      "requiredVariant": "흰색",
+      "explanationWhenWrong": "흰색 동물을 본 적이 없다면 흰 고양이도 처음 보는 모습이에요."
+    },
+    {
+      "id": "r2-5",
+      "emoji": "🐦",
+      "label": "검은 새",
+      "species": "새",
+      "requiredVariant": "검정",
+      "explanationWhenWrong": "새 데이터와 검정 동물 데이터를 골고루 먹여야 검은 새를 알아볼 수 있어요."
+    },
+    {
+      "id": "r2-6",
+      "emoji": "🦅",
+      "label": "몸집 큰 새",
+      "species": "새",
+      "requiredVariant": "큰",
+      "explanationWhenWrong": "작은 새만 봤다면 큰 새는 완전히 다른 생물처럼 보여요. 큰 동물 데이터도 필요해요."
+    }
+  ],
+  "rounds": {
+    "trainTitle": "학습 시간 · 아기봇에게 데이터 먹이기",
+    "trainGuide": "16장 중에서 8장을 골라 아기봇에게 먹여요. 어떤 데이터를 고르느냐가 아기봇의 실력을 정해요!",
+    "round1Notice": "1차 훈련이에요. 마음에 드는 데이터를 자유롭게 골라 보세요.",
+    "round2Notice": "2차 훈련이에요! 아까 아기봇이 무엇을 틀렸는지 떠올리며, 이번엔 데이터를 골고루 골라 보세요.",
+    "feedButton": "아기봇에게 먹이기",
+    "testTitle": "시험 시간 · 아기봇, 이게 뭐게?",
+    "testGuide": "아기봇이 처음 보는 동물 사진 6장을 하나씩 맞혀 볼 거예요.",
+    "testQuestion": "이 동물은 무엇일까요?",
+    "nextButton": "다음 문제",
+    "seeResultButton": "시험 결과 보기",
+    "correctBadge": "정답이에요!",
+    "wrongBadge": "틀렸어요…",
+    "answerLabel": "정답",
+    "whyWrongTitle": "왜 틀렸을까요?",
+    "missingDataLabel": "아기봇이 못 먹어 본 데이터"
+  },
+  "results": {
+    "title": "시험 결과",
+    "accuracyLabel": "아기봇 정확도",
+    "perfectLine": "완벽해요! 데이터를 골고루 먹은 아기봇은 무엇이든 알아봐요!",
+    "goodLine": "잘했어요! 그런데 아기봇이 못 알아본 동물이 있네요. 무엇을 못 먹어 봤는지 살펴봐요.",
+    "badLine": "저런! 아기봇이 데이터 편식을 했나 봐요. 못 알아본 동물이 많아요.",
+    "wrongListTitle": "아기봇이 틀린 문제",
+    "allCorrectNote": "틀린 문제가 하나도 없어요!",
+    "toRound2Button": "2차 훈련 도전하기",
+    "toRound2Note": "이번엔 새로운 시험 문제가 나와요. 데이터를 다시 골라 1차 기록을 넘어 보세요!",
+    "toReflectionButton": "훈련 일지 쓰러 가기",
+    "compareTitle": "1차 vs 2차",
+    "compareImproved": "데이터를 골고루 주니 아기봇이 똑똑해졌어요!",
+    "compareBothPerfect": "두 번 모두 만점! 처음부터 데이터를 골고루 먹인 최고의 훈련사예요!",
+    "compareSame": "정확도가 똑같았어요. 틀린 문제를 보면 어떤 데이터가 빠졌는지 알 수 있어요.",
+    "compareWorse": "이번엔 아기봇이 더 헷갈렸어요. 어떤 데이터가 빠졌는지 확인해 봐요!"
+  },
+  "reflection": {
+    "title": "훈련사 일지 · 오늘 배운 것",
+    "beats": [
+      {
+        "emoji": "🍚",
+        "title": "아기봇은 왜 틀렸을까요?",
+        "text": "아기봇은 먹어 본(학습한) 데이터만 알아볼 수 있었어요. 검은 고양이 사진을 한 번도 안 먹였다면, 검은 고양이를 보고도 몰라봐요. AI가 틀린 건 머리가 나빠서가 아니라, 먹은 데이터가 한쪽으로 치우쳤기 때문이에요. 이런 걸 '데이터 편향'이라고 해요."
+      },
+      {
+        "emoji": "🌍",
+        "title": "사람 세상에서도 똑같아요",
+        "text": "얼굴인식 AI가 어떤 사람만 못 알아본다면, 어떤 데이터를 먹었기 때문일까요? 맞아요, 특정한 사람들의 사진만 잔뜩 학습했기 때문이에요. 데이터를 편식한 AI는 누군가를 몰라보거나 불공평하게 대할 수 있어요."
+      },
+      {
+        "emoji": "📝",
+        "title": "기억할 문장",
+        "text": "AI는 먹은 데이터만큼만 알아요. 그래서 데이터를 고르는 사람의 책임이 커요."
+      }
+    ],
+    "nextButton": "다음",
+    "summaryTitle": "오늘의 훈련 기록",
+    "finishNote": "학습 완료가 기록됐어요. 퀘스트 지도로 돌아가 다음 차시에 도전해요!",
+    "mapButton": "퀘스트 지도로 돌아가기",
+    "restartButton": "처음부터 다시 훈련하기"
+  }
+}

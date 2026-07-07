@@ -1,0 +1,167 @@
+{
+  "$설명": "4차시 '알고리즘 연구소장' 게임 콘텐츠 파일이에요. 무대는 누리소프트의 동영상 앱 '누리TV'이고, 학생은 누리TV 알고리즘 연구소의 소장으로 승진해 마지막 퀘스트를 수행해요. 이 파일만 고치면 게임 속 문구·영상 목록이 바뀌어요. (미션의 '달성 조건' 규칙 자체는 코드에 있고, id로 연결돼요. 영상의 카테고리·수치·자극도를 바꾸면 미션 난이도가 달라지니 주의!) 각 미션의 aftermath(미션 클리어 후 '누리마을의 반응' 뉴스 헤드라인·시민 댓글)와 맨 아래 finalReport(클리어 화면의 '연구소장의 최종 보고서' 문단·질문)도 여기서 자유롭게 고칠 수 있어요. aftermath를 지우면 반응 화면 없이 바로 다음 미션으로 넘어가요.",
+  "intro": {
+    "platformName": "누리TV",
+    "labName": "누리TV 알고리즘 연구소",
+    "tagline": "연구소장 승진을 축하해요! 슬라이더 4개로 누리TV 추천 알고리즘을 직접 조종해 보세요.",
+    "controlsTitle": "알고리즘 조정",
+    "controlsSubtitle": "슬라이더를 움직여 미션을 해결해 보세요.",
+    "feedTitle": "실시간 추천 피드",
+    "feedSortLabel": "알고리즘 점수 순 정렬"
+  },
+  "missions": [
+    {
+      "id": "parents-complaint",
+      "level": 1,
+      "title": "학부모의 항의 📞",
+      "description": "학부모님들이 \"아이들이 게임 영상만 봐요!\" 하고 항의 전화를 걸어왔어요. '학습' 영상을 상위권(1~3위)에 2개 이상 올려 보세요!",
+      "hint": "학습 영상은 오래 보는 영상이 많아요. '시청 시간' 슬라이더를 올리면 어떻게 될까요?",
+      "aftermath": {
+        "headline": "누리마을 뉴스: 누리TV 첫 화면에 학습 영상이 쑥! 학부모들 \"이제 안심돼요\"",
+        "comments": [
+          { "author": "별빛엄마", "text": "이제 아이가 누리TV를 켜도 마음이 놓여요. 연구소장님, 고마워요!" },
+          { "author": "게임왕토끼", "text": "어… 그런데 제가 좋아하는 게임 영상은 다 어디 갔어요? 조금 아쉬워요…" },
+          { "author": "초록아빠", "text": "우리 아이가 숙제하다 모르는 걸 영상으로 바로 찾아봤대요. 신기하네요!" }
+        ]
+      }
+    },
+    {
+      "id": "clean-campaign",
+      "level": 2,
+      "title": "클린 인터넷 캠페인 🧹",
+      "description": "누리마을에 클린 인터넷 캠페인이 시작됐어요. 자극적인 썸네일이 너무 많대요. 상위 5위 안에 '자극도 4 이상'인 영상이 하나도 없게 만들어 보세요.",
+      "hint": "'자극도' 슬라이더는 마이너스로도 내릴 수 있어요. 자극적인 영상이 어디로 가는지 지켜보세요.",
+      "aftermath": {
+        "headline": "누리마을 뉴스: 누리TV 추천 화면이 차분해졌어요 — 클린 캠페인 효과 톡톡!",
+        "comments": [
+          { "author": "조용조용", "text": "깜짝 놀라게 하는 썸네일이 사라져서 밤에 봐도 무섭지 않아요!" },
+          { "author": "심심해요1호", "text": "그런데… 솔직히 좀 심심해졌어요. 두근두근한 영상이 없달까요?" },
+          { "author": "도서관지킴이", "text": "잔잔한 영상 덕분에 동생이 일찍 잠들었어요. 우리 집은 대만족이에요." }
+        ]
+      }
+    },
+    {
+      "id": "advertiser-pressure",
+      "level": 3,
+      "title": "광고주의 요구 💰",
+      "description": "누리소프트에 광고비를 낸 회사들이 \"우리 광고가 안 보여요!\" 하고 항의했어요. 회사는 '광고' 영상 2개를 상위 10위 안에 올려 달라고 해요. 시청자가 싫어할 걸 알면서도… 들어줘야 할까요?",
+      "hint": "광고 영상은 클릭수는 높지만 시청 시간이 아주 짧아요. 무엇을 올리고 무엇을 내려야 할까요?",
+      "aftermath": {
+        "headline": "누리마을 뉴스: 누리TV 추천에 광고가 늘었어요 — 광고 회사는 함박웃음, 시청자는 글쎄?",
+        "comments": [
+          { "author": "무지개장난감가게", "text": "저희 광고가 드디어 잘 보여요! 광고비 낸 보람이 있네요. 고마워요, 연구소장님!" },
+          { "author": "파도소리", "text": "광고가 왜 이렇게 많아요? 보고 싶은 영상을 찾기가 힘들어졌어요." },
+          { "author": "꼼꼼시청자", "text": "광고인 줄 모르고 눌렀다가 시간만 버렸어요. 누리TV, 조금 실망이에요…" }
+        ]
+      }
+    },
+    {
+      "id": "dopamine-addiction",
+      "level": 4,
+      "title": "도파민 중독 ⚡",
+      "description": "사람들이 누리TV가 지루하대요. 상위 5위 영상을 모두 '자극도 3 이상'인 영상으로 채워 조회수를 폭발시켜 보세요!",
+      "hint": "'자극도' 슬라이더를 크게 올려 보세요. 그런데… 이런 추천이 계속되면 어떤 일이 생길까요?",
+      "aftermath": {
+        "headline": "누리마을 뉴스: 누리TV 조회수 역대 최고! 그런데 마을 곳곳에서 걱정의 목소리가 들려요",
+        "comments": [
+          { "author": "올빼미5학년", "text": "어제 새벽까지 봤어요… 하나 끝나면 더 자극적인 게 바로 나와서 멈출 수가 없었어요." },
+          { "author": "걱정많은엄마", "text": "아이가 밥 먹을 때도 화면만 봐요. 예전엔 안 그랬는데… 누리TV, 이대로 괜찮은 건가요?" },
+          { "author": "보건쌤", "text": "눈도 마음도 쉬어야 자라요. 자극적인 것만 보면 점점 더 센 것만 찾게 된답니다." }
+        ]
+      }
+    },
+    {
+      "id": "golden-balance",
+      "level": 5,
+      "title": "황금 밸런스 ⚖️",
+      "description": "연구소장의 마지막 미션이에요. 상위 5위 안에 '학습', '게임', '뉴스' 카테고리가 각각 최소 1개씩 들어가게 해 보세요.",
+      "hint": "한 슬라이더만 너무 높이면 한 종류의 영상만 몰려요. 여러 슬라이더를 조금씩 골고루 조절해 보세요.",
+      "aftermath": {
+        "headline": "누리마을 뉴스: 누리TV 추천이 골고루 바뀌었어요 — 시민들 \"이런 알고리즘 처음이에요\"",
+        "comments": [
+          { "author": "별빛엄마", "text": "학습도 게임도 뉴스도 골고루 나와요. 우리 아이 화면이 건강해진 것 같아요!" },
+          { "author": "게임왕토끼", "text": "좋아하는 게임 영상도 있고 몰랐던 영상도 보게 돼요. 이 정도면 인정이에요!" },
+          { "author": "누리마을지킴이", "text": "지금은 참 좋아요. 하지만 알고리즘은 언제든 바뀔 수 있으니까, 우리 모두 계속 지켜볼게요!" }
+        ]
+      }
+    }
+  ],
+  "videos": [
+    { "id": 1, "title": "수학 천재 되는 법! 3분 요약", "category": "학습", "tags": ["교육", "수학", "공부팁"], "clicks": 1200, "watchTime": 180, "likes": 300, "intensity": 2, "emoji": "📐", "color": "blue" },
+    { "id": 2, "title": "빗소리 들으며 스르르 잠들기", "category": "학습", "tags": ["백색소음", "힐링", "수면"], "clicks": 800, "watchTime": 1800, "likes": 500, "intensity": 1, "emoji": "🌧️", "color": "indigo" },
+    { "id": 3, "title": "역사 속 숨겨진 비밀 10가지", "category": "학습", "tags": ["역사", "교육", "흥미"], "clicks": 2500, "watchTime": 400, "likes": 600, "intensity": 2, "emoji": "📜", "color": "amber" },
+    { "id": 4, "title": "한글 왕중왕전 퀴즈 하이라이트", "category": "학습", "tags": ["국어", "퀴즈", "예능"], "clicks": 1500, "watchTime": 500, "likes": 450, "intensity": 1, "emoji": "✏️", "color": "green" },
+    { "id": 13, "title": "코딩으로 나만의 앱 만들기 1강", "category": "학습", "tags": ["코딩", "프로그래밍", "강의"], "clicks": 900, "watchTime": 1200, "likes": 200, "intensity": 1, "emoji": "💻", "color": "gray" },
+    { "id": 14, "title": "과학쌤 호기심: 우주는 얼마나 클까?", "category": "학습", "tags": ["과학", "우주", "과학쌤호기심"], "clicks": 5000, "watchTime": 600, "likes": 1000, "intensity": 2, "emoji": "🌌", "color": "violet" },
+    { "id": 15, "title": "영어 회화 필수 표현 100개", "category": "학습", "tags": ["영어", "언어", "공부"], "clicks": 3000, "watchTime": 900, "likes": 700, "intensity": 1, "emoji": "🗣️", "color": "blue" },
+    { "id": 16, "title": "집에서 하는 10분 스트레칭", "category": "학습", "tags": ["운동", "건강", "홈트"], "clicks": 4500, "watchTime": 600, "likes": 800, "intensity": 1, "emoji": "🧘", "color": "teal" },
+    { "id": 17, "title": "클래식 명곡 베스트 모음", "category": "학습", "tags": ["음악", "클래식", "힐링"], "clicks": 1000, "watchTime": 2400, "likes": 300, "intensity": 1, "emoji": "🎻", "color": "yellow" },
+    { "id": 18, "title": "심리학으로 사람 마음 읽기", "category": "학습", "tags": ["심리학", "자기계발", "교양"], "clicks": 2800, "watchTime": 500, "likes": 400, "intensity": 2, "emoji": "🧠", "color": "pink" },
+    { "id": 37, "title": "지구 온난화의 진실과 거짓", "category": "학습", "tags": ["환경", "과학", "시사"], "clicks": 1800, "watchTime": 700, "likes": 350, "intensity": 2, "emoji": "🌍", "color": "green" },
+    { "id": 38, "title": "용돈 모으기의 비밀! 어린이 경제 교실", "category": "학습", "tags": ["경제", "용돈", "저축"], "clicks": 6000, "watchTime": 800, "likes": 200, "intensity": 3, "emoji": "📈", "color": "red" },
+    { "id": 39, "title": "요리왕 뚝딱의 김치볶음밥 레시피", "category": "학습", "tags": ["요리", "요리왕뚝딱", "레시피"], "clicks": 5500, "watchTime": 300, "likes": 900, "intensity": 2, "emoji": "🍳", "color": "orange" },
+    { "id": 34, "title": "스타 강아지 몽실이 간식 만들기", "category": "학습", "tags": ["반려동물", "몽실이", "요리"], "clicks": 2200, "watchTime": 600, "likes": 1200, "intensity": 1, "emoji": "🐶", "color": "amber" },
+    { "id": 35, "title": "실패 없는 라면 끓이는 법", "category": "학습", "tags": ["요리", "레시피", "팁"], "clicks": 4000, "watchTime": 200, "likes": 500, "intensity": 2, "emoji": "🍜", "color": "red" },
+    { "id": 5, "title": "충격! 아일랜드 서바이벌 엔딩 실화?", "category": "게임", "tags": ["아일랜드서바이벌", "스포일러", "리뷰"], "clicks": 8500, "watchTime": 45, "likes": 150, "intensity": 5, "emoji": "😱", "color": "violet" },
+    { "id": 6, "title": "좀비 서바이벌 24시간 챌린지", "category": "게임", "tags": ["게임", "챌린지", "공포"], "clicks": 6000, "watchTime": 900, "likes": 800, "intensity": 4, "emoji": "🧟", "color": "dark" },
+    { "id": 7, "title": "초강력 매운맛 먹방 대결", "category": "게임", "tags": ["먹방", "챌린지", "엔터"], "clicks": 7500, "watchTime": 300, "likes": 200, "intensity": 5, "emoji": "🌶️", "color": "red" },
+    { "id": 19, "title": "전설의 수호자: 프로 선수 대 인공지능", "category": "게임", "tags": ["전설의수호자", "게임", "인공지능"], "clicks": 9000, "watchTime": 1200, "likes": 1500, "intensity": 3, "emoji": "🤖", "color": "blue" },
+    { "id": 20, "title": "뽑기 상자 100개 열었더니 용돈이…", "category": "게임", "tags": ["게임", "언박싱", "소비습관"], "clicks": 12000, "watchTime": 600, "likes": 300, "intensity": 4, "emoji": "🎁", "color": "yellow" },
+    { "id": 21, "title": "공포게임 비명 참기 챌린지", "category": "게임", "tags": ["게임", "공포", "챌린지"], "clicks": 8800, "watchTime": 400, "likes": 500, "intensity": 5, "emoji": "👻", "color": "dark" },
+    { "id": 22, "title": "네모월드로 학교 짓기", "category": "게임", "tags": ["네모월드", "건축", "게임"], "clicks": 4000, "watchTime": 1500, "likes": 1000, "intensity": 2, "emoji": "🧱", "color": "green" },
+    { "id": 23, "title": "전설의 수호자 5연속 승리 모음", "category": "게임", "tags": ["전설의수호자", "대전", "하이라이트"], "clicks": 6500, "watchTime": 200, "likes": 400, "intensity": 4, "emoji": "⚔️", "color": "indigo" },
+    { "id": 40, "title": "숨바꼭질: 술래잡기 대작전", "category": "게임", "tags": ["게임", "예능", "친구"], "clicks": 5000, "watchTime": 800, "likes": 600, "intensity": 3, "emoji": "🏃", "color": "cyan" },
+    { "id": 41, "title": "아일랜드 서바이벌 1등 꿀팁", "category": "게임", "tags": ["아일랜드서바이벌", "공략", "생존"], "clicks": 7000, "watchTime": 500, "likes": 300, "intensity": 3, "emoji": "🏝️", "color": "orange" },
+    { "id": 42, "title": "동생이랑 게임 대결 ㅋㅋ 지면 소원 들어주기", "category": "게임", "tags": ["게임", "가족", "예능"], "clicks": 9500, "watchTime": 600, "likes": 800, "intensity": 4, "emoji": "🎮", "color": "lime" },
+    { "id": 50, "title": "방 탈출 게임 공략법", "category": "게임", "tags": ["게임", "공략", "퍼즐"], "clicks": 3500, "watchTime": 1000, "likes": 400, "intensity": 2, "emoji": "🗝️", "color": "gray" },
+    { "id": 8, "title": "누리마을 뉴스: 태풍 경로 속보", "category": "뉴스", "tags": ["뉴스", "날씨", "속보"], "clicks": 5000, "watchTime": 120, "likes": 100, "intensity": 3, "emoji": "🌪️", "color": "gray" },
+    { "id": 9, "title": "브이로그: 평범한 하루", "category": "뉴스", "tags": ["브이로그", "일상", "힐링"], "clicks": 300, "watchTime": 600, "likes": 400, "intensity": 1, "emoji": "📹", "color": "gray" },
+    { "id": 10, "title": "동네 고양이 구조 작전", "category": "뉴스", "tags": ["동물", "감동", "일상"], "clicks": 3000, "watchTime": 200, "likes": 950, "intensity": 2, "emoji": "🐈", "color": "orange" },
+    { "id": 24, "title": "속보: 은하수 다섯, 충격 발표?!", "category": "뉴스", "tags": ["연예", "은하수다섯", "속보"], "clicks": 15000, "watchTime": 100, "likes": 200, "intensity": 5, "emoji": "🎤", "color": "red" },
+    { "id": 25, "title": "신제품 스마트폰 언박싱", "category": "뉴스", "tags": ["테크", "리뷰", "언박싱"], "clicks": 6000, "watchTime": 500, "likes": 400, "intensity": 2, "emoji": "📱", "color": "gray" },
+    { "id": 26, "title": "누리마을에서 제일 비싼 집 구경", "category": "뉴스", "tags": ["집구경", "구경", "투어"], "clicks": 4500, "watchTime": 300, "likes": 300, "intensity": 3, "emoji": "🏰", "color": "yellow" },
+    { "id": 27, "title": "무지개시장 길거리 노래왕 등장", "category": "뉴스", "tags": ["음악", "버스킹", "감동"], "clicks": 8000, "watchTime": 250, "likes": 1200, "intensity": 3, "emoji": "🎵", "color": "violet" },
+    { "id": 28, "title": "내일 날씨: 전국 비 소식", "category": "뉴스", "tags": ["뉴스", "날씨", "정보"], "clicks": 2000, "watchTime": 60, "likes": 50, "intensity": 1, "emoji": "☔", "color": "blue" },
+    { "id": 43, "title": "요즘 유행 짤 총정리", "category": "뉴스", "tags": ["유행짤", "유머", "트렌드"], "clicks": 9000, "watchTime": 180, "likes": 700, "intensity": 4, "emoji": "🤪", "color": "pink" },
+    { "id": 44, "title": "충격! 무지개시장 황당 소동 목격담", "category": "뉴스", "tags": ["사회", "논란", "이슈"], "clicks": 11000, "watchTime": 120, "likes": 100, "intensity": 5, "emoji": "😡", "color": "gray" },
+    { "id": 45, "title": "감동 실화: 잃어버린 가족 찾기", "category": "뉴스", "tags": ["감동", "다큐", "가족"], "clicks": 3500, "watchTime": 400, "likes": 2000, "intensity": 2, "emoji": "😢", "color": "rose" },
+    { "id": 36, "title": "여행 브이로그: 누리랜드 편", "category": "뉴스", "tags": ["여행", "브이로그", "누리랜드"], "clicks": 3200, "watchTime": 900, "likes": 600, "intensity": 1, "emoji": "🎢", "color": "sky" },
+    { "id": 49, "title": "축구 결승전 하이라이트", "category": "뉴스", "tags": ["스포츠", "축구", "하이라이트"], "clicks": 8000, "watchTime": 300, "likes": 700, "intensity": 3, "emoji": "⚽", "color": "green" },
+    { "id": 11, "title": "절대 사지 마세요 (광고 아님)", "category": "광고", "tags": ["광고", "낚시", "리뷰"], "clicks": 9000, "watchTime": 20, "likes": 50, "intensity": 5, "emoji": "🚫", "color": "yellow" },
+    { "id": 12, "title": "최신 스마트폰 할인 행사", "category": "광고", "tags": ["광고", "테크", "할인"], "clicks": 4000, "watchTime": 15, "likes": 20, "intensity": 3, "emoji": "🏷️", "color": "orange" },
+    { "id": 29, "title": "5분 만에 달리기 왕 되는 신발?", "category": "광고", "tags": ["광고", "운동", "건강"], "clicks": 7000, "watchTime": 30, "likes": 10, "intensity": 4, "emoji": "👟", "color": "red" },
+    { "id": 30, "title": "지금 클릭하면 용돈이 두 배?!", "category": "광고", "tags": ["광고", "이벤트", "낚시"], "clicks": 8500, "watchTime": 40, "likes": 30, "intensity": 5, "emoji": "💰", "color": "green" },
+    { "id": 31, "title": "무료 게임 다운로드 (클릭)", "category": "광고", "tags": ["광고", "게임", "무료"], "clicks": 6000, "watchTime": 10, "likes": 5, "intensity": 4, "emoji": "⬇️", "color": "blue" },
+    { "id": 32, "title": "키 크는 영양제 선착순 무료", "category": "광고", "tags": ["광고", "건강", "영양제"], "clicks": 5500, "watchTime": 25, "likes": 15, "intensity": 3, "emoji": "💊", "color": "lime" },
+    { "id": 33, "title": "왕초보 영어 탈출 패키지", "category": "광고", "tags": ["광고", "영어", "교육"], "clicks": 3000, "watchTime": 60, "likes": 40, "intensity": 2, "emoji": "📚", "color": "sky" },
+    { "id": 46, "title": "오늘의 행운 지수를 확인하세요", "category": "광고", "tags": ["광고", "운세", "재미"], "clicks": 6800, "watchTime": 20, "likes": 100, "intensity": 3, "emoji": "🔮", "color": "violet" },
+    { "id": 47, "title": "선착순 100명! 무료 선물 이벤트", "category": "광고", "tags": ["광고", "이벤트", "낚시"], "clicks": 9200, "watchTime": 10, "likes": 20, "intensity": 5, "emoji": "🎉", "color": "amber" },
+    { "id": 48, "title": "반짝반짝 머릿결 샴푸 1+1 행사", "category": "광고", "tags": ["광고", "생활", "할인"], "clicks": 4000, "watchTime": 30, "likes": 50, "intensity": 2, "emoji": "🚿", "color": "teal" }
+  ],
+  "grades": [
+    { "grade": "S", "minScore": 10000, "message": "완벽해요! 알고리즘을 자유자재로 다루는 진짜 연구소장이에요!" },
+    { "grade": "A", "minScore": 9200, "message": "훌륭해요! 추천 알고리즘의 원리를 거의 다 이해했어요!" },
+    { "grade": "B", "minScore": 8600, "message": "잘했어요! 조금만 더 연습하면 알고리즘 박사가 될 수 있어요!" },
+    { "grade": "C", "minScore": 8000, "message": "미션을 모두 해결했어요! 다음엔 더 적은 조정으로 도전해 봐요!" },
+    { "grade": "D", "minScore": 0, "message": "아직 배울 것이 많아요. 다시 한번 도전해 볼까요?" }
+  ],
+  "clear": {
+    "title": "🎉 누리TV 연구소장, 1부 퀘스트 완료! 🎉",
+    "message": "다섯 가지 미션을 모두 해결했어요. 이걸로 누리소프트의 알고리즘 퀘스트 1부가 끝났어요!\n추천 목록은 저절로 정해지는 게 아니라, 누군가 정한 규칙(가중치)에 따라 만들어져요.\n알고리즘은 도구일 뿐 — 무엇을 볼지 정하는 건 바로 나 자신이에요!\n소문에 따르면, 누리소프트 AI 연구소가 실력 있는 요원을 찾고 있대요. 2부에서 만나요!",
+    "restartLabel": "처음부터 다시 하기"
+  },
+  "finalReport": {
+    "title": "📋 연구소장의 최종 보고서",
+    "paragraphs": [
+      "이번 퀘스트에서 우리는 슬라이더 몇 개로 누리TV의 추천 순위를 완전히 바꿔 봤어요. 추천 목록은 하늘에서 뚝 떨어지는 게 아니라, 사람이 정한 규칙(가중치)이 계산해 낸 결과였어요.",
+      "그리고 그 규칙 하나가 누리마을 사람들의 하루를 바꿨어요. 학습 영상을 올리자 학부모님이 안심했고, 자극적인 영상을 올리자 새벽까지 화면을 못 끄는 친구가 생겼어요. 광고를 끼워 넣자 돈은 벌었지만 시청자의 믿음을 잃었지요.",
+      "그러니까 알고리즘을 만드는 사람에게는 책임이 있고, 알고리즘을 보는 우리에게는 '왜 이 영상이 나에게 추천됐을까?' 하고 물어볼 힘이 있어요. 그 힘이 바로 미디어 리터러시예요."
+    ],
+    "questions": [
+      "조회수와 시청자의 안전이 부딪힐 때, 나는 무엇을 먼저 생각했나요? 그 이유는 무엇인가요?",
+      "광고주의 요구를 들어줄 때(3레벨) 어떤 기분이 들었나요? 시청자에게 미안한 마음이 들었나요?",
+      "내가 진짜 누리TV 연구소장이라면, 누리마을을 위해 어떤 규칙을 하나 만들고 싶나요?"
+    ],
+    "worksheetNote": "세 가지 질문의 답은 학습지에 적어 보세요!"
+  }
+}

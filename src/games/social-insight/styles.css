@@ -1,0 +1,61 @@
+/*
+ * 추천 요정 훈련소 — 게임 전용 스타일.
+ * 모든 선택자는 .game-social-insight 아래로 범위를 한정하고,
+ * 커스텀 클래스는 si- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ * 가상 SNS "누리피드" 브랜드 색: 청록 → 보라 그라데이션.
+ */
+
+.game-social-insight .si-logo {
+  background: linear-gradient(135deg, hsl(174 62% 42%), hsl(258 82% 62%));
+}
+
+.game-social-insight .si-avatar {
+  background: linear-gradient(135deg, hsl(174 60% 88%), hsl(258 80% 91%));
+}
+
+.game-social-insight .si-photo {
+  background:
+    radial-gradient(circle at 20% 15%, hsl(174 60% 92%), transparent 55%),
+    radial-gradient(circle at 85% 85%, hsl(258 80% 93%), transparent 55%),
+    hsl(var(--muted));
+}
+
+/* 남은 시간 막대 — 1초 간격으로 부드럽게 줄어든다 */
+.game-social-insight .si-time-bar {
+  transition: width 0.9s linear, background-color 0.3s ease;
+}
+
+/* 시간이 3초 이하로 남으면 깜빡인다 */
+.game-social-insight .si-timer-danger {
+  animation: si-blink 0.7s ease-in-out infinite;
+}
+
+@keyframes si-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* 콤보 칭찬 문구 — 위로 떠오르며 사라진다 */
+.game-social-insight .si-combo-flash {
+  animation: si-float-up 0.9s ease-out forwards;
+}
+
+@keyframes si-float-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.9);
+  }
+  25% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(1);
+  }
+}

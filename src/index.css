@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * 미디어 리터러시 퀘스트 — 공통 디자인 토큰
+ * 외부 폰트를 내려받지 않는다(학교 전산망·오프라인 대응).
+ * Pretendard가 설치된 PC에서는 Pretendard를, 아니면 시스템 한글 폰트를 쓴다.
+ * 게임별 고유 스타일은 각 게임 폴더의 styles.css에서 .game-<id> 범위로 정의한다.
+ */
+
+@layer base {
+  :root {
+    --background: 220 33% 98%;
+    --foreground: 224 30% 16%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 30% 16%;
+
+    --primary: 228 89% 63%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 25% 93%;
+    --secondary-foreground: 224 30% 22%;
+
+    --muted: 220 20% 94%;
+    --muted-foreground: 224 12% 45%;
+
+    --accent: 42 100% 70%;
+    --accent-foreground: 30 60% 20%;
+
+    --destructive: 0 78% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 35 92% 55%;
+    --warning-foreground: 30 60% 15%;
+
+    --border: 220 18% 88%;
+    --input: 220 18% 88%;
+    --ring: 228 89% 63%;
+
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+      system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+      "맑은 고딕", sans-serif;
+    word-break: keep-all;
+  }
+}

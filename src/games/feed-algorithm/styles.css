@@ -1,0 +1,246 @@
+/*
+ * 알고리즘 설계자 — 게임 전용 스타일.
+ * 모든 선택자는 .game-feed-algorithm 아래로 범위를 한정한다.
+ * 원작의 어두운 글래스모피즘(반투명 유리 카드) 분위기를 유지한다.
+ */
+
+.game-feed-algorithm .fa-stage {
+  /* 게임 내부 전용 다크 팔레트 */
+  --fa-bg: 224 45% 8%;
+  --fa-panel: 224 35% 14%;
+  --fa-text: 216 30% 93%;
+  --fa-dim: 218 14% 66%;
+  --fa-line: 220 25% 32%;
+  --fa-primary: 262 82% 68%;
+  --fa-yes: 142 70% 55%;
+  --fa-no: 0 84% 68%;
+  --fa-gold: 45 92% 58%;
+  --fa-blue: 210 85% 62%;
+
+  min-height: calc(100vh - 2.75rem); /* GameLayout 상단 바(h-11) 제외 */
+  display: flex;
+  justify-content: center;
+  background:
+    radial-gradient(60rem 30rem at 80% -10%, hsl(262 60% 24% / 0.5), transparent 60%),
+    radial-gradient(50rem 26rem at 10% 110%, hsl(210 70% 22% / 0.45), transparent 60%),
+    hsl(var(--fa-bg));
+  color: hsl(var(--fa-text));
+}
+
+/* 휴대폰 모양 세로 프레임 */
+.game-feed-algorithm .fa-frame {
+  width: 100%;
+  max-width: 28rem;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid hsl(var(--fa-line) / 0.5);
+  border-right: 1px solid hsl(var(--fa-line) / 0.5);
+  background: hsl(var(--fa-bg) / 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-feed-algorithm .fa-dim {
+  color: hsl(var(--fa-dim));
+}
+
+.game-feed-algorithm .fa-accent {
+  color: hsl(var(--fa-primary));
+}
+
+/* 반투명 유리 패널 */
+.game-feed-algorithm .fa-panel {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--fa-panel) / 0.95),
+    hsl(var(--fa-panel) / 0.75)
+  );
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(0 0% 100% / 0.14);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px hsl(0 0% 0% / 0.35),
+    inset 0 1px 0 hsl(0 0% 100% / 0.08);
+}
+
+/* 개념 태그 칩 */
+.game-feed-algorithm .fa-chip {
+  background: hsl(var(--fa-primary) / 0.14);
+  color: hsl(var(--fa-primary));
+  border: 1px solid hsl(var(--fa-primary) / 0.3);
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+/* 버튼 */
+.game-feed-algorithm .fa-btn {
+  border-radius: 0.75rem;
+  font-weight: 700;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  cursor: pointer;
+}
+.game-feed-algorithm .fa-btn:hover {
+  filter: brightness(1.08);
+}
+.game-feed-algorithm .fa-btn-primary {
+  background: linear-gradient(135deg, hsl(var(--fa-primary)), hsl(252 80% 58%));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 6px 24px hsl(var(--fa-primary) / 0.4);
+}
+.game-feed-algorithm .fa-btn-light {
+  background: hsl(var(--fa-text));
+  color: hsl(var(--fa-bg));
+  box-shadow: 0 6px 20px hsl(0 0% 0% / 0.4);
+}
+.game-feed-algorithm .fa-btn-ghost {
+  background: hsl(var(--fa-panel) / 0.8);
+  color: hsl(var(--fa-text));
+  border: 1px solid hsl(var(--fa-line) / 0.7);
+}
+
+/* ── 수치 막대 ───────────────────────────── */
+.game-feed-algorithm .fa-bar-track {
+  position: relative;
+  height: 0.5rem;
+  width: 100%;
+  border-radius: 9999px;
+  background: hsl(0 0% 100% / 0.1);
+  overflow: hidden;
+}
+.game-feed-algorithm .fa-bar-eng {
+  background: hsl(4 85% 60%);
+}
+.game-feed-algorithm .fa-bar-safe {
+  background: hsl(142 70% 48%);
+}
+.game-feed-algorithm .fa-bar-profit {
+  background: hsl(var(--fa-gold));
+}
+.game-feed-algorithm .fa-bar-trust {
+  background: hsl(var(--fa-blue));
+}
+.game-feed-algorithm .fa-bar-delta-up {
+  background: hsl(var(--fa-yes) / 0.55);
+}
+.game-feed-algorithm .fa-bar-delta-down {
+  background: hsl(var(--fa-no) / 0.55);
+}
+
+/* ── 딜레마 카드 ─────────────────────────── */
+.game-feed-algorithm .fa-card {
+  position: relative;
+  background: linear-gradient(
+    150deg,
+    hsl(var(--fa-panel) / 0.97),
+    hsl(var(--fa-panel) / 0.85) 55%,
+    hsl(var(--fa-panel) / 0.72)
+  );
+  backdrop-filter: blur(18px);
+  border: 1px solid hsl(0 0% 100% / 0.2);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 8px 32px hsl(0 0% 0% / 0.45),
+    inset 0 0 0 1px hsl(0 0% 100% / 0.08);
+  user-select: none;
+  cursor: grab;
+}
+.game-feed-algorithm .fa-card:active {
+  cursor: grabbing;
+}
+.game-feed-algorithm .fa-card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, hsl(0 0% 100% / 0.1), transparent 55%);
+  pointer-events: none;
+}
+/* 카드 뒤로 겹쳐 보이는 유령 카드 */
+.game-feed-algorithm .fa-card-ghost {
+  position: absolute;
+  background: hsl(0 0% 100% / 0.05);
+  backdrop-filter: blur(4px);
+  border: 1px solid hsl(0 0% 100% / 0.1);
+  border-radius: 1.25rem;
+}
+/* 카드 속 질문 상자 */
+.game-feed-algorithm .fa-card-quote {
+  background: hsl(0 0% 100% / 0.06);
+  border: 1px solid hsl(0 0% 100% / 0.1);
+  border-radius: 0.9rem;
+  box-shadow: inset 0 2px 6px hsl(0 0% 0% / 0.25);
+}
+
+/* 드래그 중 뜨는 승인/거절 도장 */
+.game-feed-algorithm .fa-stamp {
+  position: absolute;
+  top: 2.5rem;
+  z-index: 30;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.75rem;
+  border-width: 3px;
+  border-style: solid;
+  font-weight: 900;
+  font-size: 1rem;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+.game-feed-algorithm .fa-stamp-yes {
+  left: 0.75rem;
+  transform: rotate(-12deg);
+  border-color: hsl(var(--fa-yes));
+  color: hsl(var(--fa-yes));
+  background: hsl(var(--fa-yes) / 0.18);
+  box-shadow: 0 4px 20px hsl(var(--fa-yes) / 0.4);
+}
+.game-feed-algorithm .fa-stamp-no {
+  right: 0.75rem;
+  transform: rotate(12deg);
+  border-color: hsl(var(--fa-no));
+  color: hsl(var(--fa-no));
+  background: hsl(var(--fa-no) / 0.18);
+  box-shadow: 0 4px 20px hsl(var(--fa-no) / 0.4);
+}
+
+.game-feed-algorithm .fa-hint-no {
+  color: hsl(var(--fa-no) / 0.85);
+}
+.game-feed-algorithm .fa-hint-yes {
+  color: hsl(var(--fa-yes) / 0.85);
+}
+
+/* ── 오버레이(튜토리얼·알림) ─────────────── */
+.game-feed-algorithm .fa-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(0 0% 0% / 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.game-feed-algorithm .fa-toast {
+  background: hsl(var(--fa-panel) / 0.95);
+  border: 1px solid hsl(var(--fa-primary) / 0.7);
+  border-radius: 0.9rem;
+  box-shadow: 0 12px 32px hsl(0 0% 0% / 0.5);
+}
+
+/* 스크롤 영역(선택 기록) */
+.game-feed-algorithm .fa-scroll {
+  max-height: 12rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--fa-line)) transparent;
+}
+
+/* 구분선 */
+.game-feed-algorithm .fa-divider {
+  height: 1px;
+  width: 100%;
+  background: hsl(var(--fa-line) / 0.6);
+}

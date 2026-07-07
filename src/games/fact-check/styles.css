@@ -1,0 +1,106 @@
+/*
+ * 누리봇 사실 검증단 — 게임 전용 스타일.
+ * 모든 선택자는 .game-fact-check 아래로 범위를 한정하고,
+ * 커스텀 클래스는 fc- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ * 누리봇 테마 색: 청록(민트) → 남색 그라데이션.
+ */
+
+.game-fact-check .fc-shell {
+  background:
+    radial-gradient(circle at 12% 8%, hsl(190 70% 95%), transparent 45%),
+    radial-gradient(circle at 90% 100%, hsl(228 80% 95%), transparent 45%),
+    hsl(var(--background));
+}
+
+/* 누리봇 아바타 */
+.game-fact-check .fc-bot-avatar {
+  background: linear-gradient(135deg, hsl(184 62% 46%), hsl(224 78% 60%));
+  color: white;
+}
+
+/* 마을 사람 아바타 */
+.game-fact-check .fc-asker-avatar {
+  background: linear-gradient(135deg, hsl(42 95% 72%), hsl(20 85% 70%));
+  color: hsl(28 60% 22%);
+}
+
+/* 누리봇 말풍선 (왼쪽) */
+.game-fact-check .fc-bubble-bot {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(var(--border));
+  border-top-left-radius: 4px;
+}
+
+/* 질문자 말풍선 (오른쪽) */
+.game-fact-check .fc-bubble-asker {
+  background: linear-gradient(135deg, hsl(184 55% 92%), hsl(200 70% 92%));
+  border-top-right-radius: 4px;
+}
+
+/* 클릭 가능한 검증 문장 */
+.game-fact-check .fc-sentence {
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.game-fact-check .fc-sentence-clickable:hover {
+  background: hsl(228 89% 96%);
+  border-color: hsl(var(--primary));
+}
+.game-fact-check .fc-sentence-clickable:active {
+  transform: scale(0.99);
+}
+
+/* 판정 후: 거짓으로 밝혀진 문장 강조 */
+.game-fact-check .fc-sentence-false {
+  background: hsl(0 78% 96%);
+  border-color: hsl(var(--destructive));
+}
+/* 판정 후: 사실로 확인된 문장 */
+.game-fact-check .fc-sentence-true {
+  background: hsl(152 55% 95%);
+  border-color: hsl(var(--success));
+}
+/* 플레이어가 잘못 고른 문장 */
+.game-fact-check .fc-sentence-wrongpick {
+  background: hsl(35 92% 94%);
+  border-color: hsl(var(--warning));
+}
+
+/* 타이핑 커서 점 (문장이 나타날 때) */
+.game-fact-check .fc-typing-dots span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 1px;
+  border-radius: 9999px;
+  background: hsl(var(--muted-foreground));
+  animation: fc-blink-dot 1s infinite ease-in-out;
+}
+.game-fact-check .fc-typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.game-fact-check .fc-typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes fc-blink-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* 자료 서랍 슬라이드 */
+.game-fact-check .fc-drawer-card {
+  background: hsl(48 60% 98%);
+  border: 1px solid hsl(45 55% 82%);
+}
+
+/* 진행 표시 점 */
+.game-fact-check .fc-progress-dot {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
