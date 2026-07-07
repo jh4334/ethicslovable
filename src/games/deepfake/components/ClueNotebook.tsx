@@ -23,13 +23,13 @@ export default function ClueNotebook({
   lockedName,
 }: ClueNotebookProps) {
   return (
-    <div className="rounded-xl border bg-card p-2.5 shadow-sm">
+    <div className="df-notebook rounded-xl p-2.5 pl-5">
       <div className="mb-1.5 flex items-center justify-between">
-        <span className="flex items-center gap-1 text-[11px] font-bold text-foreground">
+        <span className="df-ink flex items-center gap-1 text-[11px] font-extrabold">
           <NotebookPen className="h-3.5 w-3.5 text-warning" />
           {title}
         </span>
-        <span className="text-[11px] font-semibold text-muted-foreground">
+        <span className="df-ink text-[11px] font-semibold opacity-70">
           {collectedIds.length}/{clues.length}
         </span>
       </div>
@@ -41,10 +41,10 @@ export default function ClueNotebook({
             <span
               key={clue.id}
               className={cn(
-                "rounded-full border px-2 py-0.5 text-[10px] font-medium",
+                "rounded-full border px-2 py-0.5 text-[10px]",
                 collected
-                  ? "border-warning/50 bg-accent/40 text-accent-foreground"
-                  : "border-dashed border-border bg-muted text-muted-foreground",
+                  ? "border-warning/60 bg-warning/20 font-bold text-accent-foreground"
+                  : "border-dashed border-warning/30 bg-card/50 font-medium text-muted-foreground opacity-80",
                 isNew && "df-clue-pop",
               )}
             >

@@ -30,27 +30,27 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
   return (
     <div className="mx-auto w-full max-w-md space-y-3 p-3 pb-8">
       {/* 등급 카드 */}
-      <div className="animate-scale-in rounded-2xl border bg-card p-5 text-center shadow-lg">
-        <p className="mb-2 text-xs font-bold text-muted-foreground">{result.title}</p>
-        <div className="mb-1 text-5xl">{game.grade.emoji}</div>
+      <div className="mlq-card animate-scale-in p-5 text-center shadow-lift">
+        <p className="df-ink mb-2 text-xs font-bold opacity-80">{result.title}</p>
+        <div className="mb-1 text-6xl">{game.grade.emoji}</div>
         <p className="text-[11px] font-semibold text-muted-foreground">{result.gradeLabel}</p>
-        <h2 className="mb-1 text-2xl font-black text-primary">{game.grade.name}</h2>
+        <h2 className="df-gradient-text mb-1 text-3xl font-black">{game.grade.name}</h2>
         <p className="mb-3 text-xs leading-relaxed text-muted-foreground">{game.grade.desc}</p>
 
         <div className="grid grid-cols-3 gap-2">
-          <div className="rounded-xl bg-secondary/70 p-2">
+          <div className="rounded-xl bg-accent/25 p-2">
             <p className="text-lg font-black">{game.score}점</p>
             <p className="text-[10px] font-medium text-muted-foreground">
               {content.ui.scoreLabel}
             </p>
           </div>
-          <div className="rounded-xl bg-secondary/70 p-2">
+          <div className="rounded-xl bg-accent/25 p-2">
             <p className="text-lg font-black">
               {game.judgeCorrectCount}/{game.totalRounds}
             </p>
             <p className="text-[10px] font-medium text-muted-foreground">{result.judgeStat}</p>
           </div>
-          <div className="rounded-xl bg-secondary/70 p-2">
+          <div className="rounded-xl bg-accent/25 p-2">
             <p className="text-lg font-black">
               {game.clueFoundCount}/{game.fakeCount}
             </p>
@@ -60,24 +60,24 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
       </div>
 
       {/* 단서 수첩 정리 */}
-      <div className="animate-fade-in rounded-2xl border bg-card p-4 shadow-md">
-        <p className="mb-2.5 text-xs font-bold">
+      <div className="mlq-card animate-fade-in p-4">
+        <p className="df-ink mb-2.5 text-xs font-extrabold">
           📔 {result.notebookTitle}{" "}
           <span className="font-semibold text-muted-foreground">
             ({collectedCount}/{content.clues.length})
           </span>
         </p>
-        <ul className="space-y-1.5">
+        <ul className="grid gap-1.5">
           {content.clues.map((clue) => {
             const collected = game.collectedClueIds.includes(clue.id);
             return (
               <li
                 key={clue.id}
                 className={cn(
-                  "rounded-lg border px-2.5 py-2",
+                  "rounded-xl px-2.5 py-2",
                   collected
-                    ? "border-warning/40 bg-accent/25"
-                    : "border-dashed bg-muted/60",
+                    ? "df-clue-card"
+                    : "border border-dashed border-border bg-muted/60 opacity-80",
                 )}
               >
                 <p
@@ -99,18 +99,18 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
       </div>
 
       {/* 마무리 배움 — 출처 확인 */}
-      <div className="animate-fade-in rounded-2xl border-2 border-primary/40 bg-primary/5 p-4 shadow-md">
-        <p className="mb-1.5 flex items-center gap-1.5 text-xs font-bold text-primary">
-          <Megaphone className="h-4 w-4" />
+      <div className="df-final-callout animate-fade-in rounded-2xl p-4">
+        <p className="df-ink mb-1.5 flex items-center gap-1.5 text-sm font-extrabold">
+          <Megaphone className="h-4 w-4 text-warning" />
           {result.finalTitle}
         </p>
-        <p className="text-xs leading-relaxed">{result.finalMessage}</p>
+        <p className="text-[13px] font-semibold leading-relaxed">{result.finalMessage}</p>
       </div>
 
       <button
         type="button"
         onClick={game.retry}
-        className="flex w-full items-center justify-center gap-1.5 rounded-xl border-2 border-primary bg-card py-3 text-sm font-bold text-primary shadow transition-all hover:bg-primary/5 active:scale-95"
+        className="df-btn-outline flex w-full items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold shadow-soft transition-all active:scale-95"
       >
         <RotateCcw className="h-4 w-4" />
         {result.retryButton}
