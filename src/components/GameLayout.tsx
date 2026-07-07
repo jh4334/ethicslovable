@@ -1,0 +1,39 @@
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { Home } from "lucide-react";
+import type { GameId } from "@/lib/progress";
+import { cn } from "@/lib/utils";
+
+interface GameLayoutProps {
+  gameId: GameId;
+  lesson: number;
+  title: string;
+  children: ReactNode;
+  className?: string;
+}
+
+/**
+ * 모든 게임 공통 셸: 상단에 포털로 돌아가는 바를 두고,
+ * 게임 고유 스타일을 .game-<id> 클래스로 범위 지정한다.
+ */
+export default function GameLayout({ gameId, lesson, title, children, className }: GameLayoutProps) {
+  return (
+    <div className={cn(`game-${gameId}`, "flex min-h-screen flex-col", className)}>
+      <nav className="sticky top-0 z-50 border-b bg-card/90 backdrop-blur">
+        <div className="container flex h-11 items-center justify-between">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+          >
+            <Home className="h-4 w-4" />
+            퀘스트 지도로
+          </Link>
+          <span className="text-sm font-semibold">
+            {lesson}차시 · {title}
+          </span>
+        </div>
+      </nav>
+      <div className="flex-1">{children}</div>
+    </div>
+  );
+}
