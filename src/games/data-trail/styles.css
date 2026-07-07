@@ -392,8 +392,24 @@
   animation: dt-heart-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* 댓글(말풍선)·DM(종이비행기) 기록 완료 표시 — 파란 말풍선 / 보라 비행기가 뿅 */
+.game-data-trail .dt-comment-on {
+  color: hsl(199 89% 40%);
+}
+
+.game-data-trail .dt-send-on {
+  color: hsl(262 70% 52%);
+}
+
+.game-data-trail .dt-comment-on svg,
+.game-data-trail .dt-send-on svg {
+  animation: dt-heart-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .game-data-trail .dt-heart-on svg {
+  .game-data-trail .dt-heart-on svg,
+  .game-data-trail .dt-comment-on svg,
+  .game-data-trail .dt-send-on svg {
     animation: none;
   }
 }
@@ -472,7 +488,7 @@
   }
 }
 
-/* "게임 속 흉내예요" 토스트 — 탭 바 위에 잠깐 떠오른다 */
+/* "게임 속 흉내예요"·행동 피드백 토스트 — 탭 바 위에 잠깐 떠오른다 */
 .game-data-trail .dt-mimic-toast {
   position: absolute;
   left: 50%;
@@ -485,6 +501,11 @@
   font-size: 11px;
   font-weight: 700;
   pointer-events: none;
+}
+
+/* 댓글·DM 행동 피드백 — 데이터 조각 보라로 구분한다 */
+.game-data-trail .dt-action-toast {
+  background-color: hsl(var(--dt-piece) / 0.94);
 }
 
 /* 그만 쓰기 배너 — 위쪽 그라디언트 라인 + 떠오르는 그림자 */

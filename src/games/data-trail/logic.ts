@@ -128,6 +128,8 @@ export const ACTION_LABELS: Record<DtAction["kind"], string> = {
   like: "좋아요",
   open: "더 보기",
   search: "검색",
+  comment: "댓글 남기기",
+  dm: "친구에게 보내기",
 };
 
 /** 행동 종류 → 아이콘 이모지 (창고 표·수집 목록 공용) — 하트 UI에 맞춰 ❤️ */
@@ -135,4 +137,6 @@ export const ACTION_EMOJI: Record<DtAction["kind"], string> = {
   like: "❤️",
   open: "👀",
   search: "🔍",
+  comment: "💬",
+  dm: "✈️",
 };

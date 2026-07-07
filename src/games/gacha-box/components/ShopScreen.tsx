@@ -94,9 +94,18 @@ export default function ShopScreen({ content, game }: ShopScreenProps) {
 
       {/* 뽑기 무대 — 상자 / 빛기둥 / 결과 카드 */}
       <div className="relative mt-4 flex h-52 items-center justify-center overflow-hidden rounded-2xl border bg-card shadow-soft">
-        {/* 빛기둥 */}
+        {/* 빛기둥 — transform은 CSS 애니메이션이 쓰므로 margin(mx-auto)으로 가운데 정렬 */}
         {(anim.stage === "beam" || anim.stage === "flash" || anim.stage === "reveal") && (
-          <div className="gb-beam absolute bottom-0 left-1/2 h-full w-24 -translate-x-1/2" aria-hidden />
+          <div className="gb-beam absolute inset-x-0 bottom-0 mx-auto h-full w-24" aria-hidden />
+        )}
+
+        {/* 결과 카드 뒤 방사형 글로우 — 등급 색으로 은은하게 */}
+        {anim.stage === "reveal" && revealRarity && (
+          <div
+            className="gb-glow absolute inset-0 m-auto h-52 w-52 rounded-full"
+            style={{ color: revealRarity.color }}
+            aria-hidden
+          />
         )}
 
         <AnimatePresence mode="wait">

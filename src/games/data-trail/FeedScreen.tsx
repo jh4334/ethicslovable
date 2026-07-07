@@ -1,7 +1,9 @@
 /**
  * 파트 A — 누리피드를 써 봐요.
- * 진짜 SNS처럼 보이는 '폰 화면' 안에서 하트(좋아요)·더 보기(열어보기)·검색 칩 탭이
- * 각각 데이터 조각 1개로 기록된다(메모리 전용, 핸들러·로그 로직은 그대로).
+ * 진짜 SNS처럼 보이는 '폰 화면' 안에서 하트(좋아요)·말풍선(댓글)·종이비행기(DM)·
+ * 더 보기(열어보기)·검색 칩 탭이 각각 데이터 조각 1개로 기록된다(메모리 전용).
+ * 댓글·DM은 실제 입력 없이 "남겼어요/보냈어요" 피드백만 주고 조각으로 기록한다 —
+ * 댓글도 보내기도 전부 데이터라는 게임 핵심 메시지와 맞춘 흉내 상호작용이다.
  * 폰 프레임 밖에는 '데이터 여행자 시점' 관찰 바(조각 카운터)를 둬서
  * 앱 화면(안)과 데이터 추적(밖)의 대비 — 이 게임의 교육 포인트 — 를 살린다.
  *
@@ -95,26 +97,32 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
   const { log, goal, goalReached, addAction, goJourney } = game;
 
   const [likedIds, setLikedIds] = useState<string[]>([]);
+  const [commentedIds, setCommentedIds] = useState<string[]>([]);
+  const [sentIds, setSentIds] = useState<string[]>([]);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [usedChips, setUsedChips] = useState<string[]>([]);
   const [activeChip, setActiveChip] = useState<DtSearchChip | null>(null);
 
-  // 장식 버튼(탭바·말풍선 등)을 누르면 "흉내예요" 토스트 + 탭바가 살짝 흔들린다
+  // 폰 안 토스트 — 장식 버튼은 "흉내예요"(+탭바 흔들림), 댓글·DM은 행동 피드백을 띄운다
   const [mimicTick, setMimicTick] = useState(0);
-  const [mimicVisible, setMimicVisible] = useState(false);
-  const mimicTimer = useRef<number | null>(null);
+  const [toast, setToast] = useState<{ text: string; isMimic: boolean } | null>(null);
+  const toastTimer = useRef<number | null>(null);
+
+  const showToast = (text: string, isMimic: boolean) => {
+    setToast({ text, isMimic });
+    if (toastTimer.current !== null) window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setToast(null), 1500);
+  };
 
   const showMimic = () => {
     setMimicTick((t) => t + 1);
-    setMimicVisible(true);
-    if (mimicTimer.current !== null) window.clearTimeout(mimicTimer.current);
-    mimicTimer.current = window.setTimeout(() => setMimicVisible(false), 1500);
+    showToast("📱 게임 속 흉내예요 — 진짜로 이동하지 않아요", true);
   };
 
   useEffect(
     () => () => {
-      if (mimicTimer.current !== null) window.clearTimeout(mimicTimer.current);
+      if (toastTimer.current !== null) window.clearTimeout(toastTimer.current);
     },
     [],
   );
@@ -123,6 +131,22 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
     if (goalReached || likedIds.includes(post.id)) return;
     setLikedIds((prev) => [...prev, post.id]);
     addAction("like", post.title, post.tags);
+  };
+
+  /** 댓글(말풍선) — 피드백 토스트는 매번, 데이터 조각 기록은 게시물당 1번(좋아요와 동일 규칙) */
+  const handleComment = (post: DtPost) => {
+    showToast("💬 댓글을 남겼어요!", false);
+    if (goalReached || commentedIds.includes(post.id)) return;
+    setCommentedIds((prev) => [...prev, post.id]);
+    addAction("comment", post.title, post.tags);
+  };
+
+  /** DM(종이비행기) — 댓글과 같은 규칙으로 기록 */
+  const handleSend = (post: DtPost) => {
+    showToast("✈️ 친구에게 보냈어요!", false);
+    if (goalReached || sentIds.includes(post.id)) return;
+    setSentIds((prev) => [...prev, post.id]);
+    addAction("dm", post.title, post.tags);
   };
 
   const handleOpen = (post: DtPost) => {
@@ -294,6 +318,8 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
           <div>
             {sortedPosts.map((post) => {
               const liked = likedIds.includes(post.id);
+              const commented = commentedIds.includes(post.id);
+              const sent = sentIds.includes(post.id);
               const expanded = expandedId === post.id;
               const acc = accountOf(post.category);
               const info = displayMeta.get(post.id) ?? { likes: 50, hoursAgo: 3 };
@@ -334,7 +360,7 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
                     </span>
                   </div>
 
-                  {/* 액션 줄: 하트(좋아요 기록) · 말풍선/공유/북마크(장식) */}
+                  {/* 액션 줄: 하트(좋아요)·말풍선(댓글)·종이비행기(DM)는 조각 기록, 북마크만 장식 */}
                   <div className="flex items-center gap-0.5 px-1.5 pt-1">
                     <button
                       type="button"
@@ -347,19 +373,25 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
                     </button>
                     <button
                       type="button"
-                      onClick={showMimic}
-                      title="이 버튼은 흉내예요"
-                      aria-label="댓글 (게임 속 흉내)"
-                      className="dt-sns-icon-btn"
+                      onClick={() => handleComment(post)}
+                      title="댓글 남기기 (게임 속 흉내)"
+                      aria-label={
+                        commented ? "댓글 남김 (게임 속 흉내)" : "댓글 남기기 (게임 속 흉내)"
+                      }
+                      className={cn("dt-sns-icon-btn", commented && "dt-comment-on")}
                     >
-                      <MessageCircle className="h-6 w-6" />
+                      <MessageCircle className={cn("h-6 w-6", commented && "fill-current")} />
                     </button>
                     <button
                       type="button"
-                      onClick={showMimic}
-                      title="이 버튼은 흉내예요"
-                      aria-label="공유 (게임 속 흉내)"
-                      className="dt-sns-icon-btn"
+                      onClick={() => handleSend(post)}
+                      title="친구에게 보내기 (게임 속 흉내)"
+                      aria-label={
+                        sent
+                          ? "친구에게 보냄 (게임 속 흉내)"
+                          : "친구에게 보내기 (게임 속 흉내)"
+                      }
+                      className={cn("dt-sns-icon-btn", sent && "dt-send-on")}
                     >
                       <Send className="h-6 w-6" />
                     </button>
@@ -416,15 +448,15 @@ export default function FeedScreen({ content, game }: FeedScreenProps) {
           {/* 하단 탭 바(장식) — 눌러도 이동하지 않는다 */}
           <div className="dt-tabwrap">
             <AnimatePresence>
-              {mimicVisible && (
+              {toast && (
                 <motion.p
                   initial={{ opacity: 0, y: 6, x: "-50%" }}
                   animate={{ opacity: 1, y: 0, x: "-50%" }}
                   exit={{ opacity: 0, y: 6, x: "-50%" }}
-                  className="dt-mimic-toast"
+                  className={cn("dt-mimic-toast", !toast.isMimic && "dt-action-toast")}
                   role="status"
                 >
-                  📱 게임 속 흉내예요 — 진짜로 이동하지 않아요
+                  {toast.text}
                 </motion.p>
               )}
             </AnimatePresence>
