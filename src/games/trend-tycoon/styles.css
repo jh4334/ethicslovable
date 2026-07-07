@@ -1,0 +1,128 @@
+/*
+ * 별별TV 알고리즘 연구소 — trend-tycoon 전용 스타일.
+ * 모든 선택자는 .game-trend-tycoon 아래로만 적용되고,
+ * 커스텀 클래스는 tt- 접두사를 쓴다.
+ * 브랜드 색: 인디고~바이올렛 (가상 플랫폼 '별별TV' 고유색)
+ */
+
+.game-trend-tycoon {
+  /* 브랜드/포인트 색 (HSL 값) */
+  --tt-brand: 243 75% 59%;      /* 인디고 */
+  --tt-brand-deep: 262 83% 58%; /* 바이올렛 */
+  --tt-blue: 217 91% 60%;
+  --tt-green: 152 60% 40%;
+  --tt-pink: 340 82% 52%;
+  --tt-purple: 262 83% 58%;
+  --tt-yellow: 45 93% 47%;
+}
+
+/* ---------- 게임 헤더 ---------- */
+.game-trend-tycoon .tt-header {
+  background: linear-gradient(90deg, hsl(var(--tt-brand)), hsl(var(--tt-brand-deep)));
+  color: hsl(0 0% 100%);
+}
+
+/* ---------- 가중치 슬라이더 (radix) ---------- */
+.game-trend-tycoon .tt-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 1.25rem;
+  touch-action: none;
+  user-select: none;
+  cursor: pointer;
+}
+.game-trend-tycoon .tt-slider-track {
+  position: relative;
+  flex-grow: 1;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background: hsl(var(--foreground) / 0.12);
+  overflow: hidden;
+}
+.game-trend-tycoon .tt-slider-range {
+  position: absolute;
+  height: 100%;
+  border-radius: 9999px;
+  background: hsl(var(--tt-slider-color, var(--tt-brand)));
+}
+.game-trend-tycoon .tt-slider-thumb {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: hsl(var(--card));
+  border: 2px solid hsl(var(--tt-slider-color, var(--tt-brand)));
+  box-shadow: 0 1px 3px hsl(var(--foreground) / 0.25);
+  transition: transform 0.15s ease;
+}
+.game-trend-tycoon .tt-slider-thumb:hover {
+  transform: scale(1.15);
+}
+.game-trend-tycoon .tt-slider-thumb:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* 슬라이더별 색 지정 */
+.game-trend-tycoon .tt-slider-blue { --tt-slider-color: var(--tt-blue); }
+.game-trend-tycoon .tt-slider-green { --tt-slider-color: var(--tt-green); }
+.game-trend-tycoon .tt-slider-pink { --tt-slider-color: var(--tt-pink); }
+.game-trend-tycoon .tt-slider-purple { --tt-slider-color: var(--tt-purple); }
+
+/* 슬라이더 카드 배경/글자색 */
+.game-trend-tycoon .tt-tint-blue { background: hsl(var(--tt-blue) / 0.08); border: 1px solid hsl(var(--tt-blue) / 0.25); }
+.game-trend-tycoon .tt-tint-green { background: hsl(var(--tt-green) / 0.08); border: 1px solid hsl(var(--tt-green) / 0.25); }
+.game-trend-tycoon .tt-tint-pink { background: hsl(var(--tt-pink) / 0.08); border: 1px solid hsl(var(--tt-pink) / 0.25); }
+.game-trend-tycoon .tt-tint-purple { background: hsl(var(--tt-purple) / 0.08); border: 1px solid hsl(var(--tt-purple) / 0.25); }
+.game-trend-tycoon .tt-text-blue { color: hsl(var(--tt-blue)); }
+.game-trend-tycoon .tt-text-green { color: hsl(var(--tt-green)); }
+.game-trend-tycoon .tt-text-pink { color: hsl(var(--tt-pink)); }
+.game-trend-tycoon .tt-text-purple { color: hsl(var(--tt-purple)); }
+
+/* ---------- 카테고리 배지 ---------- */
+.game-trend-tycoon .tt-cat-learning { background: hsl(var(--tt-blue) / 0.15); color: hsl(217 80% 42%); }
+.game-trend-tycoon .tt-cat-game { background: hsl(var(--tt-purple) / 0.15); color: hsl(262 70% 46%); }
+.game-trend-tycoon .tt-cat-news { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); }
+.game-trend-tycoon .tt-cat-ad { background: hsl(var(--tt-yellow) / 0.2); color: hsl(35 90% 30%); }
+
+/* ---------- 순위 배지 ---------- */
+.game-trend-tycoon .tt-rank {
+  background: hsl(var(--foreground) / 0.8);
+  color: hsl(var(--background));
+}
+.game-trend-tycoon .tt-rank-top {
+  background: hsl(var(--tt-brand));
+  color: hsl(0 0% 100%);
+  transform: scale(1.1);
+}
+
+/* ---------- 영상 썸네일 배경 팔레트 (콘텐츠 JSON의 color 값) ---------- */
+.game-trend-tycoon .tt-thumb-blue { background: hsl(214 95% 93%); }
+.game-trend-tycoon .tt-thumb-indigo { background: hsl(226 100% 94%); }
+.game-trend-tycoon .tt-thumb-violet { background: hsl(251 91% 95%); }
+.game-trend-tycoon .tt-thumb-pink { background: hsl(326 78% 95%); }
+.game-trend-tycoon .tt-thumb-rose { background: hsl(356 100% 95%); }
+.game-trend-tycoon .tt-thumb-red { background: hsl(0 93% 94%); }
+.game-trend-tycoon .tt-thumb-orange { background: hsl(34 100% 92%); }
+.game-trend-tycoon .tt-thumb-amber { background: hsl(48 96% 89%); }
+.game-trend-tycoon .tt-thumb-yellow { background: hsl(55 97% 88%); }
+.game-trend-tycoon .tt-thumb-lime { background: hsl(80 89% 89%); }
+.game-trend-tycoon .tt-thumb-green { background: hsl(141 84% 93%); }
+.game-trend-tycoon .tt-thumb-teal { background: hsl(167 85% 89%); }
+.game-trend-tycoon .tt-thumb-cyan { background: hsl(185 96% 90%); }
+.game-trend-tycoon .tt-thumb-sky { background: hsl(204 94% 94%); }
+.game-trend-tycoon .tt-thumb-gray { background: hsl(220 14% 94%); }
+.game-trend-tycoon .tt-thumb-dark { background: hsl(217 33% 17%); }
+
+/* ---------- 클리어 화면 ---------- */
+.game-trend-tycoon .tt-clear-bg {
+  background: linear-gradient(135deg, hsl(262 83% 50%), hsl(243 75% 55%), hsl(217 91% 55%));
+  color: hsl(0 0% 100%);
+}
+.game-trend-tycoon .tt-grade-s { color: hsl(45 93% 58%); }
+.game-trend-tycoon .tt-grade-a { color: hsl(142 69% 58%); }
+.game-trend-tycoon .tt-grade-b { color: hsl(213 94% 68%); }
+.game-trend-tycoon .tt-grade-c { color: hsl(31 97% 62%); }
+.game-trend-tycoon .tt-grade-d { color: hsl(218 11% 75%); }
