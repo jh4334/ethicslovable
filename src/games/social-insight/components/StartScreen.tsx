@@ -8,15 +8,24 @@ import BrandLogo from "./BrandLogo";
 
 /** 난이도별 강조색 (콘텐츠 JSON의 id 기준, 모르는 id는 기본색) */
 const DIFF_STYLES: Record<string, { active: string; text: string }> = {
-  easy: { active: "border-success bg-success/10", text: "text-success" },
-  normal: { active: "border-primary bg-primary/10", text: "text-primary" },
+  easy: {
+    active: "border-success bg-success/10 ring-2 ring-success/25",
+    text: "text-success",
+  },
+  normal: {
+    active: "border-primary bg-primary/10 ring-2 ring-primary/25",
+    text: "text-primary",
+  },
   hard: {
-    active: "border-destructive bg-destructive/10",
+    active: "border-destructive bg-destructive/10 ring-2 ring-destructive/25",
     text: "text-destructive",
   },
 };
 const diffStyle = (id: string) =>
-  DIFF_STYLES[id] ?? { active: "border-primary bg-primary/10", text: "text-primary" };
+  DIFF_STYLES[id] ?? {
+    active: "border-primary bg-primary/10 ring-2 ring-primary/25",
+    text: "text-primary",
+  };
 
 interface StartScreenProps {
   content: SiContent;
@@ -31,12 +40,12 @@ export default function StartScreen({ content, game }: StartScreenProps) {
 
   return (
     <div className="flex min-h-[calc(100vh-2.75rem)] items-center justify-center p-4">
-      <div className="w-full max-w-sm animate-scale-in rounded-2xl border bg-card p-5 text-center shadow-lg">
-        <div className="si-logo mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl shadow-md">
-          <BrandLogo className="h-9 w-9" />
+      <div className="mlq-card w-full max-w-sm animate-scale-in p-6 text-center">
+        <div className="si-logo si-logo-glow mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-[1.375rem]">
+          <BrandLogo className="h-12 w-12" />
         </div>
-        <h1 className="mb-0.5 text-lg font-bold">{content.meta.gameTitle}</h1>
-        <p className="mb-1 text-xs font-medium text-primary">{content.meta.tagline}</p>
+        <h1 className="mb-1 text-2xl font-black tracking-tight">{content.meta.gameTitle}</h1>
+        <p className="si-brand-text mb-1.5 text-xs font-extrabold">{content.meta.tagline}</p>
         <p className="mb-4 text-xs text-muted-foreground">{content.meta.intro}</p>
 
         {/* 별명 입력 — 선택 사항, 이 컴퓨터에만 저장 */}
@@ -77,13 +86,13 @@ export default function StartScreen({ content, game }: StartScreenProps) {
                     setLeaderboardTab(diff.id);
                   }}
                   className={cn(
-                    "rounded-lg border p-2 transition-all",
+                    "rounded-2xl border-2 p-2.5 transition-all duration-200",
                     isSelected
-                      ? cn(style.active, style.text)
-                      : "border-border bg-secondary/50 hover:bg-secondary",
+                      ? cn(style.active, style.text, "scale-[1.04] shadow-soft")
+                      : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:bg-secondary/50",
                   )}
                 >
-                  <div className="mb-0.5 text-base leading-none">{diff.emoji}</div>
+                  <div className="mb-0.5 text-lg leading-none">{diff.emoji}</div>
                   <div className={cn("text-xs font-bold", isSelected ? style.text : "text-foreground")}>
                     {diff.label}
                   </div>
@@ -100,7 +109,7 @@ export default function StartScreen({ content, game }: StartScreenProps) {
         <button
           type="button"
           onClick={() => setShowLeaderboard((v) => !v)}
-          className="mb-3 flex w-full items-center justify-between rounded-lg bg-secondary/50 p-2 transition-colors hover:bg-secondary"
+          className="mb-3 flex w-full items-center justify-between rounded-xl bg-secondary/50 p-2 transition-colors hover:bg-secondary"
         >
           <span className="flex items-center gap-1.5">
             <Trophy className="h-3.5 w-3.5 text-warning" />
@@ -114,7 +123,7 @@ export default function StartScreen({ content, game }: StartScreenProps) {
         </button>
 
         {showLeaderboard && (
-          <div className="mb-3 animate-fade-in rounded-lg bg-secondary/30 p-2">
+          <div className="mb-3 animate-fade-in rounded-xl bg-secondary/40 p-2">
             <div className="mb-2 flex gap-1">
               {content.difficulties.map((diff) => {
                 const isActive = leaderboardTab === diff.id;
@@ -125,7 +134,7 @@ export default function StartScreen({ content, game }: StartScreenProps) {
                     type="button"
                     onClick={() => setLeaderboardTab(diff.id)}
                     className={cn(
-                      "flex-1 rounded py-1 text-[10px] font-bold transition-colors",
+                      "flex-1 rounded-lg py-1 text-[10px] font-bold transition-colors",
                       isActive
                         ? cn("border", style.active, style.text)
                         : "bg-card text-muted-foreground hover:bg-card/80",
@@ -146,16 +155,16 @@ export default function StartScreen({ content, game }: StartScreenProps) {
                   {tabEntries.slice(0, LEADERBOARD_SHOW).map((entry, idx) => (
                     <div
                       key={entry.id}
-                      className="flex items-center justify-between rounded bg-card p-1.5 text-xs"
+                      className="flex items-center justify-between rounded-lg bg-card p-1.5 text-xs shadow-soft"
                     >
                       <span className="flex items-center gap-1.5">
                         <span
                           className={cn(
-                            "w-6 font-bold",
-                            idx === 0 ? "text-warning" : "text-muted-foreground",
+                            "w-6 shrink-0 font-bold",
+                            idx < 3 ? "text-sm leading-none" : "text-muted-foreground",
                           )}
                         >
-                          {idx + 1}위
+                          {idx < 3 ? ["🥇", "🥈", "🥉"][idx] : `${idx + 1}위`}
                         </span>
                         <span className="max-w-[80px] truncate font-medium">
                           {entry.playerName}
@@ -178,7 +187,7 @@ export default function StartScreen({ content, game }: StartScreenProps) {
         <button
           type="button"
           onClick={game.start}
-          className="w-full rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground shadow-lg transition-all hover:bg-primary/90 active:scale-95"
+          className="si-btn-cta w-full py-3 text-sm"
         >
           훈련 시작!
         </button>

@@ -10,7 +10,7 @@ export default function FeedPostCard({ question }: { question: RoundQuestion }) 
   const { history, account, categoryLabel, likes } = question;
 
   return (
-    <div className="mx-3 rounded-2xl border bg-card p-3 shadow-sm">
+    <div className="mlq-card mx-3 p-3">
       {/* 헤더: 계정 + 카테고리 배지 */}
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -24,7 +24,7 @@ export default function FeedPostCard({ question }: { question: RoundQuestion }) 
             </div>
           </div>
         </div>
-        <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-secondary-foreground">
+        <span className="mlq-chip bg-secondary text-secondary-foreground">
           {categoryLabel}
         </span>
       </div>
@@ -35,7 +35,7 @@ export default function FeedPostCard({ question }: { question: RoundQuestion }) 
         <span className="absolute right-2 top-2 rounded-md bg-foreground/70 px-1.5 py-0.5 text-[10px] font-bold text-background">
           {history.mediaType}
         </span>
-        <span className="absolute bottom-2 left-2 animate-pop rounded-full bg-card/90 px-2 py-0.5 text-[10px] font-bold text-primary shadow">
+        <span className="si-accent-text absolute bottom-2 left-2 animate-pop rounded-full bg-card/90 px-2 py-0.5 text-[10px] font-bold shadow">
           💖 친구가 방금 좋아요를 눌렀어요!
         </span>
       </div>
@@ -48,15 +48,15 @@ export default function FeedPostCard({ question }: { question: RoundQuestion }) 
 
       {/* 반응 버튼 줄 — 알약 모양 배지 (장식용) */}
       <div className="mt-2 flex items-center gap-1.5">
-        <span className="flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary">
+        <span className="mlq-chip bg-primary/10 text-primary">
           <ThumbsUp className="h-3.5 w-3.5" />
           좋아요 {likes.toLocaleString("ko-KR")}
         </span>
-        <span className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium text-secondary-foreground">
+        <span className="mlq-chip bg-secondary text-secondary-foreground">
           <MessageSquareText className="h-3.5 w-3.5" />
           댓글
         </span>
-        <span className="flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium text-secondary-foreground">
+        <span className="mlq-chip bg-secondary text-secondary-foreground">
           <Star className="h-3.5 w-3.5" />
           모아 두기
         </span>

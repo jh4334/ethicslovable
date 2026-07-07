@@ -3,21 +3,80 @@
  * 모든 선택자는 .game-social-insight 아래로 범위를 한정하고,
  * 커스텀 클래스는 si- 접두사를 쓴다. (다른 게임과 충돌 방지)
  * 가상 SNS "누리피드" 브랜드 색: 청록 → 보라 그라데이션.
+ * 보조 포인트 색: 분홍(hue 320) — 좋아요·강조 등에 살짝만 사용.
  */
+
+/* 페이지 배경 — 누리피드 브랜드 색으로 은은한 원형 워시 */
+.game-social-insight {
+  background:
+    radial-gradient(50rem 30rem at 10% -6%, hsl(174 62% 42% / 0.09), transparent 60%),
+    radial-gradient(44rem 28rem at 98% 14%, hsl(258 82% 62% / 0.09), transparent 62%),
+    radial-gradient(40rem 26rem at 50% 110%, hsl(320 82% 62% / 0.08), transparent 62%),
+    hsl(var(--background));
+}
 
 .game-social-insight .si-logo {
   background: linear-gradient(135deg, hsl(174 62% 42%), hsl(258 82% 62%));
+}
+
+/* 시작 화면 큰 로고 타일 — 은은한 글로우 */
+.game-social-insight .si-logo-glow {
+  box-shadow:
+    0 12px 28px -10px hsl(258 82% 62% / 0.55),
+    0 4px 14px -6px hsl(174 62% 42% / 0.45);
+}
+
+/* 누리피드 브랜드 그라데이션 텍스트 (청록 → 보라) */
+.game-social-insight .si-brand-text {
+  background-image: linear-gradient(120deg, hsl(174 62% 36%), hsl(258 82% 58%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 분홍 보조 포인트 텍스트 */
+.game-social-insight .si-accent-text {
+  color: hsl(320 82% 52%);
+}
+
+/* 그라데이션 CTA 버튼 — mlq-btn-primary의 누리피드(si-) 변형 */
+.game-social-insight .si-btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+  background-image: linear-gradient(
+    135deg,
+    hsl(174 62% 42%),
+    hsl(258 82% 62%) 62%,
+    hsl(320 82% 62%)
+  );
+  box-shadow: 0 8px 20px -6px hsl(258 82% 62% / 0.55);
+  transition: transform 0.15s ease;
+}
+.game-social-insight .si-btn-cta:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+.game-social-insight .si-btn-cta:active {
+  transform: scale(0.97);
 }
 
 .game-social-insight .si-avatar {
   background: linear-gradient(135deg, hsl(174 60% 88%), hsl(258 80% 91%));
 }
 
+/* 게시물 이모지 미디어 타일 — 부드러운 안쪽 그림자 */
 .game-social-insight .si-photo {
   background:
     radial-gradient(circle at 20% 15%, hsl(174 60% 92%), transparent 55%),
     radial-gradient(circle at 85% 85%, hsl(258 80% 93%), transparent 55%),
     hsl(var(--muted));
+  box-shadow:
+    inset 0 2px 8px hsl(174 60% 45% / 0.08),
+    inset 0 -4px 12px hsl(258 70% 55% / 0.12);
 }
 
 /* 남은 시간 막대 — 1초 간격으로 부드럽게 줄어든다 */
@@ -36,26 +95,40 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.45;
+    opacity: 0.55;
   }
 }
 
-/* 콤보 칭찬 문구 — 위로 떠오르며 사라진다 */
+/* 콤보 칭찬 문구 — 통통 튀며 떠올랐다가 사라진다 */
 .game-social-insight .si-combo-flash {
-  animation: si-float-up 0.9s ease-out forwards;
+  animation: si-float-up 0.95s ease-out forwards;
 }
 
 @keyframes si-float-up {
   0% {
     opacity: 0;
-    transform: translate(-50%, 10px) scale(0.9);
+    transform: translate(-50%, 14px) scale(0.6);
   }
-  25% {
+  28% {
     opacity: 1;
-    transform: translate(-50%, 0) scale(1.05);
+    transform: translate(-50%, -2px) scale(1.18);
+  }
+  45% {
+    transform: translate(-50%, 0) scale(0.94);
+  }
+  62% {
+    transform: translate(-50%, -3px) scale(1.05);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -20px) scale(1);
+    transform: translate(-50%, -24px) scale(1);
+  }
+}
+
+/* 저사양·모션 최소화 환경 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .game-social-insight .si-timer-danger,
+  .game-social-insight .si-combo-flash {
+    animation: none;
   }
 }

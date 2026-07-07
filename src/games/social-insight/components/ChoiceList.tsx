@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Check, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Choice, Feedback } from "../types";
@@ -19,17 +20,17 @@ export default function ChoiceList({ choices, feedback, onChoose }: ChoiceListPr
           onClick={() => onChoose(choice)}
           disabled={feedback !== null}
           className={cn(
-            "flex w-full items-center rounded-xl border-2 bg-card p-2.5 text-left transition-all duration-200",
+            "flex w-full items-center rounded-2xl border-2 bg-card p-2.5 text-left shadow-soft transition-all duration-200",
             feedback
               ? choice.isCorrect
-                ? "border-success bg-success/10"
+                ? "scale-[1.01] border-success bg-success/10"
                 : choice.isTrap
                   ? "border-destructive bg-destructive/10"
                   : "border-border opacity-40"
-              : "border-border hover:border-primary hover:bg-primary/5 active:scale-[0.98]",
+              : "border-border hover:-translate-y-0.5 hover:border-primary/60 hover:bg-primary/5 hover:shadow-lift active:scale-[0.98]",
           )}
         >
-          <div className="mr-2.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border bg-muted text-xl">
+          <div className="mlq-emoji-tile mr-2.5 h-10 w-10 shrink-0 rounded-xl text-xl" style={{ "--tile-hue": 174 } as CSSProperties}>
             {choice.icon}
           </div>
 
@@ -43,7 +44,7 @@ export default function ChoiceList({ choices, feedback, onChoose }: ChoiceListPr
 
           <div
             className={cn(
-              "ml-2 rounded-lg px-2.5 py-1.5 text-[10px] font-bold transition-colors",
+              "ml-2 rounded-full px-2.5 py-1.5 text-[10px] font-bold transition-colors",
               feedback && choice.isCorrect
                 ? "bg-success text-success-foreground"
                 : feedback && choice.isTrap

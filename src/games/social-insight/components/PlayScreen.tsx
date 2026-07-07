@@ -31,26 +31,26 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <BrandLogo className="h-5 w-5" />
-            <span className="text-sm font-bold">{content.meta.snsName}</span>
+            <span className="si-brand-text text-sm font-extrabold">{content.meta.snsName}</span>
           </div>
           <div className="flex items-center gap-1.5">
             {game.combo >= 2 && (
-              <span className="animate-pop rounded bg-warning/20 px-1.5 py-0.5 text-[10px] font-bold text-warning">
+              <span className="mlq-chip animate-pop bg-warning/15 text-warning">
                 {game.combo}연속!
               </span>
             )}
-            <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-bold text-secondary-foreground">
+            <span className="mlq-chip bg-secondary text-secondary-foreground">
               {game.score}점
             </span>
             <span
               className={cn(
-                "flex items-center rounded px-1.5 py-0.5 text-xs font-bold tabular-nums",
+                "mlq-chip tabular-nums",
                 game.timeLeft <= 3
-                  ? "si-timer-danger bg-destructive/15 text-destructive"
+                  ? "si-timer-danger bg-destructive text-destructive-foreground shadow-soft"
                   : "bg-secondary text-foreground",
               )}
             >
-              <Timer className="mr-0.5 h-3 w-3" />
+              <Timer className="h-3.5 w-3.5" />
               {game.timeLeft}초
             </span>
           </div>
@@ -69,7 +69,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
       {/* 콤보 칭찬 문구 */}
       {game.comboFlash && (
-        <div className="si-combo-flash pointer-events-none absolute left-1/2 top-16 z-20 whitespace-nowrap text-lg font-black text-warning">
+        <div className="si-combo-flash pointer-events-none absolute left-1/2 top-16 z-20 whitespace-nowrap text-xl font-black text-warning drop-shadow-sm">
           {game.comboFlash}
         </div>
       )}
@@ -97,8 +97,8 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
         {/* 미션 안내 */}
         <div className="px-3 py-1.5">
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-2 text-center">
-            <p className="text-[11px] font-medium text-primary">
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-2 text-center">
+            <p className="text-[11px] font-bold text-primary">
               🎯 {content.meta.mission}
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
         <div className="absolute left-1/2 top-1/2 z-30 w-52 -translate-x-1/2 -translate-y-1/2 animate-scale-in">
           <div
             className={cn(
-              "flex flex-col items-center rounded-xl border bg-card/95 p-4 shadow-2xl backdrop-blur-md",
+              "flex flex-col items-center rounded-2xl border bg-card/95 p-4 shadow-lift backdrop-blur-md",
               game.feedback.type === "success" ? "border-success/40" : "border-destructive/40",
             )}
           >
