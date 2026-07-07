@@ -10,7 +10,7 @@ interface GameHeaderProps {
   score: number;
 }
 
-/** 게임 상단 바 — 별별TV 브랜드색(인디고~바이올렛) 그라데이션 */
+/** 게임 상단 바 — 누리TV 브랜드색(인디고~바이올렛) 그라데이션 */
 export default function GameHeader({ labName, platformName, level, totalLevels, score }: GameHeaderProps) {
   return (
     <header className="tt-header z-10 flex shrink-0 items-center justify-between p-3 shadow-lg md:p-4">

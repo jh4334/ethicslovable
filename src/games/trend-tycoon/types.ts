@@ -1,5 +1,5 @@
 /**
- * "별별TV 알고리즘 연구소" 콘텐츠 스키마 타입.
+ * "누리TV 알고리즘 연구소" 콘텐츠 스키마 타입.
  *
  * 이야기·문구·영상 데이터는 src/content/trend-tycoon.json 에 있고
  * (배포본에서는 data/trend-tycoon.json 을 고치면 재빌드 없이 반영),
@@ -8,7 +8,7 @@
 
 /** 게임 안내 문구 (헤더·패널·피드 제목) */
 export interface IntroContent {
-  /** 가상 플랫폼 이름 (예: 별별TV) */
+  /** 가상 플랫폼 이름 (예: 누리TV) */
   platformName: string;
   /** 게임 화면 상단 제목 */
   labName: string;

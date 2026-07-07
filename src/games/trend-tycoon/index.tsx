@@ -23,7 +23,7 @@ function isValidContent(content: TrendTycoonContent | null | undefined): content
   );
 }
 
-/** 4차시 게임 "알고리즘 연구소장" (별별TV 알고리즘 연구소) 진입점 */
+/** 4차시 게임 "알고리즘 연구소장" (누리TV 알고리즘 연구소) 진입점 */
 export default function TrendTycoonGame() {
   const [content, setContent] = useState<TrendTycoonContent | null>(null);
 

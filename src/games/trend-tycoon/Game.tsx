@@ -34,7 +34,7 @@ interface GameProps {
   content: TrendTycoonContent;
 }
 
-/** 별별TV 알고리즘 연구소 — 본 게임 화면 */
+/** 누리TV 알고리즘 연구소 — 본 게임 화면 */
 export default function Game({ content }: GameProps) {
   // 미션을 레벨 순서로 정렬해 둔다 (JSON 순서가 바뀌어도 안전)
   const missions = useMemo(
