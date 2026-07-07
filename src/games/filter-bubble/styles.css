@@ -180,6 +180,248 @@
   box-shadow: 0 -1px 6px hsl(0 84% 58% / 0.35);
 }
 
+/* ---------- 영상 앱 홈 화면 장식 (누리TV) ---------- */
+
+/* 워드마크 — 중립형 재생 심벌(그라디언트 원 + 흰 삼각형) + 이름 */
+.game-filter-bubble .fb-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  user-select: none;
+}
+
+.game-filter-bubble .fb-wordmark-play {
+  position: relative;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 9999px;
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--fb-ident)),
+    hsl(252 82% 60%)
+  );
+  box-shadow: 0 3px 8px -2px hsl(var(--fb-ident) / 0.55);
+}
+
+.game-filter-bubble .fb-wordmark-play::after {
+  content: "";
+  position: absolute;
+  left: 56%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 0.26rem 0 0.26rem 0.42rem;
+  border-color: transparent transparent transparent hsl(0 0% 100%);
+}
+
+.game-filter-bubble .fb-wordmark-text {
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: -0.03em;
+  color: hsl(var(--card-foreground));
+}
+
+/* 검색창 모양 장식 — 입력 불가, 홈 화면 분위기용 */
+.game-filter-bubble .fb-searchbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--secondary) / 0.6);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  user-select: none;
+}
+
+/* 카테고리 칩 행 장식 — 넘치면 가로 스크롤, 스크롤바 숨김 */
+.game-filter-bubble .fb-chip-row {
+  display: flex;
+  gap: 0.375rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+}
+
+.game-filter-bubble .fb-chip-row::-webkit-scrollbar {
+  display: none;
+}
+
+.game-filter-bubble .fb-chip {
+  flex: none;
+  border-radius: 9999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.game-filter-bubble .fb-chip-active {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* ---------- 썸네일 ---------- */
+.game-filter-bubble .fb-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.game-filter-bubble .fb-thumb-emoji {
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px hsl(232 32% 15% / 0.18));
+  user-select: none;
+}
+
+/* 분야별 파스텔 그라디언트 배경 (기존 분야 색상축과 같은 색조) */
+.game-filter-bubble .fb-thumb-game {
+  background-image: linear-gradient(140deg, hsl(271 85% 93%), hsl(271 72% 83%));
+}
+.game-filter-bubble .fb-thumb-learning {
+  background-image: linear-gradient(140deg, hsl(217 91% 93%), hsl(217 78% 83%));
+}
+.game-filter-bubble .fb-thumb-news {
+  background-image: linear-gradient(140deg, hsl(220 20% 94%), hsl(220 16% 84%));
+}
+.game-filter-bubble .fb-thumb-sensational {
+  background-image: linear-gradient(140deg, hsl(0 93% 94%), hsl(14 88% 84%));
+}
+.game-filter-bubble .fb-thumb-food {
+  background-image: linear-gradient(140deg, hsl(25 95% 93%), hsl(35 92% 82%));
+}
+.game-filter-bubble .fb-thumb-shopping {
+  background-image: linear-gradient(140deg, hsl(330 81% 94%), hsl(315 72% 85%));
+}
+.game-filter-bubble .fb-thumb-travel {
+  background-image: linear-gradient(140deg, hsl(152 76% 92%), hsl(170 62% 80%));
+}
+.game-filter-bubble .fb-thumb-animal {
+  background-image: linear-gradient(140deg, hsl(43 96% 92%), hsl(33 90% 81%));
+}
+
+/* 재생 버튼 오버레이 — 중립형(반투명 흰 원 + 진회색 삼각형), 호버 시 표시 */
+.game-filter-bubble .fb-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(232 32% 15% / 0.12);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.game-filter-bubble .fb-card-interactive:hover .fb-play-overlay,
+.game-filter-bubble .fb-card-interactive:focus-visible .fb-play-overlay,
+.game-filter-bubble .fb-play-overlay.fb-play-static {
+  opacity: 1;
+}
+
+.game-filter-bubble .fb-play-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 9999px;
+  background-color: hsl(0 0% 100% / 0.85);
+  box-shadow: 0 4px 12px hsl(232 32% 15% / 0.25);
+  transform: scale(0.8);
+  transition: transform 0.18s ease;
+}
+
+.game-filter-bubble .fb-card-interactive:hover .fb-play-circle,
+.game-filter-bubble .fb-play-static .fb-play-circle {
+  transform: scale(1);
+}
+
+.game-filter-bubble .fb-play-triangle {
+  display: block;
+  margin-left: 0.15rem;
+  border-style: solid;
+  border-width: 0.42rem 0 0.42rem 0.66rem;
+  border-color: transparent transparent transparent hsl(232 32% 15% / 0.8);
+}
+
+/* 재생시간 배지 */
+.game-filter-bubble .fb-duration {
+  border-radius: 0.375rem;
+  background-color: hsl(232 32% 10% / 0.75);
+  color: hsl(0 0% 100%);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.1rem 0.35rem;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 자극 정도 배지 (썸네일 모서리, 교육 장치) */
+.game-filter-bubble .fb-heat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  border-radius: 9999px;
+  background-color: hsl(0 0% 100% / 0.82);
+  padding: 0.16rem 0.4rem;
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.game-filter-bubble .fb-heat-dots {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.game-filter-bubble .fb-heat-dot {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 9999px;
+}
+
+/* 채널 아바타 */
+.game-filter-bubble .fb-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  line-height: 1;
+  margin-top: 0.1rem;
+  user-select: none;
+}
+
+/* 제목 2줄 말줄임 */
+.game-filter-bubble .fb-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 인트로 미리보기 샘플 카드 — 살짝 기울인 장식 */
+.game-filter-bubble .fb-sample-card {
+  border-radius: 1rem;
+  border: 1px solid hsl(var(--border) / 0.7);
+  background-color: hsl(var(--card));
+  padding: 0.5rem;
+  transform: rotate(-2deg);
+  box-shadow:
+    0 1px 2px hsl(232 32% 15% / 0.05),
+    0 10px 24px -10px hsl(var(--fb-ident) / 0.35);
+  user-select: none;
+  pointer-events: none;
+}
+
 /* ---------- 분야 배지 색 ---------- */
 .game-filter-bubble .fb-badge-game {
   background-color: hsl(var(--fb-cat-game));

@@ -111,3 +111,16 @@ export function fakeViewCount(id: number): number {
   h = (h ^ (h >>> 13)) >>> 0;
   return 10 + (h % 900);
 }
+
+/**
+ * 가짜 재생시간(교육용 연출) — 조회수와 마찬가지로 아이템 id에서
+ * 결정되는 값이라 다시 렌더링돼도 바뀌지 않는다. 0:45 ~ 14:59 범위.
+ */
+export function fakeDuration(id: number): string {
+  let h = (id + 3) * 2246822519;
+  h = (h ^ (h >>> 15)) >>> 0;
+  const totalSeconds = 45 + (h % 855);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
