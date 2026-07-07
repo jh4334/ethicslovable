@@ -40,20 +40,22 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-lg"
+        className="mlq-card w-full max-w-md p-6"
       >
-        <div className="mb-1 text-center text-xs font-bold text-muted-foreground">
+        <div className="mb-2 text-center text-xs font-bold text-muted-foreground">
           {labels.resultTitle}
         </div>
-        <div className="mb-2 text-center text-5xl">{grade.emoji}</div>
-        <h2 className="text-center text-xl font-black">{grade.title}</h2>
+        <div className="fc-emblem mx-auto mb-3">
+          <span>{grade.emoji}</span>
+        </div>
+        <h2 className="fc-gradient-text text-center text-2xl font-black">{grade.title}</h2>
         <p className="mt-1 text-center text-sm leading-relaxed text-muted-foreground">
           {grade.desc}
         </p>
 
         <div className="my-4 flex items-center justify-center gap-6">
           <div className="text-center">
-            <div className="text-3xl font-black text-primary">{score}점</div>
+            <div className="fc-gradient-text text-3xl font-black">{score}점</div>
             <div className="text-[11px] text-muted-foreground">최종 점수</div>
           </div>
           <div className="h-8 w-px bg-border" />
@@ -67,10 +69,10 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
         </div>
 
         {/* 핵심 정리 3줄 */}
-        <div className="mb-5 space-y-2 rounded-xl border border-primary/20 bg-primary/5 p-3">
+        <div className="mb-5 space-y-2">
           {resultSummary.map((line, i) => (
-            <div key={i} className="flex items-start gap-2 text-sm leading-relaxed">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
+            <div key={i} className="fc-callout flex items-start gap-2 p-3 text-sm leading-relaxed">
+              <span className="fc-num-badge mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold">
                 {i + 1}
               </span>
               <span className="text-foreground">{line}</span>
@@ -88,7 +90,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           </button>
           <Link
             to="/"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-primary py-3 text-sm font-bold text-primary-foreground transition hover:brightness-105"
+            className="fc-btn-cta flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold text-white"
           >
             <Home className="h-4 w-4" />
             {labels.homeButton}

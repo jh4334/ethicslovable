@@ -33,35 +33,35 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
 
   return (
     <div className="flex min-h-[calc(100vh-2.75rem)] items-center justify-center p-4">
-      <div className="w-full max-w-sm animate-scale-in rounded-2xl border bg-card p-5 text-center shadow-lg">
-        <div className="mb-2 text-4xl">
+      <div className="mlq-card w-full max-w-sm animate-scale-in p-6 text-center">
+        <div className="mb-2 text-5xl">
           {isTop3 ? "🏆" : score >= 100 ? "🌟" : score >= 70 ? "👍" : "🌱"}
         </div>
         {isTop3 && (
-          <div className="mb-2 inline-flex items-center gap-1 rounded-full bg-warning/20 px-2 py-0.5 text-[10px] font-bold text-warning">
-            <Trophy className="h-3 w-3" /> {myRank}위에 올랐어요!
+          <div className="mlq-chip mb-2 bg-warning/15 text-warning">
+            <Trophy className="h-3.5 w-3.5" /> {myRank}위에 올랐어요!
           </div>
         )}
-        <h2 className="text-lg font-bold">
+        <h2 className="text-lg font-extrabold">
           {game.playerName.trim() || "익명 요정"}
         </h2>
-        <div className="text-3xl font-black">{score}점</div>
-        <div className="mb-3 text-[11px] text-muted-foreground">
+        <div className="mlq-gradient-text text-5xl font-black tracking-tight">{score}점</div>
+        <div className="mb-3 mt-1 text-[11px] font-medium text-muted-foreground">
           {difficulty.label} 난이도 · 최대 {maxCombo}콤보
         </div>
 
         {/* 배움 정리 */}
-        <div className="mb-3 rounded-lg border border-primary/20 bg-primary/5 p-2.5 text-left">
+        <div className="mb-3 rounded-xl border border-primary/20 bg-primary/5 p-2.5 text-left">
           <p className="text-[11px] leading-relaxed text-foreground">
             💡 {content.meta.resultNote}
           </p>
         </div>
 
         {/* 명예의 전당 Top 5 */}
-        <div className="mb-4 rounded-lg bg-secondary/30 p-2">
+        <div className="mb-4 rounded-xl bg-secondary/40 p-2.5">
           <div className="mb-1.5 flex items-center justify-center gap-1">
             <Trophy className="h-3 w-3 text-warning" />
-            <span className="text-xs font-bold">
+            <span className="text-xs font-extrabold">
               {difficulty.label} 난이도 최고 기록 {LEADERBOARD_SHOW}
             </span>
           </div>
@@ -77,18 +77,20 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
                   <div
                     key={entry.id}
                     className={cn(
-                      "flex items-center justify-between rounded p-1.5 text-xs",
-                      isMe ? "border border-primary/30 bg-primary/10" : "bg-card",
+                      "flex items-center justify-between rounded-lg p-1.5 text-xs",
+                      isMe
+                        ? "border border-primary/30 bg-primary/10 shadow-soft"
+                        : "bg-card shadow-soft",
                     )}
                   >
                     <span className="flex items-center gap-1.5">
                       <span
                         className={cn(
-                          "w-6 font-bold",
-                          idx === 0 ? "text-warning" : "text-muted-foreground",
+                          "w-6 shrink-0 font-bold",
+                          idx < 3 ? "text-sm leading-none" : "text-muted-foreground",
                         )}
                       >
-                        {idx + 1}위
+                        {idx < 3 ? ["🥇", "🥈", "🥉"][idx] : `${idx + 1}위`}
                       </span>
                       <span
                         className={cn(
@@ -112,7 +114,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           <button
             type="button"
             onClick={game.goToStart}
-            className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-secondary py-2.5 text-xs font-bold text-secondary-foreground transition-all hover:bg-secondary/80 active:scale-95"
+            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-secondary py-2.5 text-xs font-bold text-secondary-foreground transition-all hover:bg-secondary/80 active:scale-95"
           >
             <Home className="h-3.5 w-3.5" />
             처음 화면
@@ -120,7 +122,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           <button
             type="button"
             onClick={game.start}
-            className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-primary py-2.5 text-xs font-bold text-primary-foreground transition-all hover:bg-primary/90 active:scale-95"
+            className="si-btn-cta flex-1 py-2.5 text-xs"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             다시 도전!

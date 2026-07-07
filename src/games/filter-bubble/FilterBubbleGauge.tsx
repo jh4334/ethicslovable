@@ -25,7 +25,7 @@ export function FilterBubbleGauge({ riskScore, levels }: FilterBubbleGaugeProps)
   const barClass = LEVEL_BAR_CLASS[level.id] ?? "fb-gauge-safe";
 
   return (
-    <div className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <div className="mlq-card space-y-3 p-5">
       <div className="flex items-end justify-between">
         <h3 className="flex items-center gap-2 text-sm font-bold text-card-foreground">
           <AlertTriangle size={16} className="text-muted-foreground" />
@@ -36,9 +36,9 @@ export function FilterBubbleGauge({ riskScore, levels }: FilterBubbleGaugeProps)
         </div>
       </div>
 
-      <div className="h-4 w-full overflow-hidden rounded-full bg-muted">
+      <div className="h-5 w-full overflow-hidden rounded-full bg-muted shadow-inner">
         <div
-          className={`h-full transition-all duration-1000 ease-out ${barClass}`}
+          className={`h-full rounded-full transition-all duration-1000 ease-out ${barClass}`}
           style={{ width: `${riskScore}%` }}
         />
       </div>

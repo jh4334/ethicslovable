@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { markCompleted } from "@/lib/progress";
@@ -31,7 +31,7 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-2.75rem)] w-full max-w-md flex-col justify-center px-4 py-8">
-      <h2 className="text-center text-base font-black">{reflection.title}</h2>
+      <h2 className="text-center text-lg font-black">{reflection.title}</h2>
 
       {/* 단계 점 */}
       <div className="mt-3 flex justify-center gap-1.5">
@@ -39,8 +39,8 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
           <div
             key={i}
             className={cn(
-              "h-1.5 w-8 rounded-full transition-colors",
-              i <= step ? "bg-primary" : "bg-muted",
+              "h-2 w-8 rounded-full transition-colors",
+              i <= step ? "db-bar-fill" : "bg-muted",
             )}
           />
         ))}
@@ -56,21 +56,22 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className={cn(
-                "rounded-2xl border p-4",
-                isRemember ? "border-primary/40 bg-primary/5" : "bg-card",
-              )}
+              className={cn("p-4", isRemember ? "db-callout rounded-2xl" : "mlq-card")}
             >
               <div className="flex items-center gap-2">
-                <span className="text-2xl" aria-hidden>
+                <span
+                  className="mlq-emoji-tile h-9 w-9 shrink-0 text-xl"
+                  style={{ "--tile-hue": 152 } as CSSProperties}
+                  aria-hidden
+                >
                   {beat.emoji}
                 </span>
-                <h3 className="text-sm font-bold">{beat.title}</h3>
+                <h3 className="text-sm font-extrabold">{beat.title}</h3>
               </div>
               <p
                 className={cn(
                   "mt-2 text-xs leading-relaxed",
-                  isRemember ? "text-sm font-bold text-primary" : "text-foreground/90",
+                  isRemember ? "db-grad-text text-sm font-extrabold" : "text-foreground/90",
                 )}
               >
                 {beat.text}
@@ -84,7 +85,7 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
         <button
           type="button"
           onClick={() => setStep((s) => Math.min(s + 1, totalSteps - 1))}
-          className="mt-5 w-full rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
+          className="db-btn mt-5 w-full px-6 py-3 text-sm"
         >
           {reflection.nextButton}
         </button>
@@ -96,14 +97,14 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
           className="mt-4"
         >
           {/* 훈련 기록 요약 */}
-          <div className="rounded-2xl border bg-card p-4 text-center">
+          <div className="mlq-card p-4 text-center">
             <div className="text-xs font-bold text-muted-foreground">{reflection.summaryTitle}</div>
             <div className="mt-1.5 flex items-center justify-center gap-3 text-2xl font-black tabular-nums">
               <span className="text-muted-foreground">{accuracy1}%</span>
-              <span className="text-base" aria-hidden>
+              <span className="db-grad-text text-base" aria-hidden>
                 →
               </span>
-              <span className={accuracy2 >= accuracy1 ? "text-success" : "text-destructive"}>
+              <span className={accuracy2 >= accuracy1 ? "db-grad-text" : "text-destructive"}>
                 {accuracy2}%
               </span>
             </div>
@@ -111,10 +112,7 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
           </div>
 
           <div className="mt-4 flex flex-col gap-2">
-            <Link
-              to="/"
-              className="w-full rounded-xl bg-primary px-6 py-3 text-center text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
-            >
+            <Link to="/" className="db-btn w-full px-6 py-3 text-center text-sm">
               {reflection.mapButton}
             </Link>
             <button

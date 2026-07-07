@@ -14,12 +14,12 @@ export default function ProfileCard({ content, profile }: ProfileCardProps) {
 
   return (
     <div className="dt-profile-card rounded-2xl p-4 shadow-md">
-      <div className="flex items-center gap-2">
-        <span className="text-2xl">👤</span>
-        <p className="text-sm font-extrabold">{cardTitle}</p>
+      <div className="flex items-center gap-3">
+        <span className="dt-id-avatar text-2xl">👤</span>
+        <p className="text-sm font-extrabold tracking-wide">{cardTitle}</p>
       </div>
 
-      <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide opacity-70">
+      <p className="dt-id-label mt-3 text-[11px] font-semibold uppercase opacity-70">
         {topLabel}
       </p>
       <div className="mt-1.5 flex flex-wrap gap-2">
@@ -27,13 +27,13 @@ export default function ProfileCard({ content, profile }: ProfileCardProps) {
           profile.top.map((entry, i) => (
             <span
               key={entry.tag}
-              className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold"
+              className="dt-id-chip rounded-full px-3 py-1 text-xs font-bold"
             >
               {i + 1}위 · #{entry.tag} ({entry.count}번)
             </span>
           ))
         ) : (
-          <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-bold">
+          <span className="dt-id-chip rounded-full px-3 py-1 text-xs font-bold">
             아직 데이터가 없어요
           </span>
         )}

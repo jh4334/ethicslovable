@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 
 interface BabyBotProps {
@@ -23,10 +24,11 @@ export default function BabyBot({ line, mood = "normal", className }: BabyBotPro
       <div className="relative shrink-0">
         <div
           className={cn(
-            "db-bot flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-3xl",
+            "db-bot mlq-emoji-tile h-14 w-14 text-3xl",
             mood === "eating" && "db-chew",
             mood === "confused" && "db-wobble",
           )}
+          style={{ "--tile-hue": 152 } as CSSProperties}
           aria-hidden
         >
           🤖
@@ -38,7 +40,7 @@ export default function BabyBot({ line, mood = "normal", className }: BabyBotPro
         )}
       </div>
       {line && (
-        <div className="db-bubble relative max-w-[16rem] rounded-xl border bg-card px-3 py-2 text-xs font-medium leading-relaxed shadow-sm">
+        <div className="db-bubble relative max-w-[16rem] rounded-2xl border bg-card px-3.5 py-2.5 text-xs font-semibold leading-relaxed shadow-soft">
           {line}
         </div>
       )}

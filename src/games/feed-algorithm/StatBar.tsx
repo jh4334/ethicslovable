@@ -14,11 +14,14 @@ interface StatBarProps {
 const StatBar = ({ value, label, icon, colorClass, showChange }: StatBarProps) => {
   return (
     <div className="relative mb-1 flex w-full flex-col">
-      <div className="fa-dim mb-1 flex justify-between text-[10px] font-bold">
-        <span>
-          {icon} {label}
+      <div className="fa-dim mb-1 flex items-center justify-between text-[10px] font-bold">
+        <span className="flex items-center gap-1.5">
+          <span className="fa-stat-icon" aria-hidden="true">
+            {icon}
+          </span>
+          {label}
         </span>
-        <span>{Math.round(value)}%</span>
+        <span className="tabular-nums">{Math.round(value)}%</span>
       </div>
       <div
         className="fa-bar-track"

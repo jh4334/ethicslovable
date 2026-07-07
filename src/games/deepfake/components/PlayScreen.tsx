@@ -32,10 +32,10 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
     <div className="mx-auto w-full max-w-md space-y-2.5 p-3 pb-6">
       {/* 상단: 사건 번호 · 점수 */}
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary">
+        <span className="mlq-chip df-chip-amber text-[11px]">
           {ui.roundLabel} {game.roundIndex + 1}/{game.totalRounds}
         </span>
-        <span className="rounded-full bg-secondary px-2.5 py-1 text-[11px] font-bold">
+        <span className="mlq-chip bg-card text-[11px] shadow-soft">
           {ui.scoreLabel} {game.score}점
         </span>
       </div>
@@ -50,36 +50,38 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
       />
 
       {/* 증거 카드 */}
-      <div className="relative animate-fade-in overflow-hidden rounded-2xl border bg-card shadow-md" key={round.id}>
-        <div className="flex items-center gap-1.5 border-b bg-secondary/50 px-3 py-2">
+      <div className="mlq-card relative animate-fade-in overflow-hidden" key={round.id}>
+        <div className="df-case-header flex items-center gap-1.5 px-3 py-2">
           {round.type === "image" ? (
-            <FileImage className="h-3.5 w-3.5 shrink-0 text-primary" />
+            <FileImage className="h-3.5 w-3.5 shrink-0 text-warning" />
           ) : (
-            <FileText className="h-3.5 w-3.5 shrink-0 text-primary" />
+            <FileText className="h-3.5 w-3.5 shrink-0 text-warning" />
           )}
-          <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
+          <span className="df-tag-chip rounded px-1.5 py-0.5 text-[10px] font-bold">
             {round.type === "image" ? ui.imageTag : ui.textTag}
           </span>
-          <span className="truncate text-[11px] font-medium text-muted-foreground">
+          <span className="df-typed truncate text-[11px] font-semibold">
             {round.type === "image" ? round.caption : round.title}
           </span>
         </div>
 
-        <div className="p-3">
+        <div className="p-3 pt-4">
           {round.type === "image" ? (
-            <EvidencePhoto
-              svgId={round.svgId}
-              anomalies={round.anomalies}
-              mode={
-                game.step === "hunt"
-                  ? "hunt"
-                  : inExplain && round.isFake
-                    ? "reveal"
-                    : "view"
-              }
-              foundAnomalyId={game.foundAnomalyId}
-              onPick={game.pickImageSpot}
-            />
+            <div className={cn("df-polaroid", game.roundIndex % 2 === 1 && "df-tilt-r")}>
+              <EvidencePhoto
+                svgId={round.svgId}
+                anomalies={round.anomalies}
+                mode={
+                  game.step === "hunt"
+                    ? "hunt"
+                    : inExplain && round.isFake
+                      ? "reveal"
+                      : "view"
+                }
+                foundAnomalyId={game.foundAnomalyId}
+                onPick={game.pickImageSpot}
+              />
+            </div>
           ) : (
             <div className="space-y-1.5">
               {round.sentences.map((sentence, i) => {
@@ -119,7 +121,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
         {inExplain && (
           <span
             className={cn(
-              "df-stamp absolute right-3 top-10 rounded-lg border-4 px-2 py-0.5 text-sm font-black",
+              "df-stamp absolute right-3 top-10 rounded-lg border-4 px-2.5 py-1 text-sm font-black",
               round.isFake
                 ? "border-destructive text-destructive"
                 : "border-success text-success",
@@ -132,20 +134,20 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
       {/* 하단 패널 — 단계별 */}
       {game.step === "judge" && (
-        <div className="animate-fade-in rounded-2xl border bg-card p-3 shadow-md">
-          <p className="mb-2.5 text-center text-xs font-semibold">{ui.judgePrompt}</p>
-          <div className="grid grid-cols-2 gap-2">
+        <div className="mlq-card animate-fade-in p-3">
+          <p className="mb-2.5 text-center text-xs font-extrabold">{ui.judgePrompt}</p>
+          <div className="grid grid-cols-2 gap-2.5">
             <button
               type="button"
               onClick={() => game.judge(false)}
-              className="rounded-xl border-2 border-success/60 bg-success/10 py-3 text-sm font-bold text-success transition-all hover:bg-success/20 active:scale-95"
+              className="df-stamp-btn df-stamp-real py-3.5 text-sm"
             >
               ⭕ {ui.realButton}
             </button>
             <button
               type="button"
               onClick={() => game.judge(true)}
-              className="rounded-xl border-2 border-destructive/60 bg-destructive/10 py-3 text-sm font-bold text-destructive transition-all hover:bg-destructive/20 active:scale-95"
+              className="df-stamp-btn df-stamp-fake py-3.5 text-sm"
             >
               🤖 {ui.fakeButton}
             </button>
@@ -154,9 +156,11 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
       )}
 
       {game.step === "hunt" && (
-        <div className="animate-fade-in rounded-2xl border-2 border-warning/60 bg-warning/10 p-3 shadow-md">
-          <p className="mb-0.5 flex items-center gap-1.5 text-xs font-bold text-warning-foreground">
-            <Search className="h-4 w-4" />
+        <div className="df-hunt-banner animate-fade-in rounded-2xl p-3">
+          <p className="mb-1 flex items-center gap-2 text-xs font-extrabold text-warning-foreground">
+            <span className="df-hunt-icon">
+              <Search className="h-4 w-4" />
+            </span>
             {ui.huntTitle}
             <span className="ml-auto rounded-full bg-warning/30 px-2 py-0.5 text-[10px] font-bold">
               +{rules.cluePoints}점
@@ -169,7 +173,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
       )}
 
       {inExplain && game.judgeResult && (
-        <div className="animate-fade-in space-y-2 rounded-2xl border bg-card p-3 shadow-md">
+        <div className="mlq-card animate-fade-in space-y-2 p-3">
           {/* 판별 결과 */}
           <p
             className={cn(
@@ -233,7 +237,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
           <button
             type="button"
             onClick={game.next}
-            className="flex w-full items-center justify-center gap-1 rounded-xl bg-primary py-2.5 text-sm font-bold text-primary-foreground shadow transition-all hover:bg-primary/90 active:scale-95"
+            className="mlq-btn-primary df-btn-cta flex w-full gap-1 py-2.5 text-sm"
           >
             {isLast ? ui.finishButton : ui.nextButton}
             <ArrowRight className="h-4 w-4" />

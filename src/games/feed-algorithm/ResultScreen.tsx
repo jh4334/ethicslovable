@@ -42,7 +42,9 @@ const ResultScreen = ({ content, ending, day, stats, log, onContinue }: ResultSc
       </p>
 
       {/* 엔딩 제목/설명 — 항상 크게 보여준다 */}
-      <h1 className="mb-2 text-2xl font-black break-keep">{ending.title}</h1>
+      <h1 className="fa-gradient-text mb-2 text-3xl font-black tracking-tight break-keep">
+        {ending.title}
+      </h1>
       <p className="fa-dim mb-6 max-w-sm text-sm leading-relaxed break-keep">{ending.desc}</p>
 
       <div className="fa-panel mb-6 w-full max-w-sm p-6">
@@ -69,7 +71,7 @@ const ResultScreen = ({ content, ending, day, stats, log, onContinue }: ResultSc
 
       <motion.button
         onClick={onContinue}
-        className="fa-btn fa-btn-light w-full max-w-xs py-4"
+        className="fa-btn fa-btn-primary w-full max-w-xs py-4"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         animate={{ y: [0, -5, 0] }}

@@ -123,16 +123,16 @@ export function formatElapsed(sec: number): string {
   return s === 0 ? `${m}분 뒤` : `${m}분 ${s}초 뒤`;
 }
 
-/** 행동 종류 → 화면 표기 */
+/** 행동 종류 → 화면 표기 (파트 A UI 용어와 통일: 하트=좋아요, 캡션 펼치기=더 보기) */
 export const ACTION_LABELS: Record<DtAction["kind"], string> = {
   like: "좋아요",
-  open: "열어보기",
+  open: "더 보기",
   search: "검색",
 };
 
-/** 행동 종류 → 아이콘 이모지 (창고 표·수집 목록 공용) */
+/** 행동 종류 → 아이콘 이모지 (창고 표·수집 목록 공용) — 하트 UI에 맞춰 ❤️ */
 export const ACTION_EMOJI: Record<DtAction["kind"], string> = {
-  like: "👍",
+  like: "❤️",
   open: "👀",
   search: "🔍",
 };

@@ -3,46 +3,62 @@
 @tailwind utilities;
 
 /*
- * 미디어 리터러시 퀘스트 — 공통 디자인 토큰
- * 외부 폰트를 내려받지 않는다(학교 전산망·오프라인 대응).
- * Pretendard가 설치된 PC에서는 Pretendard를, 아니면 시스템 한글 폰트를 쓴다.
+ * 미디어 리터러시 퀘스트 — 공통 디자인 시스템
+ *
+ * 톤앤매너(원본 러버블 프로토타입 계승): 밝고 통통 튀는 한국 교육 게임.
+ * - Pretendard 가변 폰트를 로컬 내장(오프라인·전산망 차단 대응, OFL 라이선스)
+ * - 두꺼운 제목(800~900) + 좁은 자간, 큰 라운드(1rem), 부드러운 겹그림자
+ * - 퀘스트 그라디언트(보라→남보라→분홍)를 브랜드 축으로 사용
  * 게임별 고유 스타일은 각 게임 폴더의 styles.css에서 .game-<id> 범위로 정의한다.
  */
 
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/PretendardVariable.woff2") format("woff2-variations");
+}
+
 @layer base {
   :root {
-    --background: 220 33% 98%;
-    --foreground: 224 30% 16%;
+    --background: 228 60% 98%;
+    --foreground: 232 32% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 224 30% 16%;
+    --card-foreground: 232 32% 15%;
 
-    --primary: 228 89% 63%;
+    --primary: 252 82% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 25% 93%;
-    --secondary-foreground: 224 30% 22%;
+    --secondary: 240 30% 94%;
+    --secondary-foreground: 232 28% 24%;
 
-    --muted: 220 20% 94%;
-    --muted-foreground: 224 12% 45%;
+    --muted: 234 26% 94%;
+    --muted-foreground: 233 12% 46%;
 
-    --accent: 42 100% 70%;
-    --accent-foreground: 30 60% 20%;
+    --accent: 40 100% 64%;
+    --accent-foreground: 32 70% 18%;
 
-    --destructive: 0 78% 58%;
+    --destructive: 0 80% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 152 60% 40%;
+    --success: 152 62% 40%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 35 92% 55%;
-    --warning-foreground: 30 60% 15%;
+    --warning: 33 95% 54%;
+    --warning-foreground: 30 65% 15%;
 
-    --border: 220 18% 88%;
-    --input: 220 18% 88%;
-    --ring: 228 89% 63%;
+    --border: 234 24% 89%;
+    --input: 234 24% 89%;
+    --ring: 252 82% 60%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
+
+    /* 퀘스트 브랜드 그라디언트 축 */
+    --quest-from: 250 84% 58%;
+    --quest-via: 275 78% 60%;
+    --quest-to: 320 82% 62%;
   }
 
   * {
@@ -54,11 +70,95 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     font-family:
       "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
       system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
       "맑은 고딕", sans-serif;
     word-break: keep-all;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* 공용 컴포넌트 유틸리티 — 포털·게임 어디서나 사용 가능 (mlq- 접두사) */
+
+  .mlq-gradient {
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--quest-from)),
+      hsl(var(--quest-via)) 55%,
+      hsl(var(--quest-to))
+    );
+  }
+
+  .mlq-gradient-text {
+    background-image: linear-gradient(
+      120deg,
+      hsl(var(--quest-from)),
+      hsl(var(--quest-to))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mlq-card {
+    @apply rounded-2xl border border-transparent bg-card;
+    box-shadow:
+      0 1px 2px hsl(232 32% 15% / 0.05),
+      0 6px 18px -6px hsl(232 32% 15% / 0.1);
+  }
+
+  .mlq-card-hover {
+    @apply transition-all duration-200;
+  }
+  .mlq-card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 2px 4px hsl(232 32% 15% / 0.06),
+      0 16px 32px -8px hsl(252 82% 60% / 0.22);
+  }
+
+  .mlq-btn-primary {
+    @apply mlq-gradient inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-bold text-white transition-transform duration-150;
+    box-shadow: 0 8px 20px -6px hsl(var(--quest-via) / 0.55);
+  }
+  .mlq-btn-primary:hover {
+    transform: translateY(-1px) scale(1.02);
+  }
+  .mlq-btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .mlq-emoji-tile {
+    @apply inline-flex items-center justify-center rounded-2xl;
+    background: linear-gradient(
+      145deg,
+      hsl(var(--tile-hue, 252) 90% 96%),
+      hsl(var(--tile-hue, 252) 85% 91%)
+    );
+    box-shadow: inset 0 -2px 6px hsl(var(--tile-hue, 252) 60% 80% / 0.5);
+  }
+
+  .mlq-chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold;
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: mlq-float 5s ease-in-out infinite;
+  }
+  @keyframes mlq-float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float { animation: none; }
   }
 }

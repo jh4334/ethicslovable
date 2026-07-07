@@ -55,6 +55,24 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: [
+          '"Pretendard Variable"',
+          "Pretendard",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "system-ui",
+          '"Apple SD Gothic Neo"',
+          '"Noto Sans KR"',
+          '"Malgun Gothic"',
+          "sans-serif",
+        ],
+      },
+      boxShadow: {
+        soft: "0 1px 2px hsl(232 32% 15% / 0.05), 0 6px 18px -6px hsl(232 32% 15% / 0.1)",
+        lift: "0 2px 4px hsl(232 32% 15% / 0.06), 0 16px 32px -8px hsl(252 82% 60% / 0.22)",
+        glow: "0 8px 20px -6px hsl(275 78% 60% / 0.55)",
+      },
       keyframes: {
         "fade-in": {
           from: { opacity: "0", transform: "translateY(8px)" },

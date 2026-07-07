@@ -13,6 +13,10 @@ const DataBiasGame = lazy(() => import("./games/data-bias"));
 const DeepfakeGame = lazy(() => import("./games/deepfake"));
 const FactCheckGame = lazy(() => import("./games/fact-check"));
 const DataTrailGame = lazy(() => import("./games/data-trail"));
+const ShortFormGame = lazy(() => import("./games/short-form"));
+const GachaBoxGame = lazy(() => import("./games/gacha-box"));
+const SearchDetectiveGame = lazy(() => import("./games/search-detective"));
+const ChatGuardGame = lazy(() => import("./games/chat-guard"));
 
 function Loading() {
   return (
@@ -38,6 +42,10 @@ export default function App() {
           <Route path="/games/deepfake" element={<DeepfakeGame />} />
           <Route path="/games/fact-check" element={<FactCheckGame />} />
           <Route path="/games/data-trail" element={<DataTrailGame />} />
+          <Route path="/games/short-form" element={<ShortFormGame />} />
+          <Route path="/games/gacha-box" element={<GachaBoxGame />} />
+          <Route path="/games/search-detective" element={<SearchDetectiveGame />} />
+          <Route path="/games/chat-guard" element={<ChatGuardGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

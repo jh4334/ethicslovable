@@ -26,10 +26,12 @@ const IntroScreen = ({ content, onStart }: IntroScreenProps) => {
         {intro.emoji}
       </motion.div>
 
-      <h1 className="text-3xl font-black leading-tight">
+      <h1 className="fa-title text-4xl font-black leading-tight tracking-tight">
         {intro.title}
         <br />
-        <span className="fa-accent text-lg font-normal">{intro.subtitle}</span>
+        <span className="fa-accent mt-2 inline-block text-lg font-semibold tracking-normal [text-shadow:none]">
+          {intro.subtitle}
+        </span>
       </h1>
 
       <div className="fa-panel fa-dim w-full max-w-sm p-5 text-left text-sm leading-relaxed">

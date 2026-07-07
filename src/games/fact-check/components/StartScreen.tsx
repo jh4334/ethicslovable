@@ -16,11 +16,11 @@ export default function StartScreen({ content, onStart }: StartScreenProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-lg"
+        className="mlq-card w-full max-w-md p-6"
       >
-        {/* 누리봇 인사 */}
-        <div className="mb-4 flex items-start gap-3">
-          <div className="fc-bot-avatar flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-2xl">
+        {/* 누리봇 히어로 + 인사 */}
+        <div className="mb-4 flex flex-col items-center gap-3">
+          <div className="mlq-emoji-tile fc-hero-tile flex h-20 w-20 shrink-0 animate-float text-4xl">
             🤖
           </div>
           <div className="fc-bubble-bot rounded-2xl p-3 text-sm leading-relaxed text-foreground">
@@ -29,11 +29,11 @@ export default function StartScreen({ content, onStart }: StartScreenProps) {
         </div>
 
         <div className="mb-4 text-center">
-          <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+          <div className="mlq-chip mb-1.5 bg-primary/10 text-primary">
             <ShieldCheck className="h-3.5 w-3.5" />
             {intro.role}
           </div>
-          <h1 className="text-xl font-black">{intro.title}</h1>
+          <h1 className="fc-gradient-text text-2xl font-black">{intro.title}</h1>
         </div>
 
         <p className="mb-3 rounded-xl bg-secondary p-3 text-sm leading-relaxed text-secondary-foreground">
@@ -52,7 +52,7 @@ export default function StartScreen({ content, onStart }: StartScreenProps) {
 
         <button
           onClick={onStart}
-          className="w-full rounded-xl bg-primary py-3 text-base font-bold text-primary-foreground shadow transition hover:brightness-105 active:scale-[0.99]"
+          className="fc-btn-cta w-full rounded-xl py-3 text-base font-bold text-white"
         >
           {intro.startLabel}
         </button>

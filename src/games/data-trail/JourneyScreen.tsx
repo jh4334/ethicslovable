@@ -59,7 +59,7 @@ export default function JourneyScreen({ content, game }: JourneyScreenProps) {
       /* ② 저장 — 데이터 창고: 구조화된 표 */
       case "store":
         return (
-          <div className="mt-3 overflow-x-auto rounded-lg border">
+          <div className="dt-table mt-3 overflow-x-auto">
             <table className="w-full min-w-[26rem] text-xs">
               <thead>
                 <tr className="bg-muted text-left text-muted-foreground">
@@ -202,8 +202,13 @@ export default function JourneyScreen({ content, game }: JourneyScreenProps) {
                   </div>
 
                   {/* 오른쪽: 역 카드 */}
-                  <div className="mb-5 flex-1 rounded-2xl bg-card p-4 shadow-sm">
-                    <p className="text-[11px] font-bold text-primary">
+                  <div
+                    className={cn(
+                      "dt-station-card mb-5 flex-1 rounded-2xl bg-card p-4",
+                      isLast && "dt-station-current",
+                    )}
+                  >
+                    <p className="dt-accent-text text-[11px] font-bold">
                       {index + 1}번째 역
                     </p>
                     <h3 className="text-base font-extrabold">{station.title}</h3>

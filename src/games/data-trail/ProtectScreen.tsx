@@ -51,7 +51,10 @@ export default function ProtectScreen({ content, game }: ProtectScreenProps) {
             <h2 className="text-xl font-extrabold">🛡️ {protect.title}</h2>
             <p className="mt-1 text-xs text-muted-foreground">{protect.subtitle}</p>
           </div>
-          <span className="dt-shield inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-bold">
+          <span
+            key={earned}
+            className="dt-shield dt-counter-pop inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-bold"
+          >
             <Shield className="h-4 w-4" />
             {protect.shieldLabel} {earned}개
           </span>
@@ -68,7 +71,7 @@ export default function ProtectScreen({ content, game }: ProtectScreenProps) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -24 }}
             transition={{ duration: 0.3 }}
-            className="mt-2 rounded-2xl bg-card p-5 shadow-sm"
+            className="mlq-card mt-2 p-5"
           >
             <div className="flex items-start gap-3">
               <span className="text-3xl">{scenario.emoji}</span>

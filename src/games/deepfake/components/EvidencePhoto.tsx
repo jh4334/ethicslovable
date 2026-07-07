@@ -89,7 +89,7 @@ export default function EvidencePhoto({
                 stroke={isFound ? "hsl(152 60% 40%)" : "hsl(0 78% 58%)"}
                 strokeWidth={2.5}
                 strokeDasharray="6 4"
-                className="df-anomaly-ring"
+                className={cn("df-anomaly-ring", isFound && "df-ring-found")}
               />
             );
           })}

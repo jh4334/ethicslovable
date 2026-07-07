@@ -1,0 +1,221 @@
+/*
+ * 뽑기 상자의 비밀 — 게임 전용 스타일.
+ * 모든 선택자는 .game-gacha-box 아래로 범위를 한정하고,
+ * 커스텀 클래스는 gb- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ *
+ * 고유 색상 축: hue 45 (골드) — "반짝이는 아이템 상점" 무드.
+ */
+
+.game-gacha-box {
+  --gb-from: 45 95% 50%;
+  --gb-to: 30 92% 48%;
+  /* 페이지 배경 — 은은한 금빛 radial 워시 (저사양 친화: 단순 그라디언트만) */
+  background:
+    radial-gradient(52rem 34rem at 12% -8%, hsl(45 95% 86% / 0.55), transparent 62%),
+    radial-gradient(46rem 30rem at 108% 14%, hsl(30 90% 86% / 0.5), transparent 60%),
+    hsl(var(--background));
+}
+
+/* 금빛 그라디언트 CTA — mlq-btn-primary의 gb 변형 */
+.game-gacha-box .gb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background-image: linear-gradient(135deg, hsl(var(--gb-from)), hsl(var(--gb-to)));
+  color: hsl(30 70% 14%);
+  font-weight: 800;
+  box-shadow: 0 8px 20px -6px hsl(var(--gb-from) / 0.55);
+  transition: transform 0.15s ease;
+}
+.game-gacha-box .gb-btn:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.02);
+}
+.game-gacha-box .gb-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.game-gacha-box .gb-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 그라디언트 알약 (배지·코인 카운터) */
+.game-gacha-box .gb-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 9999px;
+  padding: 0.25rem 0.7rem;
+  background-image: linear-gradient(135deg, hsl(var(--gb-from)), hsl(var(--gb-to)));
+  color: hsl(30 70% 14%);
+  font-weight: 800;
+  box-shadow: 0 4px 10px -4px hsl(var(--gb-from) / 0.5);
+}
+
+/* 그라디언트 텍스트 (계산 결과 강조 등) */
+.game-gacha-box .gb-grad-text {
+  background-image: linear-gradient(120deg, hsl(38 95% 44%), hsl(24 92% 46%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 핵심 콜아웃 — 금빛 그라디언트 틴트 */
+.game-gacha-box .gb-callout {
+  border: 1px solid hsl(var(--gb-from) / 0.4);
+  background: linear-gradient(135deg, hsl(48 95% 94%), hsl(36 92% 92%));
+  box-shadow: 0 8px 18px -10px hsl(var(--gb-from) / 0.45);
+}
+
+/* ---------- 상점 연출 ---------- */
+
+/* 뽑기 배너 — 반짝이는 금빛 띠가 흐른다 */
+.game-gacha-box .gb-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-image: linear-gradient(
+    120deg,
+    hsl(45 95% 52%),
+    hsl(36 95% 50%) 45%,
+    hsl(45 100% 62%) 55%,
+    hsl(30 92% 48%)
+  );
+  background-size: 220% 100%;
+  color: hsl(30 75% 12%);
+  box-shadow: 0 10px 24px -8px hsl(var(--gb-from) / 0.6);
+  animation: gb-shimmer 3.2s linear infinite;
+}
+
+@keyframes gb-shimmer {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 220% 0;
+  }
+}
+
+/* 상자 — 평소에는 살짝 둥실둥실 */
+.game-gacha-box .gb-box-idle {
+  animation: gb-bob 2.8s ease-in-out infinite;
+}
+
+@keyframes gb-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* 상자 — 뽑는 순간 부들부들 흔들림 */
+.game-gacha-box .gb-box-shake {
+  animation: gb-shake 0.45s ease-in-out infinite;
+}
+
+@keyframes gb-shake {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(-8deg) scale(1.06);
+  }
+  75% {
+    transform: rotate(8deg) scale(1.06);
+  }
+}
+
+/* 빛기둥 — 상자 뒤에서 위로 솟는다 */
+.game-gacha-box .gb-beam {
+  background: linear-gradient(
+    to top,
+    hsl(45 100% 60% / 0.9),
+    hsl(48 100% 78% / 0.55) 55%,
+    transparent
+  );
+  transform-origin: bottom center;
+  animation: gb-beam-rise 0.7s ease-out both;
+  pointer-events: none;
+}
+
+@keyframes gb-beam-rise {
+  from {
+    opacity: 0;
+    transform: scaleY(0.1);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* 아쉬움 연출 — 금빛으로 강하게 고동치는 카드 */
+.game-gacha-box .gb-nearmiss-flash {
+  animation: gb-gold-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes gb-gold-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 18px hsl(45 100% 55% / 0.7), 0 0 44px hsl(45 100% 60% / 0.45);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px hsl(45 100% 55% / 0.95), 0 0 70px hsl(45 100% 60% / 0.7);
+    transform: scale(1.04);
+  }
+}
+
+/* 결과 카드 등장 — 통통 튀며 */
+.game-gacha-box .gb-bounce-in {
+  animation: gb-bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes gb-bounce-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 인벤토리에 새 아이템이 들어올 때 */
+.game-gacha-box .gb-pop-in {
+  animation: gb-pop-in 0.3s ease-out both;
+}
+
+@keyframes gb-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 히스토그램 막대 — 부드럽게 자라난다 */
+.game-gacha-box .gb-bar {
+  transition: width 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-gacha-box .gb-banner,
+  .game-gacha-box .gb-box-idle,
+  .game-gacha-box .gb-box-shake,
+  .game-gacha-box .gb-beam,
+  .game-gacha-box .gb-nearmiss-flash,
+  .game-gacha-box .gb-bounce-in,
+  .game-gacha-box .gb-pop-in {
+    animation: none;
+  }
+}

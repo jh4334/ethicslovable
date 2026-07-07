@@ -2,7 +2,8 @@ import { Timer, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { SiContent } from "../types";
 import type { SocialInsightGame } from "../useSocialInsightGame";
-import BrandLogo from "./BrandLogo";
+import PhoneFrame, { AppTopBar, PhoneStatusBar } from "./PhoneFrame";
+import StoriesRow from "./StoriesRow";
 import FeedPostCard from "./FeedPostCard";
 import ChoiceList from "./ChoiceList";
 
@@ -11,6 +12,11 @@ interface PlayScreenProps {
   game: SocialInsightGame;
 }
 
+/**
+ * 플레이 화면 — 스마트폰 프레임 속 누리피드 앱.
+ * 점수·콤보·타이머 HUD와 미션 안내는 폰 프레임 "밖"에 두어
+ * 게임 정보와 SNS 화면이 섞이지 않게 한다.
+ */
 export default function PlayScreen({ content, game }: PlayScreenProps) {
   const { question, difficulty } = game;
 
@@ -25,58 +31,37 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
   const timeRatio = difficulty.timeLimit > 0 ? game.timeLeft / difficulty.timeLimit : 0;
 
   return (
-    <div className="relative mx-auto flex min-h-[calc(100vh-2.75rem)] w-full max-w-sm flex-col overflow-hidden border-x bg-background shadow-xl">
-      {/* 상단 바: 누리피드 브랜드 + 점수/콤보/시간 */}
-      <header className="sticky top-0 z-10 w-full border-b bg-card px-3 py-2">
+    <div className="relative mx-auto min-h-[calc(100vh-2.75rem)] w-full max-w-md px-2 pb-6 pt-2">
+      {/* HUD — 폰 프레임 밖(위)에 고정. 스크롤해도 타이머가 보인다 */}
+      <div className="sticky top-1 z-20 mx-auto mb-2 w-full max-w-[420px] rounded-xl border bg-card/90 px-3 py-2 shadow-soft backdrop-blur">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <BrandLogo className="h-5 w-5" />
-            <span className="text-sm font-bold">{content.meta.snsName}</span>
-          </div>
+          <span className="text-[10px] font-bold text-muted-foreground">
+            {game.round} / {game.totalRounds} 라운드
+          </span>
           <div className="flex items-center gap-1.5">
             {game.combo >= 2 && (
-              <span className="animate-pop rounded bg-warning/20 px-1.5 py-0.5 text-[10px] font-bold text-warning">
+              <span className="mlq-chip animate-pop bg-warning/15 text-warning">
                 {game.combo}연속!
               </span>
             )}
-            <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] font-bold text-secondary-foreground">
+            <span className="mlq-chip bg-secondary text-secondary-foreground">
               {game.score}점
             </span>
             <span
               className={cn(
-                "flex items-center rounded px-1.5 py-0.5 text-xs font-bold tabular-nums",
+                "mlq-chip tabular-nums",
                 game.timeLeft <= 3
-                  ? "si-timer-danger bg-destructive/15 text-destructive"
+                  ? "si-timer-danger bg-destructive text-destructive-foreground shadow-soft"
                   : "bg-secondary text-foreground",
               )}
             >
-              <Timer className="mr-0.5 h-3 w-3" />
+              <Timer className="h-3.5 w-3.5" />
               {game.timeLeft}초
             </span>
           </div>
         </div>
-        {/* 남은 시간 막대 */}
-        <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-muted">
-          <div
-            className={cn(
-              "si-time-bar h-full rounded-full",
-              game.timeLeft <= 3 ? "bg-destructive" : "bg-primary",
-            )}
-            style={{ width: `${Math.max(0, Math.min(1, timeRatio)) * 100}%` }}
-          />
-        </div>
-      </header>
-
-      {/* 콤보 칭찬 문구 */}
-      {game.comboFlash && (
-        <div className="si-combo-flash pointer-events-none absolute left-1/2 top-16 z-20 whitespace-nowrap text-lg font-black text-warning">
-          {game.comboFlash}
-        </div>
-      )}
-
-      <main className="w-full flex-1 overflow-y-auto pb-4">
         {/* 라운드 진행 표시 */}
-        <div className="flex gap-0.5 px-3 pt-2">
+        <div className="mt-1.5 flex gap-0.5">
           {Array.from({ length: game.totalRounds }, (_, i) => (
             <div
               key={i}
@@ -91,59 +76,78 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
             />
           ))}
         </div>
-        <div className="px-3 pt-1 text-right text-[10px] font-medium text-muted-foreground">
-          {game.round} / {game.totalRounds} 라운드
+        {/* 남은 시간 막대 */}
+        <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className={cn(
+              "si-time-bar h-full rounded-full",
+              game.timeLeft <= 3 ? "bg-destructive" : "bg-primary",
+            )}
+            style={{ width: `${Math.max(0, Math.min(1, timeRatio)) * 100}%` }}
+          />
         </div>
+      </div>
 
-        {/* 미션 안내 */}
-        <div className="px-3 py-1.5">
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-2 text-center">
-            <p className="text-[11px] font-medium text-primary">
-              🎯 {content.meta.mission}
-            </p>
-          </div>
+      {/* 미션 안내 — 폰 프레임 위쪽 프레이밍 */}
+      <div className="mx-auto mb-2 w-full max-w-[420px] rounded-xl border border-primary/20 bg-primary/5 px-3 py-1.5 text-center">
+        <p className="text-[11px] font-bold text-primary">🎯 {content.meta.mission}</p>
+      </div>
+
+      {/* 콤보 칭찬 문구 */}
+      {game.comboFlash && (
+        <div className="si-combo-flash pointer-events-none fixed left-1/2 top-28 z-30 whitespace-nowrap text-xl font-black text-warning drop-shadow-sm">
+          {game.comboFlash}
         </div>
+      )}
+
+      {/* 스마트폰 속 누리피드 */}
+      <PhoneFrame>
+        <PhoneStatusBar />
+        <AppTopBar snsName={content.meta.snsName} />
+        <StoriesRow content={content} />
 
         {/* 친구가 방금 좋아요 누른 게시물 */}
         <FeedPostCard question={question} />
 
-        {/* 힌트 (함정 라운드에서만) */}
-        {game.hasTrap && (
-          <div className="mx-3 mt-2">
-            <button
-              type="button"
-              onClick={() => game.setShowHint(!game.showHint)}
-              className={cn(
-                "flex w-full items-center justify-center gap-1.5 rounded-lg p-1.5 text-[10px] font-medium transition-colors",
-                game.showHint
-                  ? "border border-destructive/30 bg-destructive/10 text-destructive"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80",
+        <div className="bg-background pb-1">
+          {/* 힌트 (함정 라운드에서만) */}
+          {game.hasTrap && (
+            <div className="px-3 pt-2">
+              <button
+                type="button"
+                onClick={() => game.setShowHint(!game.showHint)}
+                className={cn(
+                  "flex w-full items-center justify-center gap-1.5 rounded-lg p-1.5 text-[10px] font-medium transition-colors",
+                  game.showHint
+                    ? "border border-destructive/30 bg-destructive/10 text-destructive"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80",
+                )}
+              >
+                {game.showHint ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                {game.showHint ? "힌트 숨기기" : "힌트 보기 (함정 조심!)"}
+              </button>
+              {game.showHint && question.dislikeLabel && (
+                <div className="mt-1.5 animate-fade-in rounded-lg border border-destructive/30 bg-destructive/10 p-2 text-center text-[10px] text-destructive">
+                  ⚠️ 이 친구는 <strong>{question.dislikeLabel}</strong> 게시물을 싫어해서 그냥 넘겨요!
+                </div>
               )}
-            >
-              {game.showHint ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
-              {game.showHint ? "힌트 숨기기" : "힌트 보기 (함정 조심!)"}
-            </button>
-            {game.showHint && question.dislikeLabel && (
-              <div className="mt-1.5 animate-fade-in rounded-lg border border-destructive/30 bg-destructive/10 p-2 text-center text-[10px] text-destructive">
-                ⚠️ 이 친구는 <strong>{question.dislikeLabel}</strong> 게시물을 싫어해서 그냥 넘겨요!
-              </div>
-            )}
+            </div>
+          )}
+
+          {/* 추천 후보 목록 */}
+          <div className="mt-2 px-3">
+            <h3 className="mb-1.5 text-xs font-bold">📌 어떤 게시물을 추천할까요?</h3>
+            <ChoiceList choices={game.choices} feedback={game.feedback} onChoose={game.choose} />
           </div>
-        )}
-
-        {/* 추천 후보 목록 */}
-        <div className="mt-3 px-3">
-          <h3 className="mb-1.5 text-xs font-bold">📌 어떤 게시물을 추천할까요?</h3>
-          <ChoiceList choices={game.choices} feedback={game.feedback} onChoose={game.choose} />
         </div>
-      </main>
+      </PhoneFrame>
 
-      {/* 정답/오답 알림 */}
+      {/* 정답/오답 알림 — 화면 중앙 고정 */}
       {game.feedback && (
-        <div className="absolute left-1/2 top-1/2 z-30 w-52 -translate-x-1/2 -translate-y-1/2 animate-scale-in">
+        <div className="fixed left-1/2 top-1/2 z-30 w-52 -translate-x-1/2 -translate-y-1/2 animate-scale-in">
           <div
             className={cn(
-              "flex flex-col items-center rounded-xl border bg-card/95 p-4 shadow-2xl backdrop-blur-md",
+              "flex flex-col items-center rounded-2xl border bg-card/95 p-4 shadow-lift backdrop-blur-md",
               game.feedback.type === "success" ? "border-success/40" : "border-destructive/40",
             )}
           >

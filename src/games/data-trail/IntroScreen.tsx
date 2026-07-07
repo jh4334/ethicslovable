@@ -17,13 +17,21 @@ export default function IntroScreen({ content, onStart }: IntroScreenProps) {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-xl rounded-2xl bg-card p-6 shadow-lg sm:p-8"
+        className="mlq-card w-full max-w-xl p-6 sm:p-8"
       >
-        <p className="text-sm font-semibold text-primary">
-          {meta.appName} · {meta.roleName} 임무
-        </p>
-        <h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">🧳 {meta.introTitle}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{meta.introTagline}</p>
+        <div className="flex flex-col items-center text-center">
+          <span
+            aria-hidden
+            className="mlq-emoji-tile dt-hero-tile animate-float h-20 w-20 text-5xl"
+          >
+            🧳
+          </span>
+          <p className="dt-accent-text mt-4 text-sm font-bold">
+            {meta.appName} · {meta.roleName} 임무
+          </p>
+          <h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">{meta.introTitle}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{meta.introTagline}</p>
+        </div>
 
         <div className="mt-5 space-y-3 text-sm leading-relaxed">
           {meta.introBody.map((paragraph, i) => (
@@ -39,7 +47,7 @@ export default function IntroScreen({ content, onStart }: IntroScreenProps) {
 
         <ol className="mt-5 space-y-2">
           {meta.partLabels.map((part) => (
-            <li key={part.step} className="flex items-start gap-3 rounded-xl border p-3">
+            <li key={part.step} className="dt-ticket flex items-start gap-3 p-3 pr-8">
               <span className="dt-station-dot text-sm font-bold">{part.step}</span>
               <div>
                 <p className="text-sm font-bold">{part.title}</p>

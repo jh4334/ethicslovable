@@ -19,17 +19,20 @@ interface GameLayoutProps {
 export default function GameLayout({ gameId, lesson, title, children, className }: GameLayoutProps) {
   return (
     <div className={cn(`game-${gameId}`, "flex min-h-screen flex-col", className)}>
-      <nav className="sticky top-0 z-50 border-b bg-card/90 backdrop-blur">
-        <div className="container flex h-11 items-center justify-between">
+      <nav className="sticky top-0 z-50 border-b border-border/60 bg-card/85 backdrop-blur-md">
+        <div className="container flex h-12 items-center justify-between">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <Home className="h-4 w-4" />
             퀘스트 지도로
           </Link>
-          <span className="text-sm font-semibold">
-            {lesson}차시 · {title}
+          <span className="inline-flex items-center gap-2 text-sm font-extrabold">
+            <span className="mlq-gradient rounded-full px-2.5 py-0.5 text-[11px] font-black text-white">
+              {lesson}차시
+            </span>
+            {title}
           </span>
         </div>
       </nav>

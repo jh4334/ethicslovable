@@ -17,7 +17,9 @@ const ReflectionScreen = ({ content, onRestart }: ReflectionScreenProps) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="mb-6 text-2xl font-bold text-white break-keep">{reflection.title}</h1>
+      <h1 className="mb-6 text-2xl font-extrabold tracking-tight text-white break-keep">
+        {reflection.title}
+      </h1>
 
       <div className="fa-dim max-w-sm space-y-4 text-sm leading-relaxed">
         {reflection.paragraphs.map((paragraph, i) => (

@@ -68,10 +68,8 @@ export default function TrainScreen({ content, game }: TrainScreenProps) {
     <div className="mx-auto w-full max-w-2xl animate-fade-in px-4 py-5 pb-28">
       {/* 라운드 배지 + 안내 */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold text-primary-foreground">
-          {game.round}차 훈련
-        </span>
-        <h2 className="text-base font-black">{rounds.trainTitle}</h2>
+        <span className="db-pill text-[11px]">{game.round}차 훈련</span>
+        <h2 className="text-lg font-black">{rounds.trainTitle}</h2>
       </div>
       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{rounds.trainGuide}</p>
       <p className="mt-1.5 rounded-lg border border-accent/60 bg-accent/20 px-3 py-2 text-xs font-medium text-accent-foreground">
@@ -98,16 +96,14 @@ export default function TrainScreen({ content, game }: TrainScreenProps) {
               onClick={() => game.toggleCard(card.id)}
               aria-pressed={isSelected}
               className={cn(
-                "db-card relative flex flex-col items-center rounded-xl border bg-card p-2 pt-3 text-center transition-all",
-                isSelected
-                  ? "db-card-selected border-primary bg-primary/5"
-                  : "hover:border-primary/40 hover:bg-muted/60",
+                "db-card relative flex flex-col items-center rounded-2xl border border-transparent bg-card p-2 pt-3 text-center shadow-soft transition-all",
+                isSelected ? "db-card-selected" : "hover:border-success/40",
                 isFull && "opacity-40",
                 feeding && isSelected && "db-card-eaten",
               )}
             >
               {isSelected && (
-                <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground animate-scale-in">
+                <span className="db-check absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white animate-scale-in">
                   ✓
                 </span>
               )}
@@ -133,16 +129,16 @@ export default function TrainScreen({ content, game }: TrainScreenProps) {
       <div className="fixed inset-x-0 bottom-0 z-20 border-t bg-card/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-2xl items-center justify-between gap-3 px-4 py-3">
           <div>
-            <div className="text-xs font-bold tabular-nums">
+            <div className="db-pill text-xs tabular-nums">
               🍽️ {count} / {game.pickCount}장
             </div>
-            <div className="mt-0.5 flex flex-wrap gap-1">
+            <div className="mt-1.5 flex flex-wrap gap-1">
               {speciesSummary.map(({ species, count: n }) => (
                 <span
                   key={species}
                   className={cn(
-                    "rounded-full px-1.5 py-0.5 text-[10px] font-medium",
-                    n > 0 ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground/60",
+                    "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                    n > 0 ? "bg-success/15 text-success" : "bg-muted text-muted-foreground/60",
                   )}
                 >
                   {species} {n}
@@ -155,10 +151,10 @@ export default function TrainScreen({ content, game }: TrainScreenProps) {
             disabled={!ready || feeding}
             onClick={() => setFeeding(true)}
             className={cn(
-              "shrink-0 rounded-xl px-5 py-2.5 text-sm font-bold transition-all",
+              "shrink-0 px-5 py-2.5 text-sm font-bold",
               ready && !feeding
-                ? "animate-pop bg-primary text-primary-foreground hover:scale-[1.03] active:scale-95"
-                : "cursor-not-allowed bg-muted text-muted-foreground",
+                ? "db-btn animate-pop"
+                : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground transition-all",
             )}
           >
             {feeding ? "냠냠 먹는 중…" : rounds.feedButton}

@@ -12,7 +12,11 @@ export type GameId =
   | "data-bias"
   | "deepfake"
   | "fact-check"
-  | "data-trail";
+  | "data-trail"
+  | "short-form"
+  | "gacha-box"
+  | "search-detective"
+  | "chat-guard";
 
 export const GAME_IDS: GameId[] = [
   "feed-algorithm",
@@ -23,6 +27,10 @@ export const GAME_IDS: GameId[] = [
   "deepfake",
   "fact-check",
   "data-trail",
+  "short-form",
+  "gacha-box",
+  "search-detective",
+  "chat-guard",
 ];
 
 export interface GameRecord {

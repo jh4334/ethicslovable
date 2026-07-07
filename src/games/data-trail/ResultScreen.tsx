@@ -40,7 +40,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-xl rounded-2xl bg-card p-6 shadow-lg sm:p-8"
+        className="mlq-card w-full max-w-xl p-6 sm:p-8"
       >
         <h2 className="text-center text-2xl font-extrabold">🎉 {result.title}</h2>
 
@@ -62,7 +62,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
             </motion.span>
           ))}
         </div>
-        <p className="mt-1.5 text-center text-sm font-bold">
+        <p className="dt-result-count mt-1.5 text-center text-lg font-black">
           {shields}개 / {totalShields}개
         </p>
         <p className="mt-2 text-center text-xs leading-relaxed text-muted-foreground">
