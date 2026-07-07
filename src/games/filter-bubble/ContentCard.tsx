@@ -18,11 +18,11 @@ export function ContentCard({ item, category, onClick }: ContentCardProps) {
   return (
     <div
       onClick={() => onClick(item)}
-      className="fb-card-interactive relative h-full overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+      className="fb-card-interactive relative h-full overflow-hidden rounded-2xl bg-card shadow-soft"
     >
       {/* 분야 배지 */}
       <div
-        className={`absolute left-3 top-3 flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold ${meta.badgeClass}`}
+        className={`absolute left-3 top-3 flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold ${meta.badgeClass}`}
       >
         <CatIcon size={10} />
         {category.label}
@@ -30,17 +30,17 @@ export function ContentCard({ item, category, onClick }: ContentCardProps) {
 
       {/* 카드 내용 */}
       <div className="flex h-full min-h-[120px] flex-col justify-between px-4 pb-4 pt-10">
-        <h3 className="mb-2 text-sm font-semibold leading-snug text-card-foreground">
+        <h3 className="mb-2 text-sm font-bold leading-snug text-card-foreground">
           {item.title}
         </h3>
         <div className="mt-auto flex items-center justify-between">
           <div className="text-[10px] text-muted-foreground">조회수 {viewCount}만회</div>
           {/* 자극 정도 표시 점 */}
-          <div className="flex gap-0.5">
+          <div className="flex gap-1">
             {Array.from({ length: item.intensity }).map((_, i) => (
               <div
                 key={i}
-                className={`h-1 w-1 rounded-full ${
+                className={`h-1.5 w-1.5 rounded-full ${
                   item.intensity >= 4 ? "fb-intensity-high" : "fb-intensity-normal"
                 }`}
               />

@@ -2,9 +2,14 @@
  * 필터버블 탐지기 — 게임 고유 스타일.
  * 모든 선택자는 .game-filter-bubble 아래로만 적용되고,
  * 커스텀 클래스는 fb- 접두사를 쓴다. (원작 bubble-lens 시각 정체성 이식)
+ * 정체성 색상축: hue 199(하늘색) → 퀘스트 보라로 이어지는 그라디언트.
  */
 
 .game-filter-bubble {
+  /* 게임 정체성 색 (하늘색) */
+  --fb-hue: 199;
+  --fb-ident: 199 89% 48%;
+
   /* 분야별 색 */
   --fb-cat-game: 271 81% 94%;
   --fb-cat-game-text: 271 81% 40%;
@@ -27,15 +32,28 @@
   --fb-risk-safe: 142 76% 36%;
   --fb-risk-warning: 25 95% 53%;
   --fb-risk-danger: 0 84% 60%;
-
-  /* 원작의 옅은 회색 배경 */
-  --fb-surface: 220 14% 96%;
 }
 
-/* 화면 한 판 — 상단 공통 바(h-11)를 뺀 높이를 채운다 */
+/* 화면 한 판 — 상단 공통 바(h-11)를 뺀 높이를 채운다.
+   위쪽에서 은은하게 퍼지는 하늘색 워시 배경(밝게, 인쇄 친화) */
 .game-filter-bubble .fb-screen {
   min-height: calc(100vh - 2.75rem);
-  background-color: hsl(var(--fb-surface));
+  background:
+    radial-gradient(
+      60rem 26rem at 50% -8rem,
+      hsl(var(--fb-hue) 88% 62% / 0.18),
+      transparent 72%
+    ),
+    linear-gradient(180deg, hsl(204 48% 97.5%), hsl(222 26% 97%));
+}
+
+/* 인트로 히어로 타일 — mlq-emoji-tile에 게임 색조 적용 */
+.game-filter-bubble .fb-hero-tile {
+  --tile-hue: 199;
+  color: hsl(var(--fb-hue) 89% 36%);
+  box-shadow:
+    inset 0 -2px 6px hsl(var(--fb-hue) 60% 80% / 0.5),
+    0 12px 26px -10px hsl(var(--fb-ident) / 0.5);
 }
 
 /* ---------- 버튼 ---------- */
@@ -44,11 +62,12 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    transform 0.1s ease,
+    filter 0.2s ease,
+    transform 0.15s ease,
     box-shadow 0.2s ease;
   cursor: pointer;
 }
@@ -62,56 +81,103 @@
   cursor: not-allowed;
 }
 
+/* 주 버튼 — 하늘색 → 보라 그라디언트 + 부드러운 광채 */
 .game-filter-bubble .fb-btn-primary {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--fb-ident)),
+    hsl(228 84% 58%) 55%,
+    hsl(252 82% 60%)
+  );
+  color: hsl(0 0% 100%);
+  box-shadow: 0 8px 20px -6px hsl(216 86% 54% / 0.55);
 }
 
-.game-filter-bubble .fb-btn-primary:hover {
+.game-filter-bubble .fb-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
   filter: brightness(1.05);
+  box-shadow: 0 12px 26px -8px hsl(216 86% 54% / 0.6);
 }
 
+/* 보조 버튼 — 흰 바탕 아웃라인 */
 .game-filter-bubble .fb-btn-outline {
   background-color: hsl(var(--card));
   color: hsl(var(--card-foreground));
-  border: 1px solid hsl(var(--border));
+  border: 2px solid hsl(var(--border));
+  box-shadow: 0 1px 2px hsl(232 32% 15% / 0.05);
 }
 
 .game-filter-bubble .fb-btn-outline:hover:not(:disabled) {
-  background-color: hsl(var(--muted));
+  border-color: hsl(var(--fb-ident) / 0.45);
+  background-color: hsl(var(--fb-hue) 80% 97%);
+  transform: translateY(-1px);
+}
+
+/* ---------- 진행 카운터 배지 (N/10) ---------- */
+.game-filter-bubble .fb-progress-pill {
+  display: inline-flex;
+  align-items: baseline;
+  border-radius: 9999px;
+  padding: 0.3rem 0.9rem;
+  background-image: linear-gradient(
+    135deg,
+    hsl(var(--fb-ident)),
+    hsl(252 82% 60%)
+  );
+  color: hsl(0 0% 100%);
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  box-shadow: 0 6px 16px -5px hsl(var(--fb-ident) / 0.55);
+}
+
+.game-filter-bubble .fb-progress-pill .fb-progress-total {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(0 0% 100% / 0.75);
 }
 
 /* ---------- 콘텐츠 카드 ---------- */
 .game-filter-bubble .fb-card-interactive {
-  transition: all 0.3s ease;
+  border: 1px solid hsl(var(--border) / 0.7);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   cursor: pointer;
 }
 
 .game-filter-bubble .fb-card-interactive:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: hsl(var(--fb-ident) / 0.35);
   box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
-  transform: translateY(-0.25rem);
+    0 2px 4px hsl(232 32% 15% / 0.06),
+    0 16px 32px -8px hsl(var(--fb-ident) / 0.28);
 }
 
+/* 선택 순간의 팝 피드백 */
 .game-filter-bubble .fb-card-interactive:active {
-  transform: scale(0.95);
+  transform: scale(0.94);
+  transition-duration: 0.08s;
 }
 
 /* 자극 정도 점 */
 .game-filter-bubble .fb-intensity-high {
-  background-color: hsl(0 91% 71%);
+  background-color: hsl(0 84% 58%);
+  box-shadow: 0 0 5px hsl(0 84% 58% / 0.55);
 }
 
 .game-filter-bubble .fb-intensity-normal {
-  background-color: hsl(220 13% 82%);
+  background-color: hsl(220 13% 80%);
 }
 
 /* 자극 최고 단계 카드의 아래 강조 줄 */
 .game-filter-bubble .fb-hot-bar {
-  background: linear-gradient(to right, hsl(0 84% 60%), hsl(25 95% 53%));
-  opacity: 0.5;
+  background: linear-gradient(to right, hsl(0 84% 58%), hsl(25 95% 53%));
+  opacity: 0.85;
+  box-shadow: 0 -1px 6px hsl(0 84% 58% / 0.35);
 }
 
 /* ---------- 분야 배지 색 ---------- */
@@ -199,15 +265,30 @@
   color: hsl(var(--fb-cat-animal-text));
 }
 
-/* ---------- 위험도 게이지 색 ---------- */
+/* ---------- 위험도 게이지 — 단계별 그라디언트 + 은은한 광채 ---------- */
 .game-filter-bubble .fb-gauge-safe {
-  background-color: hsl(var(--fb-risk-safe));
+  background-image: linear-gradient(
+    90deg,
+    hsl(160 72% 44%),
+    hsl(var(--fb-risk-safe))
+  );
+  box-shadow: 0 0 12px hsl(var(--fb-risk-safe) / 0.45);
 }
 .game-filter-bubble .fb-gauge-warning {
-  background-color: hsl(var(--fb-risk-warning));
+  background-image: linear-gradient(
+    90deg,
+    hsl(40 96% 52%),
+    hsl(var(--fb-risk-warning))
+  );
+  box-shadow: 0 0 12px hsl(var(--fb-risk-warning) / 0.5);
 }
 .game-filter-bubble .fb-gauge-danger {
-  background-color: hsl(var(--fb-risk-danger));
+  background-image: linear-gradient(
+    90deg,
+    hsl(25 95% 55%),
+    hsl(var(--fb-risk-danger))
+  );
+  box-shadow: 0 0 12px hsl(var(--fb-risk-danger) / 0.5);
 }
 .game-filter-bubble .fb-text-safe {
   color: hsl(var(--fb-risk-safe));
@@ -265,4 +346,14 @@
   border-top-color: transparent;
   border-radius: 9999px;
   animation: fb-spin 0.8s linear infinite;
+}
+
+/* 움직임 최소화 설정 존중 (저사양·접근성) */
+@media (prefers-reduced-motion: reduce) {
+  .game-filter-bubble .fb-bounce {
+    animation: none;
+  }
+  .game-filter-bubble .fb-card-stagger {
+    animation-duration: 0.01s;
+  }
 }

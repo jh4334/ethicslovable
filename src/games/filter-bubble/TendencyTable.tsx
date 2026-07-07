@@ -18,7 +18,7 @@ export function TendencyTable({ history, categories }: TendencyTableProps) {
   const ignoredCats = sortedCats.filter((c) => (counts[c.id] || 0) === 0);
 
   return (
-    <div className="space-y-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+    <div className="mlq-card space-y-4 p-5">
       <h3 className="flex items-center gap-2 text-sm font-bold text-card-foreground">
         <BarChart2 size={16} className="text-muted-foreground" />
         소비 경향 분석
@@ -34,9 +34,9 @@ export function TendencyTable({ history, categories }: TendencyTableProps) {
             {lovedCats.slice(0, 3).map((cat) => (
               <div
                 key={cat.id}
-                className={`flex items-center justify-between rounded px-2 py-1.5 text-xs ${getCategoryMeta(cat.id).badgeClass}`}
+                className={`flex items-center justify-between rounded-lg px-2 py-1.5 text-xs ${getCategoryMeta(cat.id).badgeClass}`}
               >
-                <span className="font-medium">{cat.label}</span>
+                <span className="font-semibold">{cat.label}</span>
                 <span className="font-bold">{counts[cat.id]}회</span>
               </div>
             ))}
@@ -55,7 +55,7 @@ export function TendencyTable({ history, categories }: TendencyTableProps) {
             {ignoredCats.map((cat) => (
               <span
                 key={cat.id}
-                className="rounded border border-destructive/20 bg-destructive/10 px-2 py-1 text-[10px] font-medium text-destructive"
+                className="rounded-full border border-destructive/20 bg-destructive/10 px-2 py-1 text-[10px] font-semibold text-destructive"
               >
                 {cat.label}
               </span>

@@ -10,8 +10,8 @@ interface IntroScreenProps {
 export function IntroScreen({ categories, onStart }: IntroScreenProps) {
   return (
     <div className="fb-screen flex flex-col items-center justify-center p-6 text-center">
-      <div className="w-full max-w-md space-y-8 rounded-3xl border border-border bg-card p-8 shadow-xl animate-fade-in">
-        <div className="fb-bounce mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-xl">
+      <div className="mlq-card w-full max-w-md space-y-8 rounded-3xl p-8 shadow-lift animate-fade-in">
+        <div className="mlq-emoji-tile fb-hero-tile fb-bounce mx-auto h-20 w-20">
           <Sparkles size={40} />
         </div>
 
@@ -34,7 +34,7 @@ export function IntroScreen({ categories, onStart }: IntroScreenProps) {
             return (
               <div
                 key={c.id}
-                className={`flex flex-col items-center justify-center rounded-lg p-2 opacity-80 transition-opacity hover:opacity-100 ${meta.badgeClass}`}
+                className={`flex flex-col items-center justify-center rounded-xl p-2 opacity-85 transition-all hover:-translate-y-0.5 hover:opacity-100 ${meta.badgeClass}`}
               >
                 <Icon size={16} className="mb-1" />
                 <span className="text-[10px] font-bold">{c.label}</span>

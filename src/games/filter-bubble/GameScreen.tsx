@@ -16,7 +16,7 @@ export function GameScreen({ feed, clicks, categories, onCardClick }: GameScreen
     <div className="fb-screen flex flex-col items-center p-4">
       <div className="w-full max-w-xl space-y-4">
         {/* 상단 안내 */}
-        <div className="sticky top-14 z-20 flex items-center justify-between rounded-2xl border border-border bg-card p-4 shadow-sm">
+        <div className="mlq-card sticky top-14 z-20 flex items-center justify-between p-4">
           <div>
             <h2 className="text-sm font-bold text-card-foreground">무엇을 보고 싶나요?</h2>
             <div className="text-xs text-muted-foreground">
@@ -24,9 +24,9 @@ export function GameScreen({ feed, clicks, categories, onCardClick }: GameScreen
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="font-mono text-2xl font-black text-foreground">
+            <div className="fb-progress-pill">
               {clicks}
-              <span className="text-base text-muted-foreground">/{TOTAL_ROUNDS}</span>
+              <span className="fb-progress-total">/{TOTAL_ROUNDS}</span>
             </div>
           </div>
         </div>

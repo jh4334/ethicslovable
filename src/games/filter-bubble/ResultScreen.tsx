@@ -85,7 +85,7 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
         {/* 이미지로 저장되는 영역 */}
         <div ref={captureRef} className="-m-4 space-y-4 p-4">
           {/* 성향 카드 */}
-          <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl">
+          <div className="mlq-card overflow-hidden rounded-3xl shadow-lift">
             <div className={`relative overflow-hidden p-8 text-center ${meta.bgClass}`}>
               <div className="relative z-10 flex flex-col items-center">
                 <div
@@ -93,10 +93,10 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
                 >
                   <TypeIcon size={40} />
                 </div>
-                <div className="mb-2 rounded-full bg-card/60 px-3 py-1 text-xs font-bold tracking-wider text-card-foreground">
+                <div className="mlq-chip mb-2 bg-card/70 tracking-wider text-card-foreground backdrop-blur-sm">
                   나의 알고리즘 성향
                 </div>
-                <h2 className="mb-1 text-2xl font-black text-foreground">{persona.title}</h2>
+                <h2 className="mlq-gradient-text mb-1 text-3xl font-black">{persona.title}</h2>
               </div>
             </div>
             <div className="p-6 text-center text-sm font-medium leading-relaxed text-muted-foreground">
