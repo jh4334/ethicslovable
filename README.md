@@ -45,7 +45,7 @@ npm run build:offline  # dist-offline/index.html — 단일 파일, 더블클릭
 
 | 파일 | 내용 |
 |---|---|
-| `feed-algorithm.json` | 1차시 딜레마 카드 6장, 엔딩, 성찰 수칙 |
+| `feed-algorithm.json` | 1차시 딜레마 카드 8장, 엔딩, 성찰 수칙 |
 | `filter-bubble.json` | 2차시 콘텐츠 200개, 분야, 성향 칭호 |
 | `social-insight.json` | 3차시 게시물 20개, 난이도, 콤보 문구 |
 | `trend-tycoon.json` | 4차시 영상 50개, 미션 5개, 등급 문구 |
