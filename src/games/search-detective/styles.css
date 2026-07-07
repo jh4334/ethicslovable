@@ -1,0 +1,439 @@
+/*
+ * 검색 결과 탐정 — 게임 전용 스타일.
+ * 모든 선택자는 .game-search-detective 아래로 범위를 한정하고,
+ * 커스텀 클래스는 sd- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ * 테마: 포털 블루(hue 210) — 검색 포털 '누리찾기'의 아이덴티티.
+ * 실존 포털을 연상시키는 색 조합(초록 검색창 등)은 쓰지 않는다.
+ */
+
+.game-search-detective .sd-shell {
+  background:
+    radial-gradient(circle at 12% 0%, hsl(210 92% 92%), transparent 46%),
+    radial-gradient(circle at 100% 100%, hsl(222 88% 95%), transparent 44%),
+    hsl(210 55% 97%);
+}
+
+/* ── 포털 블루 그라디언트 (sd- 변형) ─────────────────────────── */
+.game-search-detective .sd-gradient-text {
+  background-image: linear-gradient(120deg, hsl(210 92% 42%), hsl(235 82% 58%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.game-search-detective .sd-btn-cta {
+  background-image: linear-gradient(135deg, hsl(210 90% 48%), hsl(235 82% 58%));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 8px 20px -6px hsl(216 88% 50% / 0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.game-search-detective .sd-btn-cta:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px -8px hsl(216 88% 50% / 0.6);
+}
+.game-search-detective .sd-btn-cta:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.game-search-detective .sd-btn-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── 시작 화면 히어로 타일 ───────────────────────────────────── */
+.game-search-detective .sd-hero-tile {
+  --tile-hue: 210;
+  box-shadow:
+    inset 0 -2px 6px hsl(210 60% 80% / 0.5),
+    0 0 0 6px hsl(210 92% 55% / 0.12),
+    0 14px 30px -12px hsl(210 92% 48% / 0.5);
+}
+
+/* ── 의뢰인 말풍선 ───────────────────────────────────────────── */
+.game-search-detective .sd-client-avatar {
+  background: linear-gradient(135deg, hsl(42 95% 72%), hsl(20 85% 70%));
+  box-shadow: inset 0 -2px 4px hsl(25 70% 50% / 0.3);
+}
+.game-search-detective .sd-bubble-client {
+  background: linear-gradient(135deg, hsl(44 92% 92%), hsl(28 88% 92%));
+  border: 1px solid hsl(38 70% 84%);
+  border-top-left-radius: 6px;
+  box-shadow: 0 4px 12px -6px hsl(35 70% 45% / 0.2);
+}
+
+/* ── 누리찾기 포털 헤더 ──────────────────────────────────────── */
+.game-search-detective .sd-portal {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(210 45% 90%);
+  box-shadow:
+    0 1px 2px hsl(216 40% 20% / 0.05),
+    0 8px 20px -10px hsl(216 60% 35% / 0.18);
+}
+
+.game-search-detective .sd-searchbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border-radius: 9999px;
+  border: 2px solid hsl(210 88% 52%);
+  background: hsl(0 0% 100%);
+  box-shadow: 0 3px 10px -4px hsl(210 88% 48% / 0.35);
+}
+
+.game-search-detective .sd-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-image: linear-gradient(135deg, hsl(210 90% 50%), hsl(232 82% 58%));
+  color: white;
+}
+
+/* 타이핑 커서 — 깜박이는 세로 막대 */
+.game-search-detective .sd-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: hsl(210 88% 50%);
+  animation: sd-caret-blink 0.9s steps(1) infinite;
+}
+@keyframes sd-caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── 검색 결과 카드 ──────────────────────────────────────────── */
+.game-search-detective .sd-result {
+  border: 1px solid hsl(210 40% 90%);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.game-search-detective .sd-result:hover {
+  border-color: hsl(210 80% 70%);
+}
+
+.game-search-detective .sd-favicon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: hsl(210 55% 95%);
+  font-size: 0.72rem;
+}
+
+/* 파란 제목 링크 — 포털 결과 페이지 느낌 */
+.game-search-detective .sd-title-link {
+  color: hsl(212 90% 40%);
+  text-align: left;
+  transition: color 0.12s ease;
+}
+.game-search-detective .sd-title-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: hsl(212 92% 34%);
+}
+
+/* '광고' 칩 — 작지만 또렷하게 */
+.game-search-detective .sd-ad-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 0.35rem;
+  border-radius: 0.3rem;
+  border: 1px solid hsl(210 25% 78%);
+  background: hsl(210 30% 96%);
+  color: hsl(212 18% 42%);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+/* 쇼핑형 결과의 가격 */
+.game-search-detective .sd-price {
+  color: hsl(8 78% 46%);
+  font-weight: 800;
+}
+
+/* 문답(Q&A) 카드형 — 왼쪽 세로 줄 + Q 배지 */
+.game-search-detective .sd-result-qna {
+  border-left: 4px solid hsl(262 70% 66%);
+}
+.game-search-detective .sd-qna-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 0.35rem;
+  border-radius: 0.3rem;
+  background: hsl(262 75% 94%);
+  color: hsl(262 55% 45%);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+/* 두 줄 말줄임 스니펫 */
+.game-search-detective .sd-clamp2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── 선택 단추 (광고 표시 / 믿을래요) ────────────────────────── */
+.game-search-detective .sd-select-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 9999px;
+  border: 1.5px solid hsl(210 40% 82%);
+  background: hsl(0 0% 100%);
+  color: hsl(212 20% 40%);
+  font-size: 11px;
+  font-weight: 800;
+  transition: all 0.15s ease;
+}
+.game-search-detective .sd-select-btn:hover:not(:disabled) {
+  border-color: hsl(210 85% 55%);
+  color: hsl(212 85% 42%);
+}
+.game-search-detective .sd-select-btn-on {
+  border-color: hsl(210 88% 50%);
+  background: hsl(210 90% 95%);
+  color: hsl(212 90% 38%);
+  box-shadow: 0 0 0 3px hsl(210 90% 55% / 0.18);
+}
+.game-search-detective .sd-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 9999px;
+  background: hsl(210 40% 94%);
+  color: hsl(212 25% 38%);
+  font-size: 11px;
+  font-weight: 700;
+  transition: background-color 0.15s ease;
+}
+.game-search-detective .sd-preview-btn:hover {
+  background: hsl(210 55% 90%);
+}
+
+/* ── 판정 후 카드 상태 ───────────────────────────────────────── */
+.game-search-detective .sd-reveal-target {
+  border-color: hsl(var(--success));
+  box-shadow: 0 0 0 2px hsl(152 62% 40% / 0.25);
+}
+.game-search-detective .sd-reveal-wrongpick {
+  border-color: hsl(var(--destructive));
+  box-shadow: 0 0 0 2px hsl(0 80% 58% / 0.22);
+}
+.game-search-detective .sd-reveal-missed {
+  border-color: hsl(var(--warning));
+  box-shadow: 0 0 0 2px hsl(33 95% 54% / 0.25);
+}
+
+/* 결과 유형 배지 — 유형별 색 */
+.game-search-detective .sd-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.game-search-detective .sd-type-ad {
+  background: hsl(210 30% 93%);
+  color: hsl(212 20% 38%);
+}
+.game-search-detective .sd-type-official {
+  background: hsl(152 55% 92%);
+  color: hsl(155 60% 26%);
+}
+.game-search-detective .sd-type-sponsor {
+  background: hsl(320 70% 94%);
+  color: hsl(322 55% 40%);
+}
+.game-search-detective .sd-type-qna {
+  background: hsl(262 75% 94%);
+  color: hsl(262 55% 45%);
+}
+.game-search-detective .sd-type-clickbait {
+  background: hsl(18 90% 93%);
+  color: hsl(16 75% 38%);
+}
+
+/* 단서 칩 — 금빛 도감 톤 */
+.game-search-detective .sd-clue-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(45 80% 76%);
+  background: linear-gradient(180deg, hsl(48 95% 94%), hsl(45 90% 89%));
+  color: hsl(35 70% 30%);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* ── 상세 미리보기 시트 ──────────────────────────────────────── */
+.game-search-detective .sd-sheet-handle {
+  width: 2.75rem;
+  height: 0.3rem;
+  margin: 0 auto;
+  border-radius: 9999px;
+  background: hsl(210 30% 85%);
+}
+
+/* 본문 문장 줄 */
+.game-search-detective .sd-line {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border-radius: 0.6rem;
+  border: 1px solid transparent;
+  padding: 0.5rem 0.6rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.game-search-detective .sd-line-tappable {
+  border-color: hsl(210 40% 90%);
+  background: hsl(210 45% 98%);
+  cursor: pointer;
+}
+.game-search-detective .sd-line-tappable:hover {
+  background: hsl(210 90% 95%);
+  border-color: hsl(210 85% 60%);
+}
+.game-search-detective .sd-line-selected {
+  background: hsl(210 90% 94%);
+  border-color: hsl(210 88% 50%);
+  box-shadow: 0 0 0 3px hsl(210 90% 55% / 0.2);
+}
+/* 협찬 문구 — 본문 끝에 '작게' 숨은 글씨 */
+.game-search-detective .sd-fineprint {
+  font-size: 11px;
+  color: hsl(212 12% 55%);
+}
+/* 판정 후 협찬 문구 하이라이트 — 형광펜 */
+.game-search-detective .sd-fineprint-reveal {
+  background-image: linear-gradient(transparent 55%, hsl(48 100% 74% / 0.85) 55%);
+  color: hsl(24 60% 25%);
+  font-weight: 700;
+}
+
+/* ── 판정 배너 ───────────────────────────────────────────────── */
+.game-search-detective .sd-verdict-correct {
+  position: relative;
+  background: hsl(152 62% 95%);
+  border: 1px solid hsl(152 50% 78%);
+}
+.game-search-detective .sd-verdict-correct::after {
+  content: "🔍";
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  font-size: 1.25rem;
+  transform: translateY(-50%) rotate(-8deg);
+  animation: sd-stamp 0.35s ease-out;
+}
+@keyframes sd-stamp {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) rotate(-8deg) scale(1.7);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) rotate(-8deg) scale(1);
+  }
+}
+.game-search-detective .sd-verdict-wrong {
+  background: hsl(0 78% 97%);
+  border: 1px solid hsl(0 65% 88%);
+}
+
+/* 새로 모은 단서 카드 */
+.game-search-detective .sd-clue-card {
+  background: linear-gradient(180deg, hsl(48 95% 96%), hsl(45 90% 92%));
+  border: 1.5px solid hsl(45 80% 72%);
+  box-shadow: 0 6px 14px -8px hsl(40 80% 45% / 0.4);
+}
+.game-search-detective .sd-clue-card-missed {
+  background: hsl(220 20% 96%);
+  border: 1.5px dashed hsl(220 15% 80%);
+  box-shadow: none;
+}
+
+/* ── 결과 화면 ───────────────────────────────────────────────── */
+.game-search-detective .sd-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  padding: 5px;
+  border-radius: 9999px;
+  background-image: linear-gradient(135deg, hsl(210 90% 48%), hsl(235 82% 58%));
+  box-shadow: 0 10px 24px -8px hsl(216 88% 50% / 0.5);
+}
+.game-search-detective .sd-emblem > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: hsl(0 0% 100%);
+  font-size: 2.5rem;
+}
+
+/* 단서 도감 칸 */
+.game-search-detective .sd-book-slot {
+  border: 1px solid hsl(45 70% 80%);
+  background: linear-gradient(180deg, hsl(48 95% 97%), hsl(45 88% 93%));
+  border-radius: 0.8rem;
+}
+.game-search-detective .sd-book-slot-locked {
+  border: 1px dashed hsl(220 15% 82%);
+  background: hsl(220 20% 96.5%);
+  color: hsl(220 10% 55%);
+}
+.game-search-detective .sd-book-slot-locked .sd-book-emoji {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+/* 검색 3단계 습관 번호 배지 */
+.game-search-detective .sd-habit-num {
+  background-image: linear-gradient(135deg, hsl(210 90% 48%), hsl(235 82% 58%));
+  color: white;
+}
+.game-search-detective .sd-habit-card {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(210 40% 90%);
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 2px hsl(216 40% 20% / 0.04), 0 5px 12px -8px hsl(216 50% 30% / 0.12);
+}
+
+/* 진행 표시 점 */
+.game-search-detective .sd-progress-dot {
+  transition: background-color 0.2s ease;
+}
+
+/* 저사양·모션 최소화 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .game-search-detective .sd-caret,
+  .game-search-detective .sd-verdict-correct::after {
+    animation: none;
+  }
+}
