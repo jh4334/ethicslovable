@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import { viteSingleFile } from "vite-plugin-singlefile";
 import path from "path";
 import fs from "fs";
 
@@ -37,17 +38,28 @@ function contentAsData(): Plugin {
   };
 }
 
-// base "./" — 하위 경로 배포와 오프라인(file://) 실행을 모두 지원한다.
-export default defineConfig({
+// base "./" — 하위 경로 배포를 지원한다.
+// 오프라인 배포는 `npm run build:offline`(--mode offline)으로 만든다:
+// JS/CSS를 전부 인라인한 단일 HTML 한 장이 나오므로, 웹 서버 없이
+// 파일을 더블클릭해도(file://) 실행된다. (일반 빌드의 모듈 스크립트는
+// 브라우저 보안 정책상 file://에서 차단되기 때문)
+export default defineConfig(({ mode }) => ({
   base: "./",
   server: {
-    host: "::",
     port: 8080,
   },
-  plugins: [react(), contentAsData()],
+  plugins: [
+    react(),
+    contentAsData(),
+    mode === "offline" && viteSingleFile({ removeViteModuleLoader: true }),
+  ].filter(Boolean),
+  build:
+    mode === "offline"
+      ? { outDir: "dist-offline", reportCompressedSize: false }
+      : undefined,
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));
