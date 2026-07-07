@@ -85,7 +85,7 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="mb-4 text-center text-4xl font-bold md:text-5xl"
+        className="mb-4 text-center text-4xl font-black tracking-tight drop-shadow-md md:text-5xl"
       >
         {clear.title}
       </motion.h1>
@@ -95,25 +95,25 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
-        className="mb-6 rounded-2xl bg-white/10 p-6 text-center backdrop-blur-md"
+        className="tt-glass-card mb-6 rounded-2xl p-6 text-center"
       >
         <div className="mb-3 flex items-center justify-center gap-3">
-          <Medal size={32} className={gradeClass} aria-hidden />
-          <span className={cn("text-6xl font-black", gradeClass)}>{grade}</span>
+          <Medal size={36} className={cn(gradeClass, "drop-shadow-lg")} aria-hidden />
+          <span className={cn("tt-grade-hero text-7xl font-black md:text-8xl", gradeClass)}>{grade}</span>
         </div>
-        <p className="mb-4 text-sm text-white/80">{message}</p>
+        <p className="mb-4 text-sm font-semibold text-white/85">{message}</p>
 
         <div className="mb-4 flex items-center justify-center gap-2">
-          <Star size={20} className="fill-current text-yellow-300" aria-hidden />
-          <span className="text-3xl font-bold">{totalScore.toLocaleString()}점</span>
+          <Star size={20} className="fill-current text-yellow-300 drop-shadow" aria-hidden />
+          <span className="text-3xl font-extrabold tabular-nums drop-shadow-sm">{totalScore.toLocaleString()}점</span>
         </div>
 
         {/* 레벨별 점수 */}
         <div className="mt-4 grid grid-cols-5 gap-2">
           {levelScores.map((score, idx) => (
-            <div key={idx} className="rounded-lg bg-white/10 p-2 text-center">
-              <div className="text-xs text-white/60">{idx + 1}레벨</div>
-              <div className="text-sm font-bold">{score.toLocaleString()}</div>
+            <div key={idx} className="tt-level-score-card rounded-xl p-2 text-center">
+              <div className="text-xs font-semibold text-white/65">{idx + 1}레벨</div>
+              <div className="text-sm font-extrabold tabular-nums">{score.toLocaleString()}</div>
             </div>
           ))}
         </div>
@@ -139,10 +139,10 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="tt-final-report z-10 mb-8 w-full max-w-2xl rounded-2xl bg-white/10 p-5 text-left backdrop-blur-md md:p-6"
+          className="tt-final-report tt-glass-card z-10 mb-8 w-full max-w-2xl rounded-2xl p-5 text-left md:p-6"
           aria-label={finalReport.title}
         >
-          <h2 className="mb-3 flex items-center gap-2 text-xl font-bold">
+          <h2 className="mb-3 flex items-center gap-2 text-xl font-extrabold tracking-tight">
             <ScrollText size={22} className="shrink-0 text-yellow-300" aria-hidden />
             {finalReport.title}
           </h2>
@@ -156,7 +156,7 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
           </div>
 
           {/* 되돌아보기 질문 — 학습지에 답을 적는다 */}
-          <div className="tt-report-questions rounded-xl bg-white/15 p-4">
+          <div className="tt-report-questions rounded-xl border border-white/15 bg-white/15 p-4">
             <ol className="list-decimal space-y-2 pl-5 text-sm font-semibold leading-relaxed">
               {finalReport.questions.map((question, idx) => (
                 <li key={idx}>{question}</li>
@@ -179,7 +179,7 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
         transition={{ delay: 0.8 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 rounded-full bg-white px-8 py-3 text-lg font-bold text-foreground shadow-2xl"
+        className="flex items-center gap-2 rounded-full bg-white px-8 py-3 text-lg font-extrabold text-foreground shadow-2xl"
       >
         <RotateCcw aria-hidden /> {clear.restartLabel}
       </motion.button>

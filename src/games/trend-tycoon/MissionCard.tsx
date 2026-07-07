@@ -27,7 +27,7 @@ export default function MissionCard({ mission, status, hasMoved, isLastLevel, on
       )}
     >
       <div className="mb-2 flex items-start justify-between">
-        <h3 className="flex items-center gap-2 text-lg font-bold">
+        <h3 className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
           {status.complete ? (
             <CheckCircle className="shrink-0 text-success" aria-hidden />
           ) : (
@@ -39,16 +39,23 @@ export default function MissionCard({ mission, status, hasMoved, isLastLevel, on
       <p className="mb-3 text-sm leading-relaxed text-muted-foreground">{mission.description}</p>
 
       {/* 힌트 */}
-      <div className="mb-3 flex items-start gap-2 rounded-lg bg-accent/25 p-2.5 text-xs text-accent-foreground">
+      <div className="mb-3 flex items-start gap-2 rounded-xl bg-accent/25 p-2.5 text-xs font-semibold text-accent-foreground">
         <Lightbulb size={14} className="mt-0.5 shrink-0" aria-hidden />
         <span>{mission.hint}</span>
       </div>
 
-      {/* 실시간 진행 상황 (모든 레벨) */}
-      <div className="mb-4 rounded-lg border border-border bg-card/60 p-3">
-        <div className="text-xs font-semibold text-foreground">{status.summary}</div>
+      {/* 실시간 진행 상황 (모든 레벨) — 달성 시 ✅ 체크 스타일 */}
+      <div className="mb-4 rounded-xl border border-border bg-card/70 p-3 shadow-soft">
+        <div
+          className={cn(
+            "tt-status-line text-xs font-extrabold text-foreground",
+            status.complete && "tt-status-done"
+          )}
+        >
+          {status.summary}
+        </div>
         {status.details && (
-          <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+          <ul className="mt-2 space-y-1 text-xs font-medium text-muted-foreground">
             {status.details.map((line, idx) => (
               <li key={idx} className="truncate">
                 {line}
@@ -63,7 +70,7 @@ export default function MissionCard({ mission, status, hasMoved, isLastLevel, on
           onClick={onNextLevel}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-success px-4 py-2.5 font-bold text-success-foreground shadow-lg transition-all"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-success px-4 py-2.5 font-extrabold text-success-foreground shadow-lg transition-all"
         >
           <motion.span
             animate={{ x: [0, 4, 0] }}
@@ -75,11 +82,11 @@ export default function MissionCard({ mission, status, hasMoved, isLastLevel, on
         </motion.button>
       ) : status.complete ? (
         /* 기본 가중치만으로 조건이 이미 맞을 때 — 슬라이더를 움직여야 넘어갈 수 있다 */
-        <div className="flex w-full items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2.5 text-center text-sm font-bold text-secondary-foreground">
+        <div className="flex w-full items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-2.5 text-center text-sm font-bold text-secondary-foreground">
           <MoveHorizontal size={16} aria-hidden /> 먼저 슬라이더를 움직여 알고리즘을 조정해 보세요!
         </div>
       ) : (
-        <div className="w-full rounded-lg bg-secondary px-4 py-2.5 text-center text-sm font-bold text-muted-foreground">
+        <div className="w-full rounded-xl bg-secondary px-4 py-2.5 text-center text-sm font-bold text-muted-foreground">
           미션 조건을 달성하면 버튼이 열려요
         </div>
       )}

@@ -49,6 +49,9 @@ function getThumbClass(color: string) {
   return THUMB_COLORS.has(color) ? `tt-thumb-${color}` : "tt-thumb-gray";
 }
 
+/** 상위 3위 카드에 씌우는 금/은/동 링 클래스 */
+const MEDAL_CLASSES = ["tt-medal-gold", "tt-medal-silver", "tt-medal-bronze"];
+
 /** 추천 피드의 영상 카드 — 순위가 바뀌면 framer-motion 이 부드럽게 재배치한다 */
 export default function VideoCard({ video, rank, isHighlighted }: VideoCardProps) {
   const isTopRank = rank <= 3;
@@ -60,14 +63,18 @@ export default function VideoCard({ video, rank, isHighlighted }: VideoCardProps
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, delay: rank * 0.02 }}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl border bg-card shadow-md transition-shadow duration-300 hover:shadow-xl",
-        isHighlighted ? "ring-2 ring-success ring-offset-2" : "border-border"
+        "group relative flex flex-col overflow-hidden rounded-2xl border bg-card transition-shadow duration-300",
+        // tt-video-card 의 커스텀 그림자가 tailwind ring(box-shadow)을 덮지 않도록,
+        // 미션 달성 하이라이트 중에는 tailwind 유틸리티만 사용한다
+        isHighlighted
+          ? "border-success/40 shadow-md ring-2 ring-success ring-offset-2"
+          : cn("tt-video-card", isTopRank ? MEDAL_CLASSES[rank - 1] : "border-border")
       )}
     >
       {/* 순위 배지 */}
       <div
         className={cn(
-          "absolute left-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full font-bold shadow-lg",
+          "absolute left-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full font-black tabular-nums",
           isTopRank ? "tt-rank-top" : "tt-rank"
         )}
       >
@@ -99,11 +106,11 @@ export default function VideoCard({ video, rank, isHighlighted }: VideoCardProps
         <h3 className="mb-2 h-10 text-sm font-bold leading-tight text-card-foreground line-clamp-2">{video.title}</h3>
 
         <div className="mb-2 flex flex-wrap items-center gap-1.5">
-          <span className={cn("flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-bold", getCategoryClass(video.category))}>
+          <span className={cn("flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-extrabold", getCategoryClass(video.category))}>
             {getCategoryIcon(video.category)} {video.category}
           </span>
           {video.intensity >= 4 && (
-            <span className="flex items-center gap-0.5 text-[10px] font-bold text-destructive">
+            <span className="tt-chip-hot flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-extrabold">
               <AlertCircle size={10} aria-hidden /> 자극적
             </span>
           )}
@@ -131,8 +138,8 @@ export default function VideoCard({ video, rank, isHighlighted }: VideoCardProps
 
         {/* 알고리즘 점수 */}
         <div className="mt-2 flex items-end justify-between border-t border-border pt-2">
-          <span className="text-[10px] text-muted-foreground">점수</span>
-          <span className="font-mono text-sm font-bold text-primary">{Math.round(video.score).toLocaleString()}</span>
+          <span className="text-[10px] font-semibold text-muted-foreground">점수</span>
+          <span className="text-sm font-extrabold tabular-nums text-primary">{Math.round(video.score).toLocaleString()}</span>
         </div>
       </div>
     </motion.div>

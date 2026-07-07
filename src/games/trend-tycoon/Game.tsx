@@ -204,7 +204,7 @@ export default function Game({ content }: GameProps) {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                <div className="tt-complaint-banner mx-4 mt-4 rounded-lg p-3 md:mx-5" role="status">
+                <div className="tt-complaint-banner mx-4 mt-4 rounded-xl p-3 md:mx-5" role="status">
                   <div className="flex items-start gap-2 text-xs font-bold">
                     <Megaphone size={16} className="tt-complaint-icon mt-0.5 shrink-0" aria-hidden />
                     <span>학부모 민원 {complaintCount}건 접수! 자극적인 영상이 추천 맨 위에 있어요</span>
@@ -219,11 +219,11 @@ export default function Game({ content }: GameProps) {
 
           <div className="flex flex-col gap-5 p-4 md:p-5">
             <div className="mb-1">
-              <h2 className="text-base font-bold text-foreground">{content.intro.controlsTitle}</h2>
+              <h2 className="text-base font-extrabold text-foreground">{content.intro.controlsTitle}</h2>
               <p className="text-xs text-muted-foreground">{content.intro.controlsSubtitle}</p>
               {/* 효율 보너스 안내 */}
-              <p className="mt-1.5 rounded-md bg-muted px-2 py-1 text-[11px] text-muted-foreground">
-                조정 {adjustCount}번 사용 · 남은 보너스 기회 <b className="text-foreground">{remainingBonusChances}번</b>
+              <p className="mt-2 rounded-xl border border-border bg-muted/60 px-2.5 py-1.5 text-[11px] font-semibold text-muted-foreground">
+                조정 {adjustCount}번 사용 · 남은 보너스 기회 <b className="tt-bonus-chip text-[11px]">{remainingBonusChances}번</b>
                 <br />
                 적게 조정해서 해결할수록 보너스 점수가 커져요!
               </p>
@@ -273,11 +273,11 @@ export default function Game({ content }: GameProps) {
         <main className="flex-1 bg-background p-4 md:overflow-y-auto md:p-6">
           <div className="mx-auto max-w-6xl">
             <div className="mb-5 flex items-center justify-between gap-2">
-              <h2 className="flex items-center gap-2 text-xl font-bold">
+              <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight">
                 <TrendingUp className="text-primary" aria-hidden />
                 <span>{content.intro.feedTitle}</span>
               </h2>
-              <span className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground shadow-sm">
+              <span className="mlq-chip border border-border bg-card text-muted-foreground shadow-soft">
                 {content.intro.feedSortLabel}
               </span>
             </div>

@@ -25,14 +25,14 @@ export default function AftermathPanel({ aftermath, isLastLevel, onProceed }: Af
         aria-label="누리마을의 반응"
         className="w-full max-w-md rounded-2xl border border-border bg-card p-5 shadow-2xl animate-scale-in md:p-6"
       >
-        <h2 className="mb-3 flex items-center gap-2 text-lg font-bold text-card-foreground">
+        <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold tracking-tight text-card-foreground">
           📰 누리마을의 반응
         </h2>
 
-        {/* 뉴스 헤드라인 */}
-        <div className="tt-aftermath-headline mb-4 flex items-start gap-2 rounded-lg p-3">
+        {/* 뉴스 헤드라인 — 뉴스 티커 카드 */}
+        <div className="tt-aftermath-headline mb-4 flex items-start gap-2 p-3">
           <Newspaper size={16} className="mt-0.5 shrink-0 text-primary" aria-hidden />
-          <p className="text-sm font-semibold leading-relaxed text-card-foreground">{aftermath.headline}</p>
+          <p className="text-sm font-extrabold leading-relaxed text-card-foreground">{aftermath.headline}</p>
         </div>
 
         {/* 시민 댓글 (채팅 말풍선) */}
@@ -44,8 +44,8 @@ export default function AftermathPanel({ aftermath, isLastLevel, onProceed }: Af
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 + idx * 0.25, duration: 0.3 }}
             >
-              <div className="mb-1 text-xs font-bold text-muted-foreground">{comment.author}</div>
-              <div className="tt-aftermath-bubble px-3 py-2 text-sm leading-relaxed text-card-foreground">
+              <div className="mb-1 pl-2 text-xs font-bold text-muted-foreground">{comment.author}</div>
+              <div className="tt-aftermath-bubble ml-2 rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed text-card-foreground">
                 {comment.text}
               </div>
             </motion.div>
@@ -56,7 +56,7 @@ export default function AftermathPanel({ aftermath, isLastLevel, onProceed }: Af
           onClick={onProceed}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 font-bold text-primary-foreground shadow-lg transition-all"
+          className="mlq-btn-primary w-full"
         >
           {isLastLevel ? "최종 보고서 보기" : "다음 미션으로"} <ArrowRight size={18} aria-hidden />
         </motion.button>

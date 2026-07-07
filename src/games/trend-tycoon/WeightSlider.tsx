@@ -29,12 +29,12 @@ export default function WeightSlider({
   hint,
 }: WeightSliderProps) {
   return (
-    <div className={cn("rounded-xl p-3", `tt-tint-${color}`)}>
+    <div className={cn("tt-weight-card p-3", `tt-tint-${color}`)}>
       <div className="mb-2 flex justify-between">
-        <label className={cn("flex items-center gap-2 text-sm font-bold", `tt-text-${color}`)}>
+        <label className={cn("flex items-center gap-2 text-sm font-extrabold", `tt-text-${color}`)}>
           <Icon size={16} /> {label}
         </label>
-        <span className={cn("font-mono text-lg font-bold", `tt-text-${color}`)}>{value}</span>
+        <span className={cn("text-lg font-extrabold tabular-nums", `tt-text-${color}`)}>{value}</span>
       </div>
       <Slider
         value={value}
