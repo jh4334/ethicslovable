@@ -116,14 +116,14 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
               {round.question}
             </div>
           </div>
-          <div className="fc-asker-avatar flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold">
+          <div className="fc-asker-avatar flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-sm font-bold">
             {round.asker.slice(0, 1)}
           </div>
         </div>
 
         {/* 누리봇의 답 (왼쪽) — 문장별 검증 대상 */}
         <div className="flex items-start gap-2">
-          <div className="fc-bot-avatar flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base">
+          <div className="fc-bot-avatar flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-base">
             🤖
           </div>
           <div className="min-w-0 flex-1">
@@ -193,10 +193,10 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
           >
             <div
               className={cn(
-                "mb-2 flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-bold",
+                "mb-2 flex items-center gap-1.5 rounded-xl px-3 py-2 pr-10 text-sm font-bold",
                 verdict!.correct
-                  ? "bg-success/15 text-success"
-                  : "bg-destructive/10 text-destructive",
+                  ? "fc-verdict-correct text-success"
+                  : "fc-verdict-wrong text-destructive",
               )}
             >
               {verdict!.correct ? (
@@ -213,17 +213,17 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
             {/* 누리봇 반응 */}
             <div className="mb-2 flex items-start gap-2">
-              <div className="fc-bot-avatar flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm">
+              <div className="fc-bot-avatar flex h-7 w-7 shrink-0 items-center justify-center rounded-xl text-sm">
                 🤖
               </div>
-              <div className="fc-bubble-bot rounded-2xl px-3 py-2 text-sm leading-relaxed">
+              <div className="fc-bubble-reaction rounded-2xl px-3 py-2 text-sm leading-relaxed">
                 {reaction}
               </div>
             </div>
 
             {/* 근거 카드 인용 (거짓 문장이 있을 때) */}
             {falseEvidence && (
-              <div className="fc-drawer-card mb-2 rounded-xl p-3">
+              <div className="fc-quote-card mb-2 rounded-xl p-3">
                 <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground">
                   <Quote className="h-3.5 w-3.5" />
                   {labels.evidenceQuote} · {falseEvidence.source}
@@ -256,7 +256,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
             <button
               onClick={handleAllTrue}
               disabled={!allShown}
-              className="w-full rounded-xl bg-success py-2.5 text-sm font-bold text-success-foreground shadow transition hover:brightness-105 active:scale-[0.99] disabled:opacity-50"
+              className="fc-btn-alltrue w-full rounded-xl py-2.5 text-sm font-bold active:scale-[0.99] disabled:opacity-50"
             >
               {labels.allTrueButton}
             </button>
@@ -264,7 +264,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
         ) : (
           <button
             onClick={game.next}
-            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary py-3 text-base font-bold text-primary-foreground shadow transition hover:brightness-105 active:scale-[0.99]"
+            className="fc-btn-cta flex w-full items-center justify-center gap-1.5 rounded-xl py-3 text-base font-bold text-white"
           >
             {game.isLastRound ? labels.resultButton : labels.nextButton}
             <ArrowRight className="h-4 w-4" />

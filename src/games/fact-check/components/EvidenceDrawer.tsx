@@ -30,6 +30,7 @@ export default function EvidenceDrawer({ content, evidence, open, onClose }: Evi
             transition={{ type: "tween", duration: 0.28 }}
             className="absolute inset-x-0 bottom-0 z-40 max-h-[78%] overflow-y-auto rounded-t-2xl border-t bg-card p-4 shadow-2xl"
           >
+            <div className="fc-drawer-handle mb-2.5" />
             <div className="mb-2 flex items-center justify-between">
               <h3 className="flex items-center gap-1.5 text-base font-bold">
                 <FileText className="h-4 w-4 text-primary" />
@@ -47,9 +48,12 @@ export default function EvidenceDrawer({ content, evidence, open, onClose }: Evi
 
             <div className="space-y-2.5">
               {evidence.map((ev) => (
-                <div key={ev.key} className="fc-drawer-card rounded-xl p-3">
+                <div key={ev.key} className="fc-doc-card rounded-xl p-3">
                   <div className="mb-1 flex items-center gap-1.5">
-                    <span className="rounded bg-accent/40 px-1.5 py-0.5 text-[10px] font-bold text-accent-foreground">
+                    <span
+                      data-source={ev.source}
+                      className="fc-source-chip rounded-full px-2 py-0.5 text-[10px] font-bold"
+                    >
                       {ev.source}
                     </span>
                     <span className="text-sm font-bold">{ev.title}</span>

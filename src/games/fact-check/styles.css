@@ -2,57 +2,110 @@
  * 누리봇 사실 검증단 — 게임 전용 스타일.
  * 모든 선택자는 .game-fact-check 아래로 범위를 한정하고,
  * 커스텀 클래스는 fc- 접두사를 쓴다. (다른 게임과 충돌 방지)
- * 누리봇 테마 색: 청록(민트) → 남색 그라데이션.
+ * 테마: 신뢰 파랑(hue 217) — 검증 요원 오피스 무드. 파랑→보라 그라디언트 축.
  */
 
 .game-fact-check .fc-shell {
   background:
-    radial-gradient(circle at 12% 8%, hsl(190 70% 95%), transparent 45%),
-    radial-gradient(circle at 90% 100%, hsl(228 80% 95%), transparent 45%),
-    hsl(var(--background));
+    radial-gradient(circle at 15% 0%, hsl(217 90% 92%), transparent 48%),
+    radial-gradient(circle at 100% 100%, hsl(252 85% 95%), transparent 45%),
+    hsl(217 55% 97%);
 }
 
-/* 누리봇 아바타 */
+/* ── 파랑→보라 그라디언트 (fc- 변형) ───────────────────────── */
+.game-fact-check .fc-gradient-text {
+  background-image: linear-gradient(120deg, hsl(217 88% 48%), hsl(262 80% 58%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.game-fact-check .fc-btn-cta {
+  background-image: linear-gradient(135deg, hsl(217 88% 54%), hsl(262 82% 60%));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 8px 20px -6px hsl(230 85% 55% / 0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.game-fact-check .fc-btn-cta:hover {
+  transform: translateY(-1px) scale(1.01);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px -8px hsl(230 85% 55% / 0.6);
+}
+.game-fact-check .fc-btn-cta:active {
+  transform: scale(0.98);
+}
+
+/* ── 시작 화면 히어로 타일 (빛나는 누리봇) ─────────────────── */
+.game-fact-check .fc-hero-tile {
+  --tile-hue: 217;
+  box-shadow:
+    inset 0 -2px 6px hsl(217 60% 80% / 0.5),
+    0 0 0 6px hsl(217 90% 60% / 0.12),
+    0 14px 30px -12px hsl(217 90% 52% / 0.5);
+}
+
+/* ── 아바타 타일 ───────────────────────────────────────────── */
 .game-fact-check .fc-bot-avatar {
-  background: linear-gradient(135deg, hsl(184 62% 46%), hsl(224 78% 60%));
+  background: linear-gradient(135deg, hsl(207 85% 52%), hsl(245 78% 60%));
   color: white;
+  box-shadow:
+    inset 0 -2px 4px hsl(230 70% 35% / 0.35),
+    0 4px 10px -3px hsl(217 85% 50% / 0.45);
 }
 
-/* 마을 사람 아바타 */
 .game-fact-check .fc-asker-avatar {
   background: linear-gradient(135deg, hsl(42 95% 72%), hsl(20 85% 70%));
   color: hsl(28 60% 22%);
+  box-shadow: inset 0 -2px 4px hsl(25 70% 50% / 0.3);
 }
 
-/* 누리봇 말풍선 (왼쪽) */
+/* ── 말풍선 ────────────────────────────────────────────────── */
 .game-fact-check .fc-bubble-bot {
   background: hsl(0 0% 100%);
-  border: 1px solid hsl(var(--border));
-  border-top-left-radius: 4px;
+  border: 1px solid hsl(217 45% 89%);
+  border-top-left-radius: 6px;
+  box-shadow: 0 1px 2px hsl(222 40% 20% / 0.05), 0 6px 16px -8px hsl(222 50% 30% / 0.14);
 }
 
-/* 질문자 말풍선 (오른쪽) */
 .game-fact-check .fc-bubble-asker {
-  background: linear-gradient(135deg, hsl(184 55% 92%), hsl(200 70% 92%));
-  border-top-right-radius: 4px;
+  background: linear-gradient(135deg, hsl(44 92% 92%), hsl(28 88% 92%));
+  border: 1px solid hsl(38 70% 84%);
+  border-top-right-radius: 6px;
+  box-shadow: 0 4px 12px -6px hsl(35 70% 45% / 0.2);
 }
 
-/* 클릭 가능한 검증 문장 */
+/* 판정 후 누리봇 반응 말풍선 — 머쓱한 톤을 구분되게 */
+.game-fact-check .fc-bubble-reaction {
+  background: linear-gradient(135deg, hsl(217 92% 95%), hsl(255 88% 96%));
+  border: 1.5px dashed hsl(220 70% 72%);
+  border-top-left-radius: 6px;
+}
+
+/* ── 클릭 가능한 검증 문장 ─────────────────────────────────── */
 .game-fact-check .fc-sentence {
-  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease;
 }
 .game-fact-check .fc-sentence-clickable:hover {
-  background: hsl(228 89% 96%);
-  border-color: hsl(var(--primary));
+  background: hsl(217 92% 96%);
+  border-color: hsl(217 85% 56%);
+  outline: 2px solid hsl(217 85% 60% / 0.35);
+  outline-offset: 1px;
+  cursor: zoom-in; /* 돋보기로 문장을 검토하는 느낌 */
 }
 .game-fact-check .fc-sentence-clickable:active {
   transform: scale(0.99);
 }
 
-/* 판정 후: 거짓으로 밝혀진 문장 강조 */
+/* 판정 후: 거짓으로 밝혀진 문장 — 빨간 물결 밑줄 + 강조 */
 .game-fact-check .fc-sentence-false {
-  background: hsl(0 78% 96%);
+  background: hsl(0 80% 96.5%);
   border-color: hsl(var(--destructive));
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: hsl(var(--destructive) / 0.75);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
 }
 /* 판정 후: 사실로 확인된 문장 */
 .game-fact-check .fc-sentence-true {
@@ -65,7 +118,90 @@
   border-color: hsl(var(--warning));
 }
 
-/* 타이핑 커서 점 (문장이 나타날 때) */
+/* ── "모두 사실이에요!" 보조 CTA ───────────────────────────── */
+.game-fact-check .fc-btn-alltrue {
+  background: hsl(0 0% 100%);
+  border: 2px solid hsl(var(--success) / 0.55);
+  color: hsl(var(--success));
+  box-shadow: 0 4px 12px -6px hsl(152 60% 35% / 0.25);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+.game-fact-check .fc-btn-alltrue:hover:not(:disabled) {
+  background: hsl(152 60% 96%);
+}
+
+/* ── 판정 피드백 카드 ──────────────────────────────────────── */
+.game-fact-check .fc-verdict-correct {
+  position: relative;
+  background: hsl(152 62% 95%);
+  border: 1px solid hsl(152 50% 78%);
+}
+.game-fact-check .fc-verdict-correct::after {
+  content: "✅";
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  font-size: 1.3rem;
+  transform: translateY(-50%) rotate(-8deg);
+  animation: fc-stamp 0.35s ease-out;
+}
+@keyframes fc-stamp {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) rotate(-8deg) scale(1.7);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) rotate(-8deg) scale(1);
+  }
+}
+.game-fact-check .fc-verdict-wrong {
+  background: hsl(0 78% 97%);
+  border: 1px solid hsl(0 65% 88%);
+}
+
+/* ── 자료 서랍(문서 카드) ──────────────────────────────────── */
+.game-fact-check .fc-drawer-handle {
+  width: 2.75rem;
+  height: 0.3rem;
+  margin: 0 auto;
+  border-radius: 9999px;
+  background: hsl(217 30% 85%);
+}
+
+.game-fact-check .fc-doc-card {
+  background: linear-gradient(180deg, hsl(0 0% 100%), hsl(217 45% 98%));
+  border: 1px solid hsl(217 35% 88%);
+  border-left: 4px solid hsl(217 72% 62%);
+  box-shadow: 0 1px 2px hsl(222 40% 20% / 0.04), 0 6px 14px -8px hsl(222 50% 30% / 0.12);
+}
+
+/* 출처 칩 — 출처별 색 구분 */
+.game-fact-check .fc-source-chip {
+  background: hsl(235 85% 94%);
+  color: hsl(235 60% 44%);
+}
+.game-fact-check .fc-source-chip[data-source*="소식지"] {
+  background: hsl(42 95% 90%);
+  color: hsl(32 75% 32%);
+}
+.game-fact-check .fc-source-chip[data-source*="관찰"] {
+  background: hsl(172 60% 90%);
+  color: hsl(176 65% 26%);
+}
+
+/* 판정 해설의 근거 인용 카드 — 형광펜 하이라이트 */
+.game-fact-check .fc-quote-card {
+  background: linear-gradient(180deg, hsl(48 90% 97%), hsl(45 85% 94%));
+  border: 1px solid hsl(45 75% 80%);
+  border-left: 4px solid hsl(40 95% 55%);
+}
+.game-fact-check .fc-quote-card p {
+  background-image: linear-gradient(transparent 62%, hsl(48 100% 76% / 0.75) 62%);
+  display: inline;
+}
+
+/* ── 타이핑 커서 점 (문장이 나타날 때) ─────────────────────── */
 .game-fact-check .fc-typing-dots span {
   display: inline-block;
   width: 5px;
@@ -94,13 +230,51 @@
   }
 }
 
-/* 자료 서랍 슬라이드 */
-.game-fact-check .fc-drawer-card {
-  background: hsl(48 60% 98%);
-  border: 1px solid hsl(45 55% 82%);
+/* ── 결과 화면 ─────────────────────────────────────────────── */
+/* 검증 요원 배지 엠블럼 — 그라디언트 링 */
+.game-fact-check .fc-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  padding: 5px;
+  border-radius: 9999px;
+  background-image: linear-gradient(135deg, hsl(217 88% 54%), hsl(262 82% 60%));
+  box-shadow: 0 10px 24px -8px hsl(230 85% 55% / 0.5);
+}
+.game-fact-check .fc-emblem > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: hsl(0 0% 100%);
+  font-size: 2.5rem;
+}
+
+/* 핵심 정리 콜아웃 카드 */
+.game-fact-check .fc-callout {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(217 40% 90%);
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 2px hsl(222 40% 20% / 0.04), 0 5px 12px -8px hsl(222 50% 30% / 0.12);
+}
+.game-fact-check .fc-num-badge {
+  background-image: linear-gradient(135deg, hsl(217 88% 54%), hsl(262 82% 60%));
+  color: white;
 }
 
 /* 진행 표시 점 */
 .game-fact-check .fc-progress-dot {
   transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* 저사양·모션 최소화 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .game-fact-check .fc-verdict-correct::after,
+  .game-fact-check .fc-typing-dots span {
+    animation: none;
+  }
 }
