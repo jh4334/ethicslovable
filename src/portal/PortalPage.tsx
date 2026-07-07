@@ -23,8 +23,9 @@ export default function PortalPage() {
           <p className="text-sm font-medium opacity-80">초등 5~6학년 미디어 리터러시 수업 패키지</p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">🔍 미디어 리터러시 퀘스트</h1>
           <p className="mx-auto mt-3 max-w-xl text-sm opacity-90 sm:text-base">
-            4개의 게임을 차례대로 깨면서 SNS 추천 알고리즘의 비밀을 파헤쳐 보세요.
-            설치도, 로그인도 필요 없어요!
+            인터넷 세상 '누리마을'의 IT 회사 <b>누리소프트</b>에 새내기 알고리즘
+            요원으로 입사했어요. 4개의 퀘스트를 차례대로 깨면서 추천 알고리즘의
+            비밀을 파헤쳐 보세요. 설치도, 로그인도 필요 없어요!
           </p>
         </div>
       </header>
