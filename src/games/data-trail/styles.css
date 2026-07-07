@@ -1,0 +1,275 @@
+/*
+ * 내 데이터의 여행 — 게임 고유 스타일.
+ * 모든 선택자는 .game-data-trail 아래로만 적용되고, 커스텀 클래스는 dt- 접두사를 쓴다.
+ * 테마: '데이터 여행' — 청록(여행 경로) + 남색(밤하늘 지도) 느낌.
+ */
+
+.game-data-trail {
+  --dt-surface: 195 45% 96%;
+  --dt-trail: 190 80% 36%; /* 여행 경로 청록 */
+  --dt-trail-soft: 190 70% 92%;
+  --dt-ink: 215 45% 22%;
+  --dt-piece: 262 70% 58%; /* 데이터 조각 보라 */
+  --dt-piece-soft: 262 70% 95%;
+  --dt-bait: 0 84% 60%; /* 낚시 광고 경고 빨강 */
+  --dt-bait-soft: 0 86% 96%;
+  --dt-shield: 152 60% 40%;
+  --dt-shield-soft: 152 55% 93%;
+}
+
+/* 화면 한 판 — 상단 공통 바(h-11)를 뺀 높이를 채운다 */
+.game-data-trail .dt-screen {
+  min-height: calc(100vh - 2.75rem);
+  background-color: hsl(var(--dt-surface));
+}
+
+/* ---------- 버튼 ---------- */
+.game-data-trail .dt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.game-data-trail .dt-btn:active {
+  transform: scale(0.98);
+}
+
+.game-data-trail .dt-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.game-data-trail .dt-btn-primary {
+  background-color: hsl(var(--dt-trail));
+  color: #fff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.12);
+}
+
+.game-data-trail .dt-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.game-data-trail .dt-btn-outline {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.game-data-trail .dt-btn-outline:hover:not(:disabled) {
+  background-color: hsl(var(--muted));
+}
+
+/* ---------- 파트 A: 피드 ---------- */
+
+/* 데이터 조각 카운터 — 조각이 늘 때마다 톡 튀는 효과 */
+@keyframes dt-pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.game-data-trail .dt-counter {
+  background-color: hsl(var(--dt-piece-soft));
+  color: hsl(var(--dt-piece));
+  border: 1px solid hsl(var(--dt-piece) / 0.25);
+}
+
+.game-data-trail .dt-counter-pop {
+  animation: dt-pop 0.35s ease-in-out;
+}
+
+/* 검색 칩 */
+.game-data-trail .dt-chip {
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  border-radius: 9999px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.game-data-trail .dt-chip:hover:not(:disabled) {
+  border-color: hsl(var(--dt-trail));
+  color: hsl(var(--dt-trail));
+}
+
+.game-data-trail .dt-chip-used {
+  background-color: hsl(var(--dt-trail-soft));
+  border-color: hsl(var(--dt-trail) / 0.4);
+  color: hsl(var(--dt-trail));
+}
+
+.game-data-trail .dt-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* 피드 카드 */
+.game-data-trail .dt-post {
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.game-data-trail .dt-post:hover {
+  box-shadow: 0 8px 16px -6px rgb(0 0 0 / 0.15);
+  transform: translateY(-2px);
+}
+
+/* ---------- 파트 B: 여행 지도(세로 스텝퍼) ---------- */
+.game-data-trail .dt-station-dot {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  background-color: hsl(var(--dt-trail-soft));
+  border: 2px solid hsl(var(--dt-trail));
+  flex-shrink: 0;
+}
+
+.game-data-trail .dt-connector {
+  width: 3px;
+  flex: 1;
+  min-height: 1.25rem;
+  margin: 0.25rem auto;
+  border-radius: 9999px;
+  background-image: linear-gradient(
+    to bottom,
+    hsl(var(--dt-trail)) 55%,
+    transparent 55%
+  );
+  background-size: 100% 12px;
+}
+
+/* 분석 역: 태그 막대 */
+.game-data-trail .dt-bar-track {
+  background-color: hsl(var(--muted));
+  border-radius: 9999px;
+  height: 0.625rem;
+  overflow: hidden;
+}
+
+.game-data-trail .dt-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: hsl(var(--dt-trail));
+  transition: width 0.6s ease;
+}
+
+/* 프로필 역: 그림자 카드 */
+.game-data-trail .dt-profile-card {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--dt-ink)) 0%,
+    hsl(215 45% 32%) 100%
+  );
+  color: #fff;
+}
+
+.game-data-trail .dt-shadow-note {
+  border: 1.5px dashed hsl(var(--warning));
+  background-color: hsl(var(--warning) / 0.12);
+}
+
+/* 광고 역 */
+.game-data-trail .dt-ad-card {
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+}
+
+.game-data-trail .dt-ad-bait-revealed {
+  border-color: hsl(var(--dt-bait) / 0.6);
+  background-color: hsl(var(--dt-bait-soft));
+}
+
+.game-data-trail .dt-ad-reason {
+  background-color: hsl(var(--dt-trail-soft));
+  color: hsl(var(--dt-ink));
+}
+
+.game-data-trail .dt-ad-reason-bait {
+  background-color: hsl(var(--dt-bait-soft));
+  color: hsl(var(--dt-bait));
+}
+
+/* ---------- 파트 C: 방패 ---------- */
+.game-data-trail .dt-shield {
+  background-color: hsl(var(--dt-shield-soft));
+  color: hsl(var(--dt-shield));
+  border: 1px solid hsl(var(--dt-shield) / 0.3);
+}
+
+.game-data-trail .dt-choice {
+  border: 1.5px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.1s ease;
+  cursor: pointer;
+}
+
+.game-data-trail .dt-choice:hover:not(:disabled) {
+  border-color: hsl(var(--dt-trail));
+}
+
+.game-data-trail .dt-choice:disabled {
+  cursor: default;
+}
+
+.game-data-trail .dt-choice-good {
+  border-color: hsl(var(--dt-shield));
+  background-color: hsl(var(--dt-shield-soft));
+}
+
+.game-data-trail .dt-choice-bad {
+  border-color: hsl(var(--destructive) / 0.6);
+  background-color: hsl(var(--destructive) / 0.08);
+}
+
+.game-data-trail .dt-choice-dim {
+  opacity: 0.45;
+}
+
+/* 결과 화면 방패 슬롯 */
+.game-data-trail .dt-shield-slot {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.game-data-trail .dt-shield-slot-filled {
+  background-color: hsl(var(--dt-shield-soft));
+  border: 2px solid hsl(var(--dt-shield));
+}
+
+.game-data-trail .dt-shield-slot-empty {
+  background-color: hsl(var(--muted));
+  border: 2px dashed hsl(var(--border));
+  opacity: 0.6;
+}
