@@ -1,0 +1,268 @@
+/*
+ * 필터버블 탐지기 — 게임 고유 스타일.
+ * 모든 선택자는 .game-filter-bubble 아래로만 적용되고,
+ * 커스텀 클래스는 fb- 접두사를 쓴다. (원작 bubble-lens 시각 정체성 이식)
+ */
+
+.game-filter-bubble {
+  /* 분야별 색 */
+  --fb-cat-game: 271 81% 94%;
+  --fb-cat-game-text: 271 81% 40%;
+  --fb-cat-learning: 217 91% 94%;
+  --fb-cat-learning-text: 217 91% 40%;
+  --fb-cat-news: 220 14% 94%;
+  --fb-cat-news-text: 220 14% 35%;
+  --fb-cat-sensational: 0 93% 94%;
+  --fb-cat-sensational-text: 0 84% 50%;
+  --fb-cat-food: 25 95% 94%;
+  --fb-cat-food-text: 25 95% 45%;
+  --fb-cat-shopping: 330 81% 94%;
+  --fb-cat-shopping-text: 330 81% 45%;
+  --fb-cat-travel: 152 76% 94%;
+  --fb-cat-travel-text: 152 76% 30%;
+  --fb-cat-animal: 43 96% 94%;
+  --fb-cat-animal-text: 43 96% 40%;
+
+  /* 위험도 색 */
+  --fb-risk-safe: 142 76% 36%;
+  --fb-risk-warning: 25 95% 53%;
+  --fb-risk-danger: 0 84% 60%;
+
+  /* 원작의 옅은 회색 배경 */
+  --fb-surface: 220 14% 96%;
+}
+
+/* 화면 한 판 — 상단 공통 바(h-11)를 뺀 높이를 채운다 */
+.game-filter-bubble .fb-screen {
+  min-height: calc(100vh - 2.75rem);
+  background-color: hsl(var(--fb-surface));
+}
+
+/* ---------- 버튼 ---------- */
+.game-filter-bubble .fb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.game-filter-bubble .fb-btn:active {
+  transform: scale(0.98);
+}
+
+.game-filter-bubble .fb-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.game-filter-bubble .fb-btn-primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.game-filter-bubble .fb-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.game-filter-bubble .fb-btn-outline {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.game-filter-bubble .fb-btn-outline:hover:not(:disabled) {
+  background-color: hsl(var(--muted));
+}
+
+/* ---------- 콘텐츠 카드 ---------- */
+.game-filter-bubble .fb-card-interactive {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.game-filter-bubble .fb-card-interactive:hover {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transform: translateY(-0.25rem);
+}
+
+.game-filter-bubble .fb-card-interactive:active {
+  transform: scale(0.95);
+}
+
+/* 자극 정도 점 */
+.game-filter-bubble .fb-intensity-high {
+  background-color: hsl(0 91% 71%);
+}
+
+.game-filter-bubble .fb-intensity-normal {
+  background-color: hsl(220 13% 82%);
+}
+
+/* 자극 최고 단계 카드의 아래 강조 줄 */
+.game-filter-bubble .fb-hot-bar {
+  background: linear-gradient(to right, hsl(0 84% 60%), hsl(25 95% 53%));
+  opacity: 0.5;
+}
+
+/* ---------- 분야 배지 색 ---------- */
+.game-filter-bubble .fb-badge-game {
+  background-color: hsl(var(--fb-cat-game));
+  color: hsl(var(--fb-cat-game-text));
+}
+.game-filter-bubble .fb-badge-learning {
+  background-color: hsl(var(--fb-cat-learning));
+  color: hsl(var(--fb-cat-learning-text));
+}
+.game-filter-bubble .fb-badge-news {
+  background-color: hsl(var(--fb-cat-news));
+  color: hsl(var(--fb-cat-news-text));
+}
+.game-filter-bubble .fb-badge-sensational {
+  background-color: hsl(var(--fb-cat-sensational));
+  color: hsl(var(--fb-cat-sensational-text));
+}
+.game-filter-bubble .fb-badge-food {
+  background-color: hsl(var(--fb-cat-food));
+  color: hsl(var(--fb-cat-food-text));
+}
+.game-filter-bubble .fb-badge-shopping {
+  background-color: hsl(var(--fb-cat-shopping));
+  color: hsl(var(--fb-cat-shopping-text));
+}
+.game-filter-bubble .fb-badge-travel {
+  background-color: hsl(var(--fb-cat-travel));
+  color: hsl(var(--fb-cat-travel-text));
+}
+.game-filter-bubble .fb-badge-animal {
+  background-color: hsl(var(--fb-cat-animal));
+  color: hsl(var(--fb-cat-animal-text));
+}
+
+/* ---------- 결과 카드 테마 색 ---------- */
+.game-filter-bubble .fb-result-bg-game {
+  background-color: hsl(var(--fb-cat-game));
+}
+.game-filter-bubble .fb-result-bg-learning {
+  background-color: hsl(var(--fb-cat-learning));
+}
+.game-filter-bubble .fb-result-bg-news {
+  background-color: hsl(var(--fb-cat-news));
+}
+.game-filter-bubble .fb-result-bg-sensational {
+  background-color: hsl(var(--fb-cat-sensational));
+}
+.game-filter-bubble .fb-result-bg-food {
+  background-color: hsl(var(--fb-cat-food));
+}
+.game-filter-bubble .fb-result-bg-shopping {
+  background-color: hsl(var(--fb-cat-shopping));
+}
+.game-filter-bubble .fb-result-bg-travel {
+  background-color: hsl(var(--fb-cat-travel));
+}
+.game-filter-bubble .fb-result-bg-animal {
+  background-color: hsl(var(--fb-cat-animal));
+}
+
+.game-filter-bubble .fb-result-text-game {
+  color: hsl(var(--fb-cat-game-text));
+}
+.game-filter-bubble .fb-result-text-learning {
+  color: hsl(var(--fb-cat-learning-text));
+}
+.game-filter-bubble .fb-result-text-news {
+  color: hsl(var(--fb-cat-news-text));
+}
+.game-filter-bubble .fb-result-text-sensational {
+  color: hsl(var(--fb-cat-sensational-text));
+}
+.game-filter-bubble .fb-result-text-food {
+  color: hsl(var(--fb-cat-food-text));
+}
+.game-filter-bubble .fb-result-text-shopping {
+  color: hsl(var(--fb-cat-shopping-text));
+}
+.game-filter-bubble .fb-result-text-travel {
+  color: hsl(var(--fb-cat-travel-text));
+}
+.game-filter-bubble .fb-result-text-animal {
+  color: hsl(var(--fb-cat-animal-text));
+}
+
+/* ---------- 위험도 게이지 색 ---------- */
+.game-filter-bubble .fb-gauge-safe {
+  background-color: hsl(var(--fb-risk-safe));
+}
+.game-filter-bubble .fb-gauge-warning {
+  background-color: hsl(var(--fb-risk-warning));
+}
+.game-filter-bubble .fb-gauge-danger {
+  background-color: hsl(var(--fb-risk-danger));
+}
+.game-filter-bubble .fb-text-safe {
+  color: hsl(var(--fb-risk-safe));
+}
+.game-filter-bubble .fb-text-warning {
+  color: hsl(var(--fb-risk-warning));
+}
+.game-filter-bubble .fb-text-danger {
+  color: hsl(var(--fb-risk-danger));
+}
+
+/* ---------- 애니메이션 ---------- */
+@keyframes fb-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fb-bounce-subtle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+@keyframes fb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.game-filter-bubble .fb-bounce {
+  animation: fb-bounce-subtle 2s ease-in-out infinite;
+}
+
+/* 카드가 차례로 나타나는 효과 */
+.game-filter-bubble .fb-card-stagger {
+  opacity: 0;
+  animation: fb-fade-in-up 0.4s ease-out forwards;
+}
+
+/* 공유 버튼 로딩 표시 */
+.game-filter-bubble .fb-spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 9999px;
+  animation: fb-spin 0.8s linear infinite;
+}
