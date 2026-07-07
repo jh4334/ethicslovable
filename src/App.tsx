@@ -9,6 +9,10 @@ const FeedAlgorithmGame = lazy(() => import("./games/feed-algorithm"));
 const FilterBubbleGame = lazy(() => import("./games/filter-bubble"));
 const SocialInsightGame = lazy(() => import("./games/social-insight"));
 const TrendTycoonGame = lazy(() => import("./games/trend-tycoon"));
+const DataBiasGame = lazy(() => import("./games/data-bias"));
+const DeepfakeGame = lazy(() => import("./games/deepfake"));
+const FactCheckGame = lazy(() => import("./games/fact-check"));
+const DataTrailGame = lazy(() => import("./games/data-trail"));
 
 function Loading() {
   return (
@@ -30,6 +34,10 @@ export default function App() {
           <Route path="/games/filter-bubble" element={<FilterBubbleGame />} />
           <Route path="/games/social-insight" element={<SocialInsightGame />} />
           <Route path="/games/trend-tycoon" element={<TrendTycoonGame />} />
+          <Route path="/games/data-bias" element={<DataBiasGame />} />
+          <Route path="/games/deepfake" element={<DeepfakeGame />} />
+          <Route path="/games/fact-check" element={<FactCheckGame />} />
+          <Route path="/games/data-trail" element={<DataTrailGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

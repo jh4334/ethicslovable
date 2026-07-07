@@ -8,13 +8,21 @@ export type GameId =
   | "feed-algorithm"
   | "filter-bubble"
   | "social-insight"
-  | "trend-tycoon";
+  | "trend-tycoon"
+  | "data-bias"
+  | "deepfake"
+  | "fact-check"
+  | "data-trail";
 
 export const GAME_IDS: GameId[] = [
   "feed-algorithm",
   "filter-bubble",
   "social-insight",
   "trend-tycoon",
+  "data-bias",
+  "deepfake",
+  "fact-check",
+  "data-trail",
 ];
 
 export interface GameRecord {
@@ -61,9 +69,9 @@ export function isCompleted(gameId: GameId): boolean {
   return Boolean(getProgress().games[gameId]);
 }
 
-export function completedCount(): number {
+export function completedCount(ids: GameId[] = GAME_IDS): number {
   const progress = getProgress();
-  return GAME_IDS.filter((id) => progress.games[id]).length;
+  return ids.filter((id) => progress.games[id]).length;
 }
 
 export function resetProgress(): void {
