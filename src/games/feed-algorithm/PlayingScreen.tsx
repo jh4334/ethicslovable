@@ -151,7 +151,7 @@ const PlayingScreen = ({ content, onGameOver, onSuccess }: PlayingScreenProps) =
       </div>
 
       {/* 진행 표시 */}
-      <div className="fa-dim py-1 text-center text-xs font-bold">
+      <div className="fa-day-chip z-10 my-1">
         {day}일차 / {meta.maxDays}일
       </div>
 

@@ -59,7 +59,7 @@ const DragTutorial = ({ tutorial, onDismiss }: DragTutorialProps) => {
           <span className="text-3xl">📱</span>
         </motion.div>
 
-        <p className="mb-2 text-lg font-bold text-white">{tutorial.heading}</p>
+        <p className="mb-2 text-lg font-extrabold tracking-tight text-white">{tutorial.heading}</p>
         <p className="fa-dim mb-6 text-sm">{tutorial.body}</p>
 
         <motion.button
