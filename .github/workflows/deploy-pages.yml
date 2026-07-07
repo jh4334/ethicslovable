@@ -1,13 +1,9 @@
-# GitHub Pages 배포 워크플로.
-# 현재 저장소가 비공개(private)라 무료 계정에서는 Pages 호스팅이 불가하여
-# 수동 실행(workflow_dispatch) 전용으로 꺼 둔 상태다.
-# 저장소를 공개(public)로 전환하면 아래 push 트리거의 주석을 해제해
-# main 푸시마다 자동 배포되게 하면 된다.
+# main 브랜치에 푸시될 때마다 GitHub Pages로 자동 배포한다.
 name: GitHub Pages 배포
 
 on:
-  # push:
-  #   branches: [main]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
