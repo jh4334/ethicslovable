@@ -34,6 +34,7 @@ npm run build:offline  # dist-offline/index.html — 단일 파일, 더블클릭
 ```
 
 - **웹 배포**: `dist/` 폴더를 정적 호스팅(학교 서버, GitHub Pages 등)에 올리면 URL 접속만으로 실행됩니다.
+  - GitHub Pages 자동 배포가 설정되어 있어요: 저장소 **Settings → Pages → Source를 "GitHub Actions"로** 한 번만 바꿔 두면, main 브랜치에 푸시될 때마다 자동으로 배포됩니다.
 - **오프라인 배포**: `dist-offline/index.html` 파일 하나만 USB·메신저로 배포하면, 인터넷 없는 교실 PC에서도 더블클릭으로 실행됩니다.
 
 ## 게임 콘텐츠 수정하기 (교사용)
