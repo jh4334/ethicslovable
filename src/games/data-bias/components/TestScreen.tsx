@@ -30,10 +30,8 @@ export default function TestScreen({ content, game }: TestScreenProps) {
   return (
     <div className="mx-auto w-full max-w-md animate-fade-in px-4 py-5">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold text-primary-foreground">
-          {game.round}차 시험
-        </span>
-        <h2 className="text-base font-black">{rounds.testTitle}</h2>
+        <span className="db-pill text-[11px]">{game.round}차 시험</span>
+        <h2 className="text-lg font-black">{rounds.testTitle}</h2>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">{rounds.testGuide}</p>
 
@@ -43,7 +41,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
           <div
             key={j.card.id}
             className={cn(
-              "h-1.5 flex-1 rounded-full transition-colors",
+              "h-2 flex-1 rounded-full shadow-inner transition-colors",
               i < game.testIndex
                 ? j.judgement.correct
                   ? "bg-success"
@@ -72,7 +70,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
           transition={{ duration: 0.25 }}
         >
           {/* 시험 카드 */}
-          <div className="mt-3 rounded-2xl border bg-card p-5 text-center shadow-sm">
+          <div className="mlq-card mt-3 p-5 text-center">
             <div className="text-[11px] font-bold text-muted-foreground">{rounds.testQuestion}</div>
             <motion.div
               className="mt-2 text-6xl"
@@ -94,7 +92,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                <BabyBot line={babyBot.thinkingLine} mood="thinking" />
+                <BabyBot className="db-bot-lg" line={babyBot.thinkingLine} mood="thinking" />
               </motion.div>
             ) : (
               <motion.div
@@ -103,6 +101,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
                 transition={{ duration: 0.25 }}
               >
                 <BabyBot
+                  className="db-bot-lg db-bounce-in"
                   line={judgement.botLine}
                   mood={judgement.correct ? "happy" : "confused"}
                 />
@@ -120,7 +119,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
             >
               <div
                 className={cn(
-                  "flex items-center justify-between rounded-xl border px-3 py-2.5",
+                  "mlq-card flex items-center justify-between gap-2 px-3.5 py-3",
                   judgement.correct
                     ? "border-success/40 bg-success/10"
                     : "border-destructive/40 bg-destructive/10",
@@ -128,7 +127,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
               >
                 <span
                   className={cn(
-                    "text-sm font-black",
+                    "shrink-0 text-base font-black",
                     judgement.correct ? "text-success" : "text-destructive",
                   )}
                 >
@@ -143,7 +142,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
 
               {/* 왜 틀렸을까? */}
               {!judgement.correct && (
-                <div className="mt-2 rounded-xl border border-warning/50 bg-warning/10 p-3">
+                <div className="mlq-card mt-2 border-warning/50 bg-warning/10 p-3">
                   <div className="text-xs font-bold text-warning-foreground">
                     🔍 {rounds.whyWrongTitle}
                   </div>
@@ -157,7 +156,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
                     {judgement.missing.map((m) => (
                       <span
                         key={m}
-                        className="rounded-full bg-destructive/15 px-2 py-0.5 text-[10px] font-bold text-destructive"
+                        className="mlq-chip border border-destructive/30 bg-destructive/10 px-2 py-0.5 text-[10px] text-destructive"
                       >
                         {m}
                       </span>
@@ -169,7 +168,7 @@ export default function TestScreen({ content, game }: TestScreenProps) {
               <button
                 type="button"
                 onClick={game.nextTest}
-                className="mt-4 w-full rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
+                className="db-btn mt-4 w-full px-6 py-3 text-sm"
               >
                 {isLast ? rounds.seeResultButton : rounds.nextButton}
               </button>

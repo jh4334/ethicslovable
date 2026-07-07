@@ -34,21 +34,17 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
 
   return (
     <div className="mx-auto w-full max-w-md animate-fade-in px-4 py-6">
-      <h2 className="text-center text-base font-black">
+      <h2 className="text-center text-lg font-black">
         {game.round}차 {results.title}
       </h2>
 
       {/* 정확도 */}
-      <div className="mt-4 rounded-2xl border bg-card p-5 text-center shadow-sm">
-        <div className="text-xs font-medium text-muted-foreground">{results.accuracyLabel}</div>
+      <div className="mlq-card mt-4 p-6 text-center">
+        <div className="text-xs font-bold text-muted-foreground">{results.accuracyLabel}</div>
         <div
           className={cn(
-            "mt-1 animate-scale-in text-5xl font-black tabular-nums",
-            result.accuracy === 100
-              ? "text-success"
-              : result.accuracy >= 67
-                ? "text-primary"
-                : "text-destructive",
+            "mt-1 animate-scale-in text-7xl font-black tabular-nums tracking-tight",
+            result.accuracy >= 67 ? "db-grad-text" : "text-destructive",
           )}
         >
           {result.accuracy}%
@@ -56,11 +52,11 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
         <div className="mt-1 text-xs text-muted-foreground">
           {result.total}문제 중 {result.correctCount}문제 정답
         </div>
-        <div className="mx-auto mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
+        <div className="mx-auto mt-3 h-2.5 w-full overflow-hidden rounded-full bg-muted shadow-inner">
           <div
             className={cn(
               "h-full rounded-full transition-all",
-              result.accuracy === 100 ? "bg-success" : result.accuracy >= 67 ? "bg-primary" : "bg-destructive",
+              result.accuracy >= 67 ? "db-bar-fill" : "bg-destructive",
             )}
             style={{ width: `${result.accuracy}%` }}
           />
@@ -75,18 +71,27 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
 
       {/* 1차 vs 2차 비교 */}
       {isRound2 && r1 && (
-        <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-4">
-          <div className="text-center text-xs font-bold text-primary">{results.compareTitle}</div>
-          <div className="mt-2 flex items-center justify-center gap-3 text-2xl font-black tabular-nums">
-            <span className="text-muted-foreground">{r1.accuracy}%</span>
-            <span className="text-base" aria-hidden>
+        <div className="db-callout mt-4 rounded-2xl p-4">
+          <div className="db-grad-text text-center text-xs font-extrabold">{results.compareTitle}</div>
+          <div className="mt-2 flex items-center justify-center gap-2">
+            <span className="mlq-card flex-1 px-3 py-3 text-center text-2xl font-black tabular-nums text-muted-foreground">
+              {r1.accuracy}%
+            </span>
+            <span className="db-grad-text shrink-0 text-xl font-black" aria-hidden>
               →
             </span>
-            <span className={result.accuracy >= r1.accuracy ? "text-success" : "text-destructive"}>
-              {result.accuracy}%
+            <span
+              className={cn(
+                "mlq-card flex-1 px-3 py-3 text-center text-2xl font-black tabular-nums",
+                result.accuracy >= r1.accuracy ? "border-success/30" : "border-destructive/30",
+              )}
+            >
+              <span className={result.accuracy >= r1.accuracy ? "db-grad-text" : "text-destructive"}>
+                {result.accuracy}%
+              </span>
             </span>
           </div>
-          <p className="mt-2 text-center text-xs font-medium leading-relaxed">
+          <p className="mt-2.5 text-center text-xs font-semibold leading-relaxed">
             {compareLine(content, r1, result)}
           </p>
         </div>
@@ -96,13 +101,13 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
       <div className="mt-4">
         <h3 className="text-xs font-bold">📋 {results.wrongListTitle}</h3>
         {wrong.length === 0 ? (
-          <p className="mt-2 rounded-xl border border-success/40 bg-success/10 px-3 py-2.5 text-xs font-medium text-success">
+          <p className="mlq-card mt-2 border-success/40 bg-success/10 px-3 py-2.5 text-xs font-bold text-success">
             🎉 {results.allCorrectNote}
           </p>
         ) : (
           <ul className="mt-2 space-y-2">
             {wrong.map(({ card, judgement }) => (
-              <li key={card.id} className="rounded-xl border bg-card p-3">
+              <li key={card.id} className="mlq-card p-3">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl" aria-hidden>
                     {card.emoji}
@@ -121,7 +126,7 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
                   {judgement.missing.map((m) => (
                     <span
                       key={m}
-                      className="rounded-full bg-destructive/15 px-2 py-0.5 text-[10px] font-bold text-destructive"
+                      className="mlq-chip border border-warning/50 bg-warning/15 px-2 py-0.5 text-[10px] text-warning-foreground"
                     >
                       빠진 데이터 · {m}
                     </span>
@@ -140,7 +145,7 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
           <button
             type="button"
             onClick={game.startRound2}
-            className="mt-2 w-full rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
+            className="db-btn mt-2 w-full px-6 py-3 text-sm"
           >
             {results.toRound2Button}
           </button>
@@ -149,7 +154,7 @@ export default function RoundResultScreen({ content, game }: RoundResultScreenPr
         <button
           type="button"
           onClick={game.goReflection}
-          className="mt-5 w-full rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-transform hover:scale-[1.02] active:scale-95"
+          className="db-btn mt-5 w-full px-6 py-3 text-sm"
         >
           {results.toReflectionButton}
         </button>
