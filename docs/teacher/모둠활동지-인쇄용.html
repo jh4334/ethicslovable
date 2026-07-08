@@ -1,0 +1,1279 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미디어 리터러시 퀘스트 — 모둠 협력 활동지 인쇄용</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --line: #b5b5b5;
+    --box: #8a8a8a;
+    --soft: #f4f4f2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    color: var(--ink);
+    background: #e8e6e1;
+    line-height: 1.38;
+    font-size: 10pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ---------- 화면 전용 툴바 ---------- */
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    background: #2b2b2b; color: #fff;
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .toolbar button {
+    font: inherit; font-weight: 700;
+    background: #fff; color: #2b2b2b;
+    border: none; border-radius: 8px;
+    padding: 8px 18px; cursor: pointer;
+  }
+  .toolbar button:hover { background: #ffe9a8; }
+  .toolbar .tip { font-size: 9pt; opacity: .9; }
+
+  /* ---------- 시트(A4 한 장) ---------- */
+  .sheet {
+    width: 210mm; min-height: 297mm;
+    margin: 10mm auto;
+    padding: 13mm 14mm;
+    background: #fff;
+    box-shadow: 0 2px 14px rgba(0,0,0,.18);
+    page-break-after: always;
+    break-after: page;
+  }
+  .sheet:last-of-type { page-break-after: auto; break-after: auto; }
+
+  /* ---------- 머리글 ---------- */
+  .head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border: 1.6pt solid var(--ink); border-radius: 10px;
+    padding: 2.4mm 4mm; margin-bottom: 3mm;
+  }
+  .head .quest { font-size: 8pt; font-weight: 700; letter-spacing: .06em; color: #444; }
+  .head h1 { margin: .6mm 0 0; font-size: 13.5pt; line-height: 1.25; }
+  .head h1 small { font-size: 9.5pt; font-weight: 600; color: #444; }
+  .head .who { text-align: right; font-size: 9.5pt; white-space: nowrap; padding-bottom: .5mm; }
+  .head .who .fill {
+    display: inline-block; width: 26mm;
+    border-bottom: 1pt solid var(--ink);
+  }
+
+  /* ---------- 모둠 정보 기입란 ---------- */
+  .groupinfo {
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 2mm 5mm;
+    border: 1pt solid var(--ink); border-radius: 8px;
+    padding: 1.8mm 3.5mm; margin-bottom: 2.6mm;
+    font-size: 9.5pt;
+  }
+  .groupinfo .gi { display: flex; align-items: flex-end; }
+  .groupinfo .lb { font-weight: 700; white-space: nowrap; margin-right: 1.5mm; padding-bottom: .5mm; }
+  .groupinfo .fill { display: inline-block; border-bottom: 1pt solid var(--ink); }
+  .groupinfo .fill.s { width: 24mm; }
+  .groupinfo .fill.m { width: 20mm; }
+  .groupinfo .fill.l { width: 34mm; }
+
+  /* ---------- 도입 안내 ---------- */
+  .intro {
+    background: var(--soft);
+    border: .5pt solid var(--line); border-left: 2pt solid var(--ink);
+    border-radius: 6px;
+    padding: 1.8mm 3.5mm; margin-bottom: 2.6mm;
+    font-size: 9.5pt;
+  }
+  .intro p { margin: .4mm 0; }
+
+  /* ---------- 활동 구역 ---------- */
+  .sec {
+    border: .8pt solid var(--box); border-radius: 8px;
+    padding: 2mm 3.5mm 2.4mm; margin-bottom: 2.6mm;
+  }
+  .sec-title {
+    display: inline-block;
+    font-weight: 800; font-size: 10pt;
+    background: var(--soft); border: .5pt solid var(--line);
+    border-radius: 20px; padding: .4mm 3.5mm;
+    margin: 0 0 1.6mm;
+  }
+  .q { font-weight: 700; margin: 1.6mm 0 1.2mm; }
+  .q:first-of-type { margin-top: .4mm; }
+  .hint { font-weight: 400; font-size: 8.5pt; color: #555; }
+  .lead { margin: .6mm 0 1.2mm; font-size: 9.5pt; }
+  ol.disc { margin: .6mm 0 1.4mm; padding-left: 6mm; }
+  ol.disc li { margin: .7mm 0; }
+
+  /* ---------- 표 ---------- */
+  table { border-collapse: collapse; width: 100%; margin: 1mm 0 1.6mm; }
+  th, td { border: .6pt solid #444; padding: 1mm 2mm; font-size: 9.5pt; }
+  th { background: var(--soft); font-weight: 700; text-align: center; }
+  td.write { height: 8mm; }
+  .rec th:first-child, .rec td:first-child { width: 46%; }
+  .rec td { height: 7.6mm; }
+  td.tall { height: 12mm; }
+  .center { text-align: center; }
+
+  /* ---------- 손글씨 줄 ---------- */
+  .wl { height: 8mm; border-bottom: .7pt solid #888; }
+  .fill-line { display: flex; align-items: flex-end; gap: 2mm; margin: 1.4mm 0; }
+  .fill-line .lb { white-space: nowrap; font-weight: 600; padding-bottom: .6mm; }
+  .fill-line .fl { flex: 1; border-bottom: .7pt solid #888; height: 7.5mm; }
+  .blank {
+    display: inline-block; min-width: 14mm;
+    border-bottom: 1pt solid var(--ink); text-align: center;
+  }
+  .blank.s { min-width: 10mm; }
+  .blank.w { min-width: 46mm; }
+  .blank.xw { min-width: 70mm; }
+  .inlinefill { margin: 1mm 0; }
+
+  /* ---------- 게임 인용/계산 상자 ---------- */
+  .gamequote {
+    background: var(--soft); border: .5pt solid var(--line);
+    border-radius: 6px; padding: 1.6mm 3mm; margin: 1.2mm 0;
+    font-size: 9.5pt;
+  }
+
+  /* ---------- 큰 빈 박스 (포스터·선언문 제작) ---------- */
+  .bigbox {
+    border: 1.4pt solid var(--ink); border-radius: 8px;
+    padding: 2.6mm 4mm 3mm; margin: 1.6mm 0;
+  }
+  .bigbox .bt { font-weight: 800; text-align: center; font-size: 10.5pt; margin-bottom: 2mm; }
+  .bigbox .bl { display: flex; align-items: flex-end; gap: 2mm; margin: 1.6mm 0; }
+  .bigbox .bl .lb { white-space: nowrap; font-weight: 600; padding-bottom: .6mm; }
+  .bigbox .bl .fl { flex: 1; border-bottom: .8pt solid #666; height: 7mm; }
+  .draw {
+    border: 1pt dashed #777; border-radius: 6px;
+    min-height: 42mm; margin-top: 1.6mm;
+    display: flex; align-items: flex-start; justify-content: center;
+    color: #888; font-size: 8.5pt; padding-top: 1.4mm;
+  }
+  .draw.sm { min-height: 30mm; }
+  .quad { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .quad .qc { border: 1pt solid var(--ink); padding: 2mm 2.5mm; min-height: 26mm; }
+  .quad .qc .qh { font-weight: 800; margin-bottom: 1mm; }
+  .quad .qc .fl { border-bottom: .8pt solid #666; height: 6.5mm; margin-top: 1mm; }
+
+  /* ---------- 막대그래프 (세로) ---------- */
+  table.bar { border-collapse: collapse; width: auto; margin: 1.5mm 0; }
+  table.bar th.ax {
+    font-size: 8.5pt; text-align: right; font-weight: 600;
+    border: none; padding: 0 2mm 0 0; white-space: nowrap;
+  }
+  table.bar td.c { border: .7pt solid #333; height: 5.4mm; }
+  table.bar td.zn {
+    border: none; font-size: 8pt; color: #333; text-align: left;
+    padding-left: 2.5mm; white-space: nowrap;
+  }
+  table.bar td.base { border: none; border-top: 1.4pt solid var(--ink); height: 0; padding: 0; }
+  table.bar td.nm {
+    border: none; height: 6.5mm; font-size: 8.5pt; text-align: center;
+    vertical-align: top; padding-top: .6mm;
+  }
+
+  /* ---------- 막대그래프 (가로) ---------- */
+  table.hbar { border-collapse: collapse; width: auto; margin: 1.5mm 0; }
+  table.hbar th {
+    font-size: 8.5pt; text-align: right; font-weight: 600;
+    border: none; padding: 0 2mm 0 0; white-space: nowrap;
+  }
+  table.hbar td { border: .7pt solid #333; width: 11mm; height: 6mm; }
+  .barcap { font-size: 8pt; color: #444; margin: .4mm 0 1.4mm; }
+
+  /* ---------- 다음/마무리 안내 ---------- */
+  .next {
+    border: 1pt dashed #777; border-radius: 8px;
+    padding: 1.8mm 3.5mm; margin-bottom: 0;
+    font-size: 9.5pt;
+  }
+  .next .nt { font-weight: 800; margin-bottom: .8mm; }
+  .next p { margin: .5mm 0; }
+
+  /* ---------- 교사용 각주 (인쇄 제외) ---------- */
+  .teacher-note {
+    margin-top: 3mm;
+    background: #fff3bf;
+    border: 1px solid #e0b400;
+    border-radius: 6px;
+    padding: 3mm 4mm;
+    font-size: 9pt;
+    box-shadow: 2px 3px 0 rgba(0,0,0,.12);
+  }
+  .teacher-note .tn-badge {
+    display: inline-block; font-weight: 800; font-size: 8.5pt;
+    background: #e0b400; color: #fff;
+    border-radius: 4px; padding: .5mm 2mm; margin-bottom: 1mm;
+  }
+  .teacher-note p { margin: .6mm 0; }
+
+  /* ---------- 인쇄 ---------- */
+  @page { size: A4; margin: 15mm; }
+  @media print {
+    body { background: #fff; }
+    .toolbar, .teacher-note { display: none !important; }
+    .sheet {
+      width: auto; min-height: 0;
+      margin: 0; padding: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+
+<div class="toolbar">
+  <button type="button" onclick="window.print()">🖨️ 인쇄하기</button>
+  <span class="tip">모둠 협력 활동지 · 브라우저 인쇄 대화상자에서 '배경 그래픽'을 켜면 더 예쁘게 나와요 · 노란 메모(교사용)는 인쇄되지 않아요</span>
+</div>
+
+<!-- ==================== 모둠 협력 활동지 ① 1차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ①</div>
+      <h1>1차시 · 알고리즘 설계자 🧙 <small>— 우리 모둠의 누리피드 설계실 회의</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>여러분은 각자 7일 동안 누리피드 알고리즘 설계실에서 근무하고 온 요원이에요.</p>
+    <p>이제 모둠으로 모여, 서로 다른 근무 결과를 맞대어 보고 <strong>우리 모둠만의 착한 알고리즘 규칙</strong>을 함께 만들어요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의)</span>
+    <p class="lead">동그랗게 모여 앉아, 아래 질문을 하나씩 돌아가며 이야기해요.</p>
+    <ol class="disc">
+      <li>우리 모둠은 각자 며칠까지 살아남았나요? 7일을 완주한 사람이 있나요?</li>
+      <li>어떤 수치가 0이나 100에 닿아서 근무가 끝났나요? (🔥 조회수 / 🛡️ 안전 / 💰 수익 / 🤝 신뢰) 어떤 엔딩이었나요? (예: '디지털 좀비 사태', '재미없는 앱', '거짓말쟁이 낙인')</li>
+      <li>'위험한 챌린지'나 '저격 영상' 같은 카드에서, 나와 옆 친구의 선택이 서로 달랐던 적이 있나요? 왜 달랐을까요?</li>
+    </ol>
+    <p class="q">모둠 의견을 한 칸에 모아 적어요.</p>
+    <table class="rec">
+      <tr><th>우리 모둠이 함께 찾은 점</th><th>&nbsp;</th></tr>
+      <tr><td>우리 모둠에서 가장 많이 나온 엔딩 이유(어떤 수치 때문에?)</td><td class="write"></td></tr>
+      <tr><td>같은 카드인데 선택이 갈렸던 카드와 그 까닭</td><td class="write"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 (모둠 데이터 활동)</span>
+    <p class="q">㉮ 우리 모둠 근무 결산표를 채워요. <span class="hint">모둠원의 게임 결과를 한 줄씩 옮겨 적어요.</span></p>
+    <table>
+      <tr><th style="width:26%">모둠원 이름</th><th style="width:16%">생존 일수</th><th>요원 유형 (📈 성장 몰입형 / 🛡️ 안전 중시형 / 🎯 균형형)</th><th style="width:26%">내가 만난 엔딩 이름</th></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="q">㉯ 우리 모둠 요원 유형을 세어 봐요. <span class="hint">표의 유형에 '正(바를 정)' 자로 표시하고 인원을 적어요.</span></p>
+    <table>
+      <tr><th>📈 성장 몰입형</th><th>🛡️ 안전 중시형</th><th>🎯 균형형</th></tr>
+      <tr><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr>
+      <tr><td class="center"><span class="blank s">&nbsp;</span> 명</td><td class="center"><span class="blank s">&nbsp;</span> 명</td><td class="center"><span class="blank s">&nbsp;</span> 명</td></tr>
+    </table>
+    <p class="q">㉰ 엔딩 수집 미션. <span class="hint">게임에는 8종의 게임 오버 엔딩이 있어요. 우리 모둠이 다 같이 모은 엔딩에 ✔ 표 하고, 몇 종을 모았는지 세어요.</span></p>
+    <table>
+      <tr><th>👻 텅 빈 앱</th><th>🧟 디지털 좀비</th><th>⚖️ 청문회 소환</th><th>😴 재미없는 앱</th><th>💸 돈이 없어요</th><th>😡 욕심쟁이 앱</th><th>🤥 신뢰 바닥</th><th>🚫 검열 논란</th></tr>
+      <tr><td class="tall"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="inlinefill">우리 모둠이 모은 엔딩: <strong><span class="blank">&nbsp;</span> / 8 종</strong></p>
+    <p class="q">㉱ 가장 어려운 딜레마 순위 정하기. <span class="hint">아래 8장 중, 회의로 '결정하기 가장 어려운 카드' 3장을 골라 순위를 매겨요.</span></p>
+    <p class="lead"><code>위험한 챌린지</code> · <code>가짜 뉴스의 확산</code> · <code>뷰티 필터와 자존감</code> · <code>숏폼 중독 설계</code> · <code>저격 영상과 사이버 폭력</code> · <code>개인정보와 맞춤 광고</code> · <code>광고인지 아닌지(뒷광고)</code> · <code>필터 버블의 유혹</code></p>
+    <table>
+      <tr><th style="width:12%">순위</th><th style="width:34%">카드 이름</th><th>왜 어려웠나요? (무엇과 무엇이 부딪혔나요?)</th></tr>
+      <tr><td class="center">1위</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">2위</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">3위</td><td class="write"></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 (모둠 산출물)</span>
+    <p class="lead"><strong>우리 모둠의 '착한 알고리즘 규칙 3가지' 포스터를 만들어요.</strong> 모두에게 완벽하게 착한 알고리즘은 어려워요. 그래도 우리 모둠이 누리피드를 운영한다면 꼭 지킬 규칙 3가지를 정하고, 규칙마다 '이 규칙을 지키면 어떤 수치가 손해를 볼 수도 있는지'까지 솔직하게 적어요.</p>
+    <div class="bigbox">
+      <div class="bt">🏢 우리 모둠 누리피드 운영 규칙</div>
+      <div class="bl"><span class="lb">모둠 이름</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">규칙 1.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(감수할 손해:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">규칙 2.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(감수할 손해:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">규칙 3.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(감수할 손해:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">우리 규칙의 이름/구호</span><span class="fl"></span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠 규칙을 한 줄로 소개하는 발표문</p>
+    <p class="inlinefill">"우리 모둠은 <span class="blank xw">&nbsp;</span> 규칙을 정했어요.</p>
+    <p class="inlinefill">왜냐하면 <span class="blank xw">&nbsp;</span> 때문이에요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 진행 팁</strong> · 모둠은 4명 내외로, 요원 유형(성장·안전·균형)이 골고루 섞이도록 편성하면 활동 1·2의 대화가 풍부해진다. · 시간 배분은 활동 1(7분)·활동 2(12분)·활동 3(15분)·활동 4(6분)를 권장하며, 활동 2의 ㉱ 순위 정하기에서 토의가 길어지므로 타이머를 활용한다. · '착한 규칙=거절만 하는 규칙'으로 흐르지 않게 한다. 게임 설계처럼 거절에도 손해(이용자 이탈·수익 감소)가 따르므로, 규칙마다 '감수할 손해' 칸을 반드시 채우게 하여 '완벽한 정답은 없고 균형이 있을 뿐'임을 체감시킨다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ② 2차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ②</div>
+      <h1>2차시 · 필터버블 탐지기 🫧 <small>— 우리 모둠 성향 분석 회의</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>각자 성향 분석 실험실에서 카드를 10번 골라, 자신의 <strong>필터버블 위험도</strong>를 확인하고 왔어요.</p>
+    <p>이제 모둠의 결과를 한자리에 모아, 우리 모둠은 무엇을 즐겨 보고 무엇을 놓치고 있는지 함께 살펴봐요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의)</span>
+    <ol class="disc">
+      <li>우리 모둠의 필터버블 위험도 점수를 모아 봐요 — 누가 제일 높았고, 누가 제일 낮았나요?</li>
+      <li>각자 어떤 칭호가 나왔나요? (예: "게임에 푹 빠진 게임 달인", "맛에 진심인 꼬마 미식가", "골고루 탐험가") 우리 모둠에 같은 칭호가 나온 사람이 있나요?</li>
+      <li>"충격! 몽실이의 숨겨진 비밀", "충격! 급식에서 이게 나왔다?!" 같은 <strong>빨간 점(자극적인) 카드</strong>에 손이 갔던 사람? 어떤 말이 우리를 끌어당겼나요?</li>
+    </ol>
+    <p class="q">모둠 의견을 한 칸에 모아 적어요.</p>
+    <table class="rec">
+      <tr><th>우리 모둠이 함께 찾은 점</th><th>&nbsp;</th></tr>
+      <tr><td>우리 모둠에서 위험도가 가장 높았던 사람과 그 사람의 1위 분야</td><td class="write"></td></tr>
+      <tr><td>자극적인 제목에 손이 가게 만든 낱말(예: '충격!', '?!', '비밀')</td><td class="write"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 (모둠 데이터 활동)</span>
+    <p class="q">㉮ 우리 모둠 위험도 막대그래프를 그려요. <span class="hint">모둠원 이름을 아래에 적고, 위험도 점수만큼 칸을 색칠해요. (한 칸 = 10점)</span></p>
+    <table class="bar">
+      <tr><th class="ax">100</th><td class="c" style="width:26mm"></td><td class="c" style="width:26mm"></td><td class="c" style="width:26mm"></td><td class="c" style="width:26mm"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">90</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">← 위험 (71~100)</td></tr>
+      <tr><th class="ax">80</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">70</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">60</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">← 주의 (41~70)</td></tr>
+      <tr><th class="ax">50</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">40</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">30</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">← 안전 (0~40)</td></tr>
+      <tr><th class="ax">20</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">10</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">0</th><td class="base"></td><td class="base"></td><td class="base"></td><td class="base"></td><td class="zn">&nbsp;</td></tr>
+      <tr><th class="ax">이름</th><td class="nm">(&nbsp;&nbsp;&nbsp;&nbsp;)</td><td class="nm">(&nbsp;&nbsp;&nbsp;&nbsp;)</td><td class="nm">(&nbsp;&nbsp;&nbsp;&nbsp;)</td><td class="nm">(&nbsp;&nbsp;&nbsp;&nbsp;)</td><td class="zn">&nbsp;</td></tr>
+    </table>
+    <p class="inlinefill">우리 모둠 평균 위험도: (모두 더해서 사람 수로 나누기) = <strong><span class="blank">&nbsp;</span> 점</strong></p>
+    <p class="q">㉯ 반 전체와 견주어 봐요. <span class="hint">칠판에 모은 반 전체 평균을 적고, 우리 모둠과 비교해요.</span></p>
+    <table>
+      <tr><th>우리 모둠 평균</th><th>우리 반 전체 평균</th><th>우리 모둠은? (○표)</th></tr>
+      <tr><td class="center"><span class="blank s">&nbsp;</span> 점</td><td class="center"><span class="blank s">&nbsp;</span> 점</td><td class="center">반보다 높음 · 비슷함 · 낮음</td></tr>
+    </table>
+    <p class="q">㉰ 우리 모둠이 외면한 분야 찾기. <span class="hint">8개 분야 중, 모둠원 아무도 즐겨 고르지 않은(놓친) 분야에 ✔ 표 해요.</span></p>
+    <table>
+      <tr><th>게임</th><th>지식</th><th>뉴스</th><th>이슈</th><th>푸드</th><th>쇼핑</th><th>여행</th><th>동물</th></tr>
+      <tr><td class="tall"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="inlinefill">우리 모둠이 다 함께 놓치고 있는 분야: <span class="blank w">&nbsp;</span></p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 (모둠 산출물)</span>
+    <p class="lead"><strong>우리 모둠의 '정보 편식 탈출 식단표'를 만들어요.</strong> 분야를 음식이라고 생각해 봐요. 즐겨 보는 분야는 '이미 충분한 음식', 미션 ㉰에서 찾은 놓친 분야는 '더 챙겨 먹을 음식'이에요. 균형 잡힌 하루 식단표를 짜요.</p>
+    <table>
+      <tr><th style="width:34%">끼니</th><th style="width:26%">어떤 분야를 볼까요?</th><th>구체적인 볼거리 (예: '지식'의 "우주는 얼마나 클까?")</th></tr>
+      <tr><td>🌅 아침 (편하게 즐기는 분야)</td><td class="write"></td><td></td></tr>
+      <tr><td>☀️ 점심 (새로 챙길 분야 1)</td><td class="write"></td><td></td></tr>
+      <tr><td>🌙 저녁 (새로 챙길 분야 2)</td><td class="write"></td><td></td></tr>
+      <tr><td>🍎 간식 (모둠이 다 함께 놓친 분야)</td><td class="write"></td><td></td></tr>
+    </table>
+    <p class="inlinefill">우리 모둠 식단표 이름: <span class="blank w">&nbsp;</span></p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠 식단표를 한 줄로 소개하는 발표문</p>
+    <p class="inlinefill">"우리 모둠은 <span class="blank w">&nbsp;</span> 분야에 쏠려 있어서, 앞으로 <span class="blank w">&nbsp;</span> 분야를 더 챙겨 보기로 했어요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 진행 팁</strong> · 모둠 편성 시 위험도 점수가 비슷한 학생끼리 몰리지 않도록 섞으면 막대그래프의 편차가 드러나 토의가 살아난다. · 시간 배분은 활동 1(6분)·활동 2(13분, 그래프에 색연필 필요)·활동 3(14분)·활동 4(5분)를 권장한다. · 위험도가 높게 나온 학생을 놀리지 않도록, 게임 문구대로 "확실한 취향은 멋진 것, 다만 편식은 조심"이라는 관점을 미리 못박고, 활동의 목표는 개인 점수 비교가 아니라 '우리 모둠이 함께 놓친 분야 발견'임을 강조한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ③ 3차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ③</div>
+      <h1>3차시 · 추천 요정 훈련소 🔮 <small>— 우리 모둠 추천 요정 회의</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>각자 추천 요정이 되어, 친구가 좋아요를 누른 게시물을 보고 다음 게시물을 골라 주는 훈련을 하고 왔어요.</p>
+    <p>이제 모둠으로 모여, <strong>우리가 알고리즘이라면 어떻게 추천할지</strong> 규칙을 함께 정해요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의)</span>
+    <ol class="disc">
+      <li>각자 어떤 난이도(🌱 쉬움 / ⚡ 보통 / 🔥 어려움)로 몇 점을 받았나요? 우리 모둠 최고 점수는 누구였나요?</li>
+      <li>가장 높이 이어 간 콤보 칭찬은 무엇이었나요? (✨ 좋았어요! / 💫 굉장해요! / ⚡ 불이 붙었어요! / 🔥 막을 수 없어요!)</li>
+      <li>'패션/꾸미기 · 여행/나들이 · 게임/과학 · 반려동물' 네 관심사 중, <strong>함정 게시물에 걸려 헷갈렸던</strong> 관심사가 있었나요? 어떻게 알아챘나요?</li>
+    </ol>
+    <p class="q">모둠 의견을 한 칸에 모아 적어요.</p>
+    <table class="rec">
+      <tr><th>우리 모둠이 함께 찾은 점</th><th>&nbsp;</th></tr>
+      <tr><td>우리 모둠 최고 점수·최고 콤보</td><td class="write"></td></tr>
+      <tr><td>함정 게시물을 알아챈 우리만의 단서 (예: 태그#, 올린 계정 이름)</td><td class="write"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 (모둠 데이터 활동)</span>
+    <p class="q">㉮ 우리 모둠 추천 성적표를 모아요.</p>
+    <table>
+      <tr><th style="width:28%">모둠원 이름</th><th>난이도</th><th>점수</th><th>최고 콤보</th><th>함정에 걸린 횟수</th></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="inlinefill">우리 모둠 점수 순위 1위: <span class="blank w">&nbsp;</span> · 함정에 가장 적게 걸린 사람: <span class="blank w">&nbsp;</span></p>
+    <p class="q">㉯ "우리가 알고리즘이라면" 추천 규칙 합의하기. <span class="hint">추천 요정으로 일해 본 경험을 모아, 모둠이 다 함께 지킬 규칙을 정해요.</span></p>
+    <table>
+      <tr><th style="width:52%">우리 모둠 추천 규칙</th><th>모둠 합의 내용</th></tr>
+      <tr><td>① 다음 게시물을 고를 때 <strong>꼭 볼 단서</strong>는? (제목·태그#·계정·사진 중)</td><td class="write"></td></tr>
+      <tr><td>② <strong>함정을 피하는 방법</strong>은? (겉모습이 비슷해도 관심사가 다른 게시물 거르기)</td><td class="write"></td></tr>
+      <tr><td>③ 같은 관심사만 계속 추천하면 친구는 어떻게 될까요? (2차시에 배운 낱말로)</td><td class="write"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 (모둠 산출물)</span>
+    <p class="lead"><strong>우리 모둠의 '추천 요정 캠페인 문구'를 만들어요.</strong> "추천 알고리즘은 우리가 좋아요를 누른 것과 비슷한 게시물만 계속 보여 줘요. 새로운 이야기를 만나고 싶다면 스스로 찾아보는 습관이 필요해요!" 이 뜻을 살려, 친구들이 '추천만 기다리지 않도록' 이끄는 짧은 캠페인 문구와 그림을 만들어요.</p>
+    <div class="bigbox">
+      <div class="bt">🔮 우리 모둠 추천 요정 캠페인</div>
+      <div class="bl"><span class="lb">한 줄 구호(제목)</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">설명 문구(1~2문장)</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">&nbsp;</span><span class="fl"></span></div>
+      <div class="draw">캠페인 그림·마스코트 (여기에 그려요)</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠 캠페인을 한 줄로 소개하는 발표문</p>
+    <p class="inlinefill">"우리 모둠의 구호는 '<span class="blank w">&nbsp;</span>'이에요.</p>
+    <p class="inlinefill">추천만 기다리지 말고 <span class="blank w">&nbsp;</span> 하자는 뜻이에요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 진행 팁</strong> · 모둠은 난이도 도전 성향이 다른 학생을 섞으면 활동 1의 대화가 다양해진다(쉬움만 한 학생과 어려움에 도전한 학생의 경험 대비). · 시간 배분은 활동 1(6분)·활동 2(13분)·활동 3(15분)·활동 4(6분)를 권장한다. · 활동 2 ㉯에서 '점수를 잘 받는 규칙'과 '친구에게 이로운 추천'이 다를 수 있음을 짚어 준다 — 관심사만 계속 맞히면 점수는 높지만 친구의 피드는 필터버블에 갇힌다는 3차시 도달점을, ③번 칸의 답('필터버블/정보 편식')을 통해 모둠 스스로 발견하게 한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ④ 4차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ④</div>
+      <h1>4차시 · 알고리즘 연구소장 🎛️ <small>— 우리 모둠 누리TV 운영 회의</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>각자 누리TV 알고리즘 연구소장이 되어, 슬라이더 4개(클릭수·시청 시간·좋아요·자극도)로 미션 5개를 해결하고 왔어요.</p>
+    <p>이제 모둠으로 모여, 미션마다 <strong>누가 이익을 보고 누가 손해를 보았는지</strong> 따져 보고, 우리 모둠만의 운영 원칙을 함께 정해요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의)</span>
+    <ol class="disc">
+      <li>각자 최종 등급(S·A·B·C·D)과 조정 횟수는 어땠나요? 가장 적은 조정으로 클리어한 사람은 누구인가요?</li>
+      <li>5개 미션 중 해결할 때 <strong>마음이 가장 불편했던 미션</strong>은 무엇이었나요? (특히 '광고주의 요구 💰') 왜 그랬나요?</li>
+      <li>'도파민 중독 ⚡' 미션을 달성했을 때 상위 5위에 오른 영상들('충격! 아일랜드 서바이벌 엔딩 실화?', '공포게임 비명 참기 챌린지' 등)을 보고 어떤 생각이 들었나요?</li>
+    </ol>
+    <p class="q">모둠 의견을 한 칸에 모아 적어요.</p>
+    <table class="rec">
+      <tr><th>우리 모둠이 함께 찾은 점</th><th>&nbsp;</th></tr>
+      <tr><td>우리 모둠이 가장 불편했다고 꼽은 미션과 그 까닭</td><td class="write"></td></tr>
+      <tr><td>자극적인 영상만 상위에 오르면 시청자에게 생길 일</td><td class="write"></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 (모둠 데이터 활동)</span>
+    <p class="q">㉮ '누리마을의 반응'을 역할을 나눠 읽어요. <span class="hint">모둠원이 시민 역할을 맡아 소리 내어 읽고, 각 목소리가 이익을 본 쪽인지 손해를 본 쪽인지 ○표 해요.</span></p>
+    <table>
+      <tr><th style="width:24%">미션</th><th>시민의 목소리 (역할 맡아 읽기)</th><th style="width:16%">이익? 손해?</th></tr>
+      <tr><td>학부모의 항의 📞</td><td>"별빛엄마: 이제 아이가 누리TV를 켜도 마음이 놓여요!" / "게임왕토끼: 제가 좋아하는 게임 영상은 다 어디 갔어요…"</td><td class="center">이익 · 손해</td></tr>
+      <tr><td>광고주의 요구 💰</td><td>"무지개장난감가게: 저희 광고가 드디어 잘 보여요!" / "꼼꼼시청자: 광고인 줄 모르고 눌렀다가 시간만 버렸어요…"</td><td class="center">이익 · 손해</td></tr>
+      <tr><td>도파민 중독 ⚡</td><td>"올빼미5학년: 새벽까지 봤어요, 멈출 수가 없었어요." / "보건쌤: 자극적인 것만 보면 점점 더 센 것만 찾게 돼요."</td><td class="center">이익 · 손해</td></tr>
+    </table>
+    <p class="q">㉯ 이해관계자 입장 카드를 채워요. <span class="hint">누리TV를 둘러싼 세 사람이 되어, 각자의 바람과 걱정을 적어요.</span></p>
+    <table>
+      <tr><th style="width:18%">이해관계자</th><th>나의 바람 (누리TV가 어떻게 해 주길 원하나요?)</th><th>나의 걱정</th></tr>
+      <tr><td>👪 학부모</td><td class="write"></td><td></td></tr>
+      <tr><td>💰 광고주</td><td class="write"></td><td></td></tr>
+      <tr><td>📱 이용자(시청자)</td><td class="write"></td><td></td></tr>
+    </table>
+    <p class="q">세 사람의 바람이 서로 부딪히는 지점은 어디인가요? <span class="hint">(한 사람의 바람을 들어주면 다른 사람이 손해 보는 경우)</span></p>
+    <div class="wl"></div><div class="wl"></div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 (모둠 산출물)</span>
+    <p class="lead"><strong>우리 모둠의 '누리TV 운영 원칙 선언문'을 만들어요.</strong> 세 이해관계자의 입장을 모두 겪어 본 연구소장으로서, 어느 한쪽에만 치우치지 않는 원칙을 정하고, 각 원칙 옆에 '이 원칙 때문에 누가 조금 아쉬워할 수 있는지'도 솔직하게 적어요.</p>
+    <div class="bigbox">
+      <div class="bt">📜 우리 모둠 누리TV 운영 원칙 선언문</div>
+      <div class="bl"><span class="lb">모둠 이름</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">하나.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(아쉬워할 사람:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">둘.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(아쉬워할 사람:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">셋.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">(아쉬워할 사람:</span><span class="fl"></span><span class="lb">)</span></div>
+      <div class="bl"><span class="lb">우리는 위 원칙을 지킬 것을 선언합니다. 서명:</span><span class="fl"></span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠 선언문을 한 줄로 소개하는 발표문</p>
+    <p class="inlinefill">"우리 모둠은 <span class="blank xw">&nbsp;</span> 을(를) 가장 중요한 원칙으로 정했어요.</p>
+    <p class="inlinefill">왜냐하면 <span class="blank xw">&nbsp;</span> 때문이에요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 진행 팁</strong> · 1부 마지막 차시이므로, 모둠 안에서 학부모·광고주·이용자 역할을 골고루 맡겨 입장 카드(활동 2 ㉯)를 한 사람에 몰아주지 않도록 편성한다. · 시간 배분은 활동 1(6분)·활동 2(14분, 역할 읽기 포함)·활동 3(14분)·활동 4(6분)를 권장한다. · '광고주의 요구'처럼 억지로 광고를 넣거나 자극도를 높이는 미션은 '옳은 답'이 아니라 운영자가 겪는 <strong>딜레마</strong>임을 분명히 짚는다 — 게임 클리어가 곧 '올바른 운영'은 아니며, 활동 3의 '아쉬워할 사람' 칸을 통해 '모두를 만족시키는 완벽한 원칙은 없고 책임 있는 선택만 있다'는 관점으로 마무리한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑤ 5차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑤</div>
+      <h1>5차시 · 데이터 편식쟁이 AI 🍚 <small>— AI 훈련사 모둠 회의</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>이 활동지는 혼자 쓰는 학습지가 아니라, <strong>우리 모둠이 함께</strong> 채우는 협력 활동지예요.</p>
+    <p>각자 아기봇을 훈련한 다음, 모둠원과 결과를 모아 '공정한 데이터'를 함께 설계해요!</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 🗣️ (모둠 토의)</span>
+    <p class="lead">게임을 마친 뒤, 모둠원과 돌아가며 이야기해요. 사회자를 한 명 정하고 시작해요!</p>
+    <ol class="disc">
+      <li>우리 모둠은 아기봇에게 각각 어떤 데이터를 먹였나요? 누구의 아기봇이 제일 똑똑했고(정확도가 높았고), 왜 그랬을까요?</li>
+      <li>아기봇이 가장 많이 틀린 동물은 무엇이었나요? 우리 모둠은 그때 어떤 데이터를 빠뜨렸을까요?</li>
+    </ol>
+    <p class="q">모둠원의 훈련 결과를 모아 적어요.</p>
+    <table>
+      <tr><th style="width:26%">모둠원 이름</th><th>1차 정확도</th><th>2차 정확도</th><th>많이 먹인 종류(강아지·고양이·새)</th></tr>
+      <tr><td class="write"></td><td class="center">%</td><td class="center">%</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">%</td><td class="center">%</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">%</td><td class="center">%</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">%</td><td class="center">%</td><td></td></tr>
+    </table>
+    <p class="inlinefill"><strong>우리 모둠의 결론 한 줄:</strong> 아기봇이 똑똑해진 건 머리가 좋아져서가 아니라, <span class="blank xw">&nbsp;</span> 때문이에요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 🧩 — 우리 모둠이 만든 '공정한 데이터 목록'</span>
+    <p class="lead">아기봇은 <strong>먹은 데이터만큼만</strong> 세상을 알아요. 모둠이 힘을 모아, <strong>편식 없는 훈련 데이터 8장</strong>을 설계해 봐요. 아래 8칸에 '종류 + 특징'을 정해 적어요.</p>
+    <table>
+      <tr><th style="width:12%">번호</th><th style="width:40%">종류(강아지·고양이·새)</th><th>특징 두 가지(갈색·검정·흰색·노랑 / 큰·작은)</th></tr>
+      <tr><td class="center">1</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">2</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">3</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">4</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">5</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">6</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">7</td><td class="write"></td><td></td></tr>
+      <tr><td class="center">8</td><td class="write"></td><td></td></tr>
+    </table>
+    <p class="q">다 골랐으면, 아래 '공정 검사표'에서 우리가 고른 8장에 들어 있는 것에 모두 ✅ 해요.</p>
+    <table>
+      <tr><th>검사 항목</th><th>강아지</th><th>고양이</th><th>새</th><th>갈색</th><th>검정</th><th>흰색</th><th>노랑</th><th>큰</th><th>작은</th></tr>
+      <tr><td>우리 목록에 있나요?</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td></tr>
+    </table>
+    <p class="lead"><strong>➡ 빈칸(☐)이 하나라도 남았다면, 아기봇은 그 특징의 동물을 못 알아봐요! 8장을 고쳐서 모든 칸을 ✅로 채워 봐요.</strong></p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 🍳 — 공정한 AI를 위한 '데이터 요리법'</span>
+    <p class="lead">우리 모둠이 만든 8장을 바탕으로, 다른 훈련사도 따라 할 수 있는 <strong>데이터 요리법 카드</strong>를 완성해요.</p>
+    <div class="bigbox">
+      <div class="bt">🍽 공정한 아기봇을 위한 데이터 요리법</div>
+      <div class="bl"><span class="lb">요리 이름</span><span class="fl"></span></div>
+      <p class="inlinefill" style="font-weight:700;margin:1.4mm 0 .4mm">재료(꼭 넣을 것):</p>
+      <div class="bl"><span class="lb">· 종류는</span><span class="fl"></span><span class="lb">골고루</span></div>
+      <div class="bl"><span class="lb">· 색은</span><span class="fl"></span><span class="lb">골고루</span></div>
+      <div class="bl"><span class="lb">· 크기는</span><span class="fl"></span><span class="lb">골고루</span></div>
+      <div class="bl"><span class="lb">조리 비법(한 문장):</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">이렇게 하면 안 돼요(편식 경고):</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">요리사 모둠</span><span class="fl"></span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠의 한 줄 발표문</p>
+    <p class="inlinefill">"우리 모둠의 공정한 데이터 요리법은 <span class="blank xw">&nbsp;</span> 이에요!"</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 팁</strong> · 활동 2는 data-bias.json의 실제 판정 규칙(같은 종 1장 + 같은 특징 1장)을 손으로 재구성하는 활동이므로, 검사표에 빈칸이 남은 모둠에게는 "그 특징의 동물이 시험에 나오면 아기봇이 어떻게 될지"를 되물어 스스로 고치게 한다. · 게임에서 쓰인 특징은 갈색·검정·흰색·노랑·큰·작은 여섯 가지이며, 이 여섯 가지와 세 종류를 모두 담으면 두 라운드 모두 100%가 가능함을 안내한다. · 정확도가 낮았던 학생을 놀리지 않도록, 결론 한 줄은 반드시 '데이터가 좋아진 것'으로 모으고 '아기봇이 멍청해서'로 흐르지 않게 한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑥ 6차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑥</div>
+      <h1>6차시 · 완벽한 가짜 🎭 <small>— 가짜 콘텐츠 수사대 합동 수사</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>혼자 쓰는 학습지와 달리, 이 활동지는 <strong>우리 모둠·우리 반이 함께</strong> 채워요.</p>
+    <p>눈 시험 점수를 반 전체로 모아 보고, 검증 도구 4개로 사건을 함께 수사해요!</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 🗣️ (모둠 토의)</span>
+    <ol class="disc">
+      <li>눈 시험(5라운드)에서 우리 모둠은 각각 몇 개를 맞혔나요? 자신 있게 골랐는데 틀린 라운드가 있었나요?</li>
+      <li>"이건 딱 봐도 가짜야!" 하고 확신했던 사진·글이 있었나요? 그런데 정말 눈으로 알 수 있었나요?</li>
+    </ol>
+    <table>
+      <tr><th style="width:26%">모둠원 이름</th><th style="width:22%">눈 시험 점수 (__/5)</th><th>가장 헷갈렸던 라운드(산책·낮잠·누리랜드·노을·급식)</th></tr>
+      <tr><td class="write"></td><td class="center">/5</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">/5</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">/5</td><td></td></tr>
+      <tr><td class="write"></td><td class="center">/5</td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 📊 — 우리 반 눈 시험 결과 집계표</span>
+    <p class="lead">혼자 보면 "운이 나빴나 봐"로 끝나지만, <strong>반 전체를 모으면 진짜 증거</strong>가 보여요!</p>
+    <p class="q">(가) 반 전체 점수 집계 <span class="hint">— 선생님이 "0개인 사람?"부터 손 들기를 하면, 모둠이 사람 수를 세어 적어요.</span></p>
+    <table>
+      <tr><th>눈 시험 점수</th><th>0개</th><th>1개</th><th>2개</th><th>3개</th><th>4개</th><th>5개</th><th>합계</th></tr>
+      <tr><td>우리 반 사람 수</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="center">명</td></tr>
+    </table>
+    <p class="q">(나) 막대그래프로 그리기 <span class="hint">— 점수마다 사람 수만큼 칸을 아래에서 위로 색칠해요.</span></p>
+    <table class="bar">
+      <tr><th class="ax">10</th><td class="c" style="width:20mm"></td><td class="c" style="width:20mm"></td><td class="c" style="width:20mm"></td><td class="c" style="width:20mm"></td><td class="c" style="width:20mm"></td><td class="c" style="width:20mm"></td></tr>
+      <tr><th class="ax">8</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><th class="ax">6</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><th class="ax">4</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><th class="ax">2</th><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td><td class="c"></td></tr>
+      <tr><th class="ax">0</th><td class="base"></td><td class="base"></td><td class="base"></td><td class="base"></td><td class="base"></td><td class="base"></td></tr>
+      <tr><th class="ax">사람수</th><td class="nm">0점</td><td class="nm">1점</td><td class="nm">2점</td><td class="nm">3점</td><td class="nm">4점</td><td class="nm">5점</td></tr>
+    </table>
+    <p class="q">(다) 평균과 비교하기</p>
+    <p class="inlinefill">· 우리 반 눈 시험 평균: 약 <strong><span class="blank">&nbsp;</span> 개</strong></p>
+    <p class="inlinefill">· 동전을 던져서 찍어도 평균은 <strong>2.5개</strong> — 우리 반 평균과 비교하면? (○표) 〔 비슷해요 · 훨씬 높아요 · 훨씬 낮아요 〕</p>
+    <p class="inlinefill">· 모둠 결론: 우리 반이 동전 던지기와 비슷하다는 건, <span class="blank xw">&nbsp;</span> 라는 뜻이에요.</p>
+    <p class="q">(라) 모둠 수사 회의록 <span class="hint">— 사건 하나를 골라, 검증 도구 4개를 순서대로 적용해 결론을 내려요. (사건: 은하수 다섯 해체 · 누리마을 초등학교 폐교 · 몽실이 간식 기부 · 요리왕 뚝딱 기프트 코드)</span></p>
+    <p class="inlinefill">우리 모둠이 수사할 사건: <span class="blank w">&nbsp;</span></p>
+    <table>
+      <tr><th style="width:30%">검증 도구</th><th>조사해서 알아낸 것</th></tr>
+      <tr><td>🛑 멈춤</td><td class="write"></td></tr>
+      <tr><td>🔎 출처 확인</td><td class="write"></td></tr>
+      <tr><td>🌐 원본 찾기</td><td class="write"></td></tr>
+      <tr><td>📢 공식 확인</td><td class="write"></td></tr>
+    </table>
+    <p class="inlinefill"><strong>➡ 우리 모둠의 최종 결론:</strong> 〔 진짜예요 · 가짜예요 · 아직 몰라요 〕 — 결정적인 증거는 <span class="blank w">&nbsp;</span> 였어요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 🛡️ — 가짜를 이기는 '4단계 검증 포스터'</span>
+    <p class="lead">우리 반 뒤에 붙일 포스터를 모둠이 함께 만들어요. 네 칸에 도구 이름과 '이럴 때 이렇게!'를 적어요.</p>
+    <div class="quad">
+      <div class="qc"><div class="qh">🛑 ( &nbsp;&nbsp;&nbsp;&nbsp; )</div>이렇게 해요:<div class="fl"></div></div>
+      <div class="qc"><div class="qh">🔎 ( &nbsp;&nbsp;&nbsp;&nbsp; )</div>이렇게 해요:<div class="fl"></div></div>
+      <div class="qc"><div class="qh">🌐 ( &nbsp;&nbsp;&nbsp;&nbsp; )</div>이렇게 해요:<div class="fl"></div></div>
+      <div class="qc"><div class="qh">📢 ( &nbsp;&nbsp;&nbsp;&nbsp; )</div>이렇게 해요:<div class="fl"></div></div>
+    </div>
+    <p class="inlinefill" style="text-align:center;margin-top:1.4mm">우리 모둠 표어: "믿을 건 눈이 아니라 <span class="blank w">&nbsp;</span>!"</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠의 한 줄 발표문</p>
+    <p class="inlinefill">"우리 반 눈 시험 평균은 약 <span class="blank s">&nbsp;</span> 개였고, 그래서 우리는 <span class="blank w">&nbsp;</span> 를 믿기로 했어요!"</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 팁</strong> · 눈 시험에서 4~5점을 받은 학생이 "난 눈으로 가릴 수 있다"고 일반화하지 않도록, 반드시 <strong>반 평균(2.5개 근처)</strong>을 함께 확인시킨다 — 다섯 문제를 다 찍어도 여섯 명 중 한 명꼴로 4점 이상이 나오므로 개인 고득점은 확률상 우연임을 그래프로 보여 준다. · 집계는 "0개인 사람?"부터 손 들기로 1분이면 끝나며, 막대그래프가 2·3점 부근에 몰리는 모양이 곧 '눈으로는 못 가린다'의 증거다. · 수사 회의록에서 진짜였던 '몽실이 간식 기부'를 고른 모둠에는 "검증 절차는 가짜만 잡는 게 아니라 진짜도 안심하고 믿게 해 준다"는 결론까지 이끌어 준다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑦ 7차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑦</div>
+      <h1>7차시 · 누리봇 사실 검증단 ✅ <small>— 사실 확인 요원 합동 검증</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>혼자 쓰는 학습지와 달리, 이 활동지는 <strong>우리 모둠이 함께</strong> 채워요.</p>
+    <p>누리봇이 우리를 속인 문장을 모아 보고, 우리 손으로 'AI에게 물을 때 지킬 약속'을 만들어요!</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 🗣️ (모둠 토의)</span>
+    <ol class="disc">
+      <li>누리봇이 우리를 속인 문장을 모아 봐요. 각자 찾아낸 '거짓(환각) 문장'을 하나씩 말하고 아래에 적어요.</li>
+      <li>거짓말인데도 왜 이렇게 감쪽같았을까요? '거의 맞는 말'이라서 더 위험했던 문장이 있었나요?</li>
+      <li>'모두 사실이에요!' 버튼을 누를 때 망설였나요? 다 맞는 답을 의심만 하면 무엇을 잃게 될까요?</li>
+    </ol>
+    <table>
+      <tr><th style="width:24%">모둠원 이름</th><th>내가 잡아낸 누리봇의 거짓 문장</th><th style="width:30%">어느 배지? (상식 검증 / 누리마을 정보)</th></tr>
+      <tr><td class="write"></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 🗂️ — 우리 모둠 '환각 판별 수사표'</span>
+    <p class="lead">누리봇의 답 8라운드를 모둠이 힘을 모아 정리해요. 라운드마다 <strong>거짓이 섞였는지 / 모두 사실인지</strong>와, <strong>무엇으로 확인했는지</strong>(자료 서랍의 누리백과·소식지·관찰 기록)를 적어요.</p>
+    <table>
+      <tr><th style="width:10%">라운드</th><th style="width:26%">주제</th><th style="width:28%">결과 (○표)</th><th>확인에 쓴 자료</th></tr>
+      <tr><td class="center">1</td><td>문어 심장·피</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">2</td><td>꿀벌 8자 춤</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">3</td><td>북극곰 피부</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">4</td><td>누리랜드 운영일</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">5</td><td>달</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">6</td><td>도서관 대출</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">7</td><td>펭귄</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+      <tr><td class="center">8</td><td>골목축제</td><td class="center">거짓 있음 · 모두 사실</td><td></td></tr>
+    </table>
+    <p class="q">다 채운 뒤 세어 봐요.</p>
+    <p class="inlinefill">· '거짓 있음' 라운드 수: <span class="blank s">&nbsp;</span> 개 / '모두 사실' 라운드 수: <span class="blank s">&nbsp;</span> 개</p>
+    <p class="inlinefill">· <strong>모둠 발견:</strong> 8개 중 이만큼에 거짓이 섞여 있었어요. 그래서 우리는 AI의 답을 <span class="blank w">&nbsp;</span> 해야 해요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 📜 — AI에게 물을 때 지킬 '우리 모둠의 약속'</span>
+    <p class="lead">누리봇 같은 AI를 잘 부리려면 규칙이 필요해요. 모둠이 토의해서 약속 3가지를 정하고, 확인 방법도 적어요.</p>
+    <div class="bigbox">
+      <div class="bt">🤝 AI에게 물을 때 우리 모둠이 지킬 약속</div>
+      <div class="bl"><span class="lb">약속 1.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">약속 2.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">약속 3.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">우리가 확인할 때 쓰는 자료(예: 백과·책·공식 누리집·선생님):</span><span class="fl"></span></div>
+      <p class="inlinefill" style="text-align:center;margin-top:1.4mm">우리 모둠 한마디: "의심이 아니라 <span class="blank w">&nbsp;</span>!"</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠의 한 줄 발표문</p>
+    <p class="inlinefill">"누리봇의 답 8개 중 <span class="blank s">&nbsp;</span> 개에 거짓이 있었어요.</p>
+    <p class="inlinefill">그래서 우리 모둠의 첫 번째 약속은 <span class="blank xw">&nbsp;</span> 예요!"</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 팁</strong> · 활동 2의 정답은 거짓 있음 5개(문어·북극곰·달·도서관·골목축제)·모두 사실 3개(꿀벌·누리랜드·펭귄)이지만, 답을 미리 불러 주지 말고 자료 서랍에서 직접 확인해 채우게 한다 — "무조건 하나는 거짓"이라는 요령을 차단하는 것이 이 표의 핵심이다. · '누리마을 정보'(누리랜드·도서관·골목축제)는 상식이나 감으로는 절대 알 수 없고 소식지 대조가 있어야만 풀리므로, 이 라운드들을 확인 습관의 근거로 짚어 준다. · 누리봇을 '거짓말쟁이'로 몰지 않도록, 환각은 속일 의도 없이 그럴듯한 말을 이어 붙이다 생기는 오류이며 "잘 쓰려면 확인이 필요한 도구"라는 관점을 약속 만들기 내내 유지한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑧ 8차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑧</div>
+      <h1>8차시 · 내 데이터의 여행 🧳 <small>— 데이터 여행자 합동 임무</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span></span>
+  </div>
+
+  <div class="intro">
+    <p>혼자 쓰는 학습지와 달리, 이 활동지는 <strong>우리 모둠이 함께</strong> 채워요.</p>
+    <p>각자의 '데이터 그림자'를 모아 공통점을 찾고, 우리 반 데이터 지킴이 수칙을 만들어요!</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 🗣️ (모둠 토의)</span>
+    <ol class="disc">
+      <li>'AI가 추측한 나' 카드는 진짜 나와 얼마나 닮았나요? AI가 틀리게 추측한 부분이 있었나요?</li>
+      <li>광고가 나에게 온 이유("○○ 태그를 몇 번 눌렀기 때문")를 확인했을 때 어떤 기분이었나요?</li>
+      <li>"무료 선물 100% 당첨!" 낚시 광고를 만난 사람? 다른 맞춤 광고와 무엇이 달랐나요?</li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 👥 — 우리 모둠의 '데이터 그림자' 모으기</span>
+    <p class="lead">각자의 프로필 카드(데이터 그림자)를 한자리에 모아, <strong>공통점과 다른 점</strong>을 찾아봐요.</p>
+    <table>
+      <tr><th style="width:26%">모둠원 이름</th><th>AI가 계산한 관심사 1위</th><th>관심사 2위</th><th style="width:16%">데이터 방패 (__/4)</th></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">/4</td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">/4</td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">/4</td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">/4</td></tr>
+    </table>
+    <p class="q">모아 놓고 살펴봐요.</p>
+    <p class="inlinefill">· 우리 모둠에서 <strong>가장 많이 나온 관심사</strong>: <span class="blank w">&nbsp;</span></p>
+    <p class="inlinefill">· 똑같은 게임을 했는데도 <strong>관심사가 다 다른 까닭</strong>은? <span class="blank xw">&nbsp;</span></p>
+    <p class="inlinefill">· 모둠 발견: 프로필 카드가 서로 다른 건, 각자 남긴 <span class="blank w">&nbsp;</span> 이(가) 다르기 때문이에요.</p>
+    <p class="inlinefill">· 이 카드를 '진짜 나'가 아니라 <strong>'그림자'</strong>라고 부르는 까닭: <span class="blank xw">&nbsp;</span></p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 🛡️ — 우리 모둠 '데이터 지킴이 수칙 포스터'</span>
+    <p class="lead">내 데이터가 어디로 가는지 배웠으니, 이제 <strong>지키는 방법</strong>을 모둠이 함께 정해 포스터로 만들어요. <span class="hint">(힌트: 위치 정보는 '앱을 쓸 때만 허용' · 검색 기록 가끔 지우기 · '이 광고가 왜 보일까요?' 눌러 보기 · 무료 이벤트에 개인정보 적지 않기)</span></p>
+    <div class="bigbox">
+      <div class="bt">🛡 우리 모둠 데이터 지킴이 수칙</div>
+      <div class="bl"><span class="lb">하나.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">둘.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">셋.</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">위험 신호! 이런 걸 만나면 멈춰요:</span><span class="fl"></span></div>
+      <p class="inlinefill" style="text-align:center;margin-top:1.4mm">우리 모둠 다짐: "데이터를 남기는 건 나쁜 게 아니에요. 어디로 가는지 <span class="blank">&nbsp;</span>, 내가 <span class="blank">&nbsp;</span> 게 중요해요."</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당 모둠원:</span><span class="fl"></span></div>
+    <p class="lead">우리 모둠의 한 줄 발표문</p>
+    <p class="inlinefill">"우리 모둠은 관심사가 다 달랐지만, 데이터를 지키는 첫 번째 수칙은 똑같이 <span class="blank xw">&nbsp;</span> 로 정했어요!"</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 팁</strong> · 활동 2는 각자의 프로필 카드(누리피드에서 누른 태그로 만들어진 추측)를 모아 비교하는 활동이므로, "같은 게임인데 왜 카드가 다른가"를 통해 '프로필은 내가 남긴 데이터 조각의 결과'임을 스스로 발견하게 한다. · 방패 개수가 적은 학생을 놀리지 않도록, 결과 화면 문구("괜찮아요, 오늘 처음 배운걸요")의 관점을 유지하고 아쉬웠던 선택을 함께 되짚는다. · 포스터가 "앱을 쓰면 안 된다"는 공포로 흐르지 않게, 핵심 메시지는 '금지'가 아니라 '어디로 가는지 알고 내가 정하기'(데이터 주권)임을 분명히 한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑨ 9차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑨</div>
+      <h1>9차시 · 멈출 수 없는 화면 📱 <small>— 우리 모둠·우리 반 화면 시간 조사</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span> 월 <span class="fill m">&nbsp;</span> 일</span>
+  </div>
+
+  <div class="intro">
+    <p>이 활동지는 혼자 쓰는 학습지가 아니라 <strong>모둠(4명)이 머리를 맞대고 함께</strong> 채우는 종이예요.</p>
+    <p>누리숏 잠입 조사를 마친 지킴이들끼리, 각자 겪은 장면을 모아 '우리 반의 화면 시간'을 손으로 직접 조사하고, 반 전체에 붙일 캠페인 포스터까지 함께 만들어요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의) 🗣️</span>
+    <p class="lead">먼저 모둠원 한 명씩 돌아가며 이야기해요.</p>
+    <ol class="disc">
+      <li>우리 모둠은 각자 <strong>몇 개 영상까지</strong> 봤나요? 멈추기 챌린지 결과는 어땠나요(스스로 성공 · 늦게 성공 · 강제 종료)?</li>
+      <li>'그만 보기' 버튼은 '다음 영상' 버튼보다 <strong>왜 그렇게 작게</strong> 만들어졌을까요? 우리 모둠 생각을 모아 봐요.</li>
+      <li>예고 없이 튀어나온 '🔥 대박 영상'(내 피드엔 몇 개?) 때문에 계속 넘기게 됐던 사람 있나요?</li>
+    </ol>
+    <p class="q">모둠 의견 표 — 한 칸씩 나눠서 채워요.</p>
+    <table>
+      <tr><th style="width:28%">모둠원 이름</th><th>본 영상 (개)</th><th>멈추기 결과</th><th>시간 짐작 오차 (분)</th></tr>
+      <tr><td class="write"></td><td></td><td class="center">스스로 · 늦게 · 강제</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td class="center">스스로 · 늦게 · 강제</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td class="center">스스로 · 늦게 · 강제</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td class="center">스스로 · 늦게 · 강제</td><td></td></tr>
+    </table>
+    <p class="inlinefill"><strong>모둠이 함께 내린 결론 한 줄:</strong> '그만 보기'가 작았던 까닭은</p>
+    <div class="wl"></div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 — 우리 반 하루 화면 시간 집계표 📊</span>
+    <p class="q">① 먼저 우리 모둠부터. <span class="hint">각자 '어제 하루 동안 짧은 영상·게임·영상 앱을 본 시간'을 어림해서 적고, 아래 격자에 색칠해요. (한 칸 = 15분)</span></p>
+    <table style="width:60%">
+      <tr><th>모둠원</th><th>어제 화면 시간 (분)</th></tr>
+      <tr><td class="write"></td><td></td></tr>
+      <tr><td class="write"></td><td></td></tr>
+      <tr><td class="write"></td><td></td></tr>
+      <tr><td class="write"></td><td></td></tr>
+    </table>
+    <p class="barcap">모둠 막대그래프 (한 칸 = 15분, 색칠해요 · 0분 ─────── 3시간+)</p>
+    <table class="hbar">
+      <tr><th>모둠원1</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><th>모둠원2</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><th>모둠원3</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><th>모둠원4</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="q">② 이제 반 전체로. <span class="hint">각 모둠의 '모둠 평균 화면 시간'을 칠판에 모아, 우리 반 집계표를 완성해요.</span></p>
+    <table>
+      <tr><th>모둠 이름</th><th>모둠 평균 (분)</th><th style="border:none;background:none">&nbsp;</th><th>모둠 이름</th><th>모둠 평균 (분)</th></tr>
+      <tr><td class="write"></td><td></td><td style="border:none">&nbsp;</td><td class="write"></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td style="border:none">&nbsp;</td><td class="write"></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td style="border:none">&nbsp;</td><td class="write"></td><td></td></tr>
+    </table>
+    <p class="inlinefill"><strong>우리 반 하루 평균 화면 시간 ≈ <span class="blank">&nbsp;</span> 분</strong> / 가장 긴 모둠과 가장 짧은 모둠의 차이 ≈ <span class="blank">&nbsp;</span> 분</p>
+    <p class="q">함께 이야기해요: 숫자를 보니 어떤 생각이 드나요? 누리숏의 세 가지 설계(끝없는 무한 피드 · 뽑기식 보상 · 사라진 시계)와 연결해서 한 줄 써요.</p>
+    <div class="wl"></div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 — 우리 반 화면 시간 약속 캠페인 포스터 🎨</span>
+    <p class="lead"><strong>모둠이 힘을 합쳐, 우리 반 복도에 붙일 '화면 시간 약속' 캠페인 포스터를 만들어요.</strong> 게임 속 실천 약속(⏰ 시계를 보이게 두기 · 🔔 시작 전에 알람 맞추기 · 🎯 정주행 대신 고르는 시청) 중 우리 모둠이 가장 밀고 싶은 것을 골라 표어로 만들어요.</p>
+    <div class="bigbox">
+      <div class="bl"><span class="lb">포스터 표어(구호): 「</span><span class="fl"></span><span class="lb">」</span></div>
+      <div class="draw">(포스터 그림·글씨 칸)</div>
+      <p class="inlinefill" style="margin-top:1.4mm">우리 포스터가 전하고 싶은 핵심 메시지: "멈추기 어려운 건 ( <span class="blank">&nbsp;</span> ) 때문이지, 내 의지가 약해서가 아니에요!"</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당(이름):</span><span class="fl"></span></div>
+    <p class="inlinefill">우리 모둠 한 줄 발표문: "우리 모둠이 조사한 우리 반 하루 평균 화면 시간은 약 <span class="blank">&nbsp;</span> 분이고, 우리가 만든 약속은</p>
+    <p class="inlinefill"><span class="blank xw">&nbsp;</span> 이에요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 지도 팁</strong> · 활동 1에서 "'그만 보기'가 안 보여요 / 너무 작아요"라는 불평이 나오면 그것이 바로 이 수업의 포인트이므로 당황하지 말고 설계 해부의 증거로 삼는다(챌린지 배너 문구 "일부러 작게 만들어졌어요"를 그대로 인용). · 활동 2의 화면 시간은 어림값이면 충분하며, 시간이 많은 학생을 놀리는 분위기가 되지 않도록 '의지가 아니라 설계'라는 관점을 유지한다 — 개인 비교가 아니라 반 전체 경향을 읽는 것이 목표다. · 포스터는 '숏폼 금지'가 아니라 '주도권 되찾기'(멈출 시점은 내가 정한다)로 방향을 잡도록 순회 중 안내한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑩ 10차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑩</div>
+      <h1>10차시 · 뽑기 상자의 비밀 🎁 <small>— 모둠이 함께 푸는 전설 뽑기 기대값</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span> 월 <span class="fill m">&nbsp;</span> 일</span>
+  </div>
+
+  <div class="intro">
+    <p>혼자 뽑고 끝나는 게 아니에요! 우리 모둠 네 명의 조사 기록을 한자리에 모으면, 상점이 숨긴 확률의 진짜 모습이 더 또렷하게 보여요.</p>
+    <p>계산도 <strong>함께</strong> 하면 '평균 67번'이라는 놀라운 숫자가 어떻게 나오는지 손으로 확인할 수 있어요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의) 🗣️</span>
+    <ol class="disc">
+      <li>우리 모둠에서 <strong>전설('황금 수호자 날개')을 뽑은 사람</strong>이 있나요? 몇 명인가요?</li>
+      <li>우리는 각자 <strong>코인을 얼마나 썼나요?</strong> 10,000코인을 다 쓰고도 빈손인 사람 있나요?</li>
+      <li>금빛으로 번쩍이다 보라색으로 변하던 <strong>'아쉬움 연출'</strong>에 "거의 됐는데!" 싶었던 사람? 그 기분을 이야기해 봐요.</li>
+    </ol>
+    <p class="q">모둠 조사 기록 모으기 표</p>
+    <table>
+      <tr><th style="width:24%">모둠원 이름</th><th>뽑은 횟수</th><th>쓴 코인</th><th>전설 뽑음?</th><th>아쉬움 연출 (번)</th></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">예 · 아니요</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">예 · 아니요</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">예 · 아니요</td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td class="center">예 · 아니요</td><td></td></tr>
+      <tr><td class="center"><strong>모둠 합계</strong></td><td></td><td></td><td class="center">전설: ___명</td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 — 전설 뽑기 기대값, 함께 계산하기 🧮</span>
+    <p class="q">① 평균 몇 번 뽑아야 전설이 나올까? <span class="hint">공개된 전설 확률은 1.5%예요. 모둠이 함께 계산해요.</span></p>
+    <div class="gamequote">
+      전설 확률 1.5% = 0.015 → 한 번 나오려면 평균 <strong>1 ÷ 0.015 = 약 ( <span class="blank" style="min-width:16mm">&nbsp;</span> )번!</strong><br>
+      약 ( <span class="blank" style="min-width:16mm">&nbsp;</span> )번 × 1,000코인 = 약 ( <span class="blank" style="min-width:22mm">&nbsp;</span> )코인 필요해요.<br>
+      그런데 우리가 받은 조사용 코인은 10,000개 → 겨우 ( <span class="blank" style="min-width:12mm">&nbsp;</span> )번밖에 못 뽑아요!
+    </div>
+    <p class="lead">💡 계산이 어려우면 이렇게 생각해요: "100번 뽑으면 평균 1.5번 나온다 → 1번 나오려면 100 ÷ 1.5 ≈ 67번."</p>
+    <p class="q">② 우리 반 전체가 10번씩 뽑는다면, 전설을 뽑는 사람은 몇 명? <span class="hint">10번 안에 전설이 나올 확률은 약 14%(100명 중 약 14명)예요.</span></p>
+    <table>
+      <tr><th>우리 반 인원</th><th>계산 (인원 × 0.14)</th><th>전설을 뽑을 사람 (어림)</th><th>빈손인 사람</th></tr>
+      <tr><td class="center">20명</td><td class="center">20 × 0.14 = 2.8</td><td class="center">약 ___명</td><td class="center">약 ___명</td></tr>
+      <tr><td class="center">25명</td><td class="center">25 × 0.14 = 3.5</td><td class="center">약 ___명</td><td class="center">약 ___명</td></tr>
+      <tr><td class="center">우리 반 ___명</td><td class="center">___ × 0.14 = ___</td><td class="center">약 ___명</td><td class="center">약 ___명</td></tr>
+    </table>
+    <p class="inlinefill"><strong>모둠이 내린 결론:</strong> 우리 반 대부분은 10,000코인을 다 써도</p>
+    <div class="wl"></div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 — '뽑기 전 잠깐!' 체크리스트 포스터 ✋</span>
+    <p class="lead"><strong>모둠이 함께, 친구들이 뽑기 버튼을 누르기 전에 꼭 확인하도록 '뽑기 전 잠깐! 체크리스트' 포스터를 만들어요.</strong> 게임의 체크리스트 3가지를 우리 모둠 말로 바꿔 크게 써요.</p>
+    <div class="bigbox">
+      <div class="bt">🛑 뽑기 전 잠깐! 확인하고 눌러요</div>
+      <div class="bl"><span class="lb">☐ ①</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">☐ ②</span><span class="fl"></span></div>
+      <div class="bl"><span class="lb">☐ ③</span><span class="fl"></span></div>
+      <div class="draw sm">(우리 모둠 그림·꾸미기 칸)</div>
+    </div>
+    <p class="lead">빈칸 힌트: 진짜 ( &nbsp;&nbsp;&nbsp; )을 확인했나요? / 1 ÷ 확률로 평균 몇 ( &nbsp; ) 필요한지 계산했나요? / ( &nbsp;&nbsp;&nbsp; )(쓸 금액)을 미리 정하고 확정 상품과 비교했나요?</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당(이름):</span><span class="fl"></span></div>
+    <p class="inlinefill">우리 모둠 한 줄 발표문: "전설 하나를 뽑으려면 평균 약 <span class="blank">&nbsp;</span> 번, 약 <span class="blank">&nbsp;</span> 코인이 필요해요. 그래서 우리 모둠의 체크리스트 1번은</p>
+    <p class="inlinefill"><span class="blank xw">&nbsp;</span> 예요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 지도 팁</strong> · 이 차시는 뽑기를 즐기는 시간이 아니라 <strong>상술을 해부하는 조사</strong>이므로, '대박' 같은 미화 표현을 쓰지 않고 '조사용 코인·조사 수첩·조사 보고서'라는 게임 속 용어로 프레이밍을 일관되게 유지한다. · 활동 2 정답: 1÷0.015 ≈ 67번 / 67,000코인 / 10번. 조사 중 전설을 뽑은 학생에게는 "운이 좋았던 것이지 확률이 착했던 게 아니에요"(결과 화면 문구)로 정리한다. · '1 ÷ 확률' 계산은 수학과(비율) 연계 지점이며, 어려워하는 모둠에는 "100번에 평균 1.5번 → 1번에 약 67번"으로 풀어 준다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑪ 11차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑪</div>
+      <h1>11차시 · 검색 결과 탐정 🔎 <small>— 모둠 합동 수사대 · 검색 함정 분류</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span> 월 <span class="fill m">&nbsp;</span> 일</span>
+  </div>
+
+  <div class="intro">
+    <p>검색 탐정 여섯 명이 아니라, 우리 모둠 네 명이 <strong>합동 수사대</strong>가 되는 시간이에요!</p>
+    <p>각자 모은 단서를 합치면 도감이 더 빨리 완성되고, 검색 결과에 숨은 함정들을 종류별로 분류하다 보면 '어떤 결과를 조심해야 하는지'가 한눈에 보여요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의) 🗣️</span>
+    <ol class="disc">
+      <li>'강아지 사료 추천' 미션에서 <strong>맨 위 두 결과</strong>는 무엇이었나요? (둘 다 무슨 칩이 붙어 있었나요?)</li>
+      <li>'키 크는 법'과 '감기에 좋은 음식' 미션의 정답은 왜 둘 다 <strong>보건소 누리집</strong>이었나요?</li>
+      <li>협찬 문구("○○로부터 제품을 받아 작성했어요")를 찾은 사람? 그건 본문 <strong>어디에, 어떤 크기로</strong> 숨어 있었나요?</li>
+    </ol>
+    <p class="q">모둠 단서 도감 합치기 — 6종을 다 모았는지 서로 채워 줘요.</p>
+    <table>
+      <tr><th>📢 광고 표시</th><th>🏛️ 공식 출처</th><th>🎁 협찬 문구</th><th>🗓️ 오래된 날짜</th><th>💥 과장 제목</th><th>❓ 근거 없음</th></tr>
+      <tr><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td><td class="center">☐</td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 — 검색 함정 분류 카드 나누기 🗂️</span>
+    <p class="lead"><strong>아래 '검색 결과 카드' 8장의 번호를 적어서, 모둠원이 함께 4개의 함정 바구니에 나눠 담아요.</strong> 하나의 카드가 두 바구니에 들어갈 수도 있어요 — 그럴 땐 왜 그런지 이야기해 봐요.</p>
+    <table>
+      <tr><th style="width:8%">번호</th><th>검색 결과 제목 (게임 속 실제 결과)</th></tr>
+      <tr><td class="center">①</td><td>"튼튼사료 전 제품 최대 반값! 오늘만 이 가격" — 옆에 '광고' 칩</td></tr>
+      <tr><td class="center">②</td><td>"이 글은 든든펫으로부터 사료를 무료로 받아 작성했어요" (후기 맨 끝 작은 글씨)</td></tr>
+      <tr><td class="center">③</td><td>"충격! 이것만 먹으면 한 달에 5센티가 큰다?!"</td></tr>
+      <tr><td class="center">④</td><td>"어린이는 15,000원이에요" — 2021년에 달린 문답 답변</td></tr>
+      <tr><td class="center">⑤</td><td>"무조건 굶어야 빨리 나아요. 저는 항상 그렇게 해요" — 감기 문답 답변</td></tr>
+      <tr><td class="center">⑥</td><td>"누리랜드 입장권 2,000원 할인 행사" — 옆에 '광고' 칩</td></tr>
+      <tr><td class="center">⑦</td><td>"충격! 전설의 수호자, 곧 서비스 종료된다?!" — 2년 전 소문 글</td></tr>
+      <tr><td class="center">⑧</td><td>"새 수호자 미리 해 봤어요… 이 글은 게임 회사로부터 이용권을 받아 작성했어요"</td></tr>
+    </table>
+    <p class="q">네 가지 함정 바구니 — 카드 번호를 나눠 담아요.</p>
+    <table>
+      <tr><th>🟥 광고 (돈 내고 올라온 자리)</th><th>🎁 협찬 (공짜로 받고 쓴 후기)</th><th>💥 과장 (부풀린 낚시 제목)</th><th>🗓️ 오래된 정보 (날짜 지난 글)</th></tr>
+      <tr><td class="tall"></td><td></td><td></td><td></td></tr>
+    </table>
+    <p class="q">함께 이야기해요: ③ '한 달에 5센티'와 ⑤ '무조건 굶어야'는 왜 특히 위험한가요? <span class="hint">(힌트: 몸·건강)</span></p>
+    <div class="wl"></div>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 — 믿을 수 있는 검색 3단계 안내판 🪧</span>
+    <p class="lead"><strong>모둠이 함께, 다른 반 친구도 보고 따라 할 수 있는 '믿을 수 있는 검색 3단계' 안내판을 만들어요.</strong> 게임의 '검색 3단계 습관'을 큼직한 3칸으로 정리해요.</p>
+    <div class="quad" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="qc"><div class="qh">1단계</div>'( &nbsp;&nbsp; )' 글자부터 찾아요<div class="fl"></div><div class="fl"></div></div>
+      <div class="qc"><div class="qh">2단계</div>( &nbsp;&nbsp; ) 쓴 글인지 확인해요 (출처·협찬·날짜 확인)<div class="fl"></div></div>
+      <div class="qc"><div class="qh">3단계</div>결과를 ( &nbsp; )개 이상 비교해요<div class="fl"></div><div class="fl"></div></div>
+    </div>
+    <p class="inlinefill" style="text-align:center;margin-top:1.4mm">우리 안내판 아래에 붙일 한마디: "맨 위라고 ( <span class="blank">&nbsp;</span> ) 좋은 정보가 아니에요!"</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 준비 📣</span>
+    <div class="fill-line"><span class="lb">발표 담당(이름):</span><span class="fl"></span></div>
+    <p class="inlinefill">우리 모둠 한 줄 발표문: "우리가 분류해 보니 검색 결과에는 광고·협찬·과장·오래된 정보 함정이 숨어 있었어요. 그래서 우리 모둠이 뽑은 '검색할 때 제일 먼저 할 일'은</p>
+    <p class="inlinefill"><span class="blank xw">&nbsp;</span> 예요."</p>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 지도 팁</strong> · 활동 2 분류의 예: 광고=①⑥, 협찬=②⑧, 과장=③⑦, 오래된 정보=④⑦ — 카드 하나가 여러 함정에 걸치는 경우(⑦은 과장+오래된 정보)가 좋은 토론거리이므로 '정답 한 칸'을 강요하지 않는다. · "광고는 나쁜 것"이 아니라 "광고를 광고인 줄 모르고 믿는 것"이 문제라는 균형을 지키고, "협찬 후기는 전부 거짓"이 아니라 "좋은 점만 말하기 쉬우니 한 번 더 의심"으로 정리한다. · 건강 정보(③⑤)는 잘못 따라 하면 몸이 위험할 수 있는 안전 교육 접점이므로, 공식 출처·어른·병원과 확인하는 습관으로 반드시 연결한다.</p>
+  </div>
+</section>
+
+<!-- ==================== 모둠 협력 활동지 ⑫ 12차시 ==================== -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <div class="quest">🤝 미디어 리터러시 퀘스트 · 모둠 협력 활동지 ⑫</div>
+      <h1>12차시 · 단톡방을 지켜라 💬 <small>— 우리 반 상황극 &amp; 디지털 시민 선언 (대장정 마무리)</small></h1>
+    </div>
+    <div class="who">모둠 <span class="fill">&nbsp;</span><br>날짜 <span class="fill">&nbsp;</span></div>
+  </div>
+
+  <div class="groupinfo">
+    <span class="gi"><span class="lb">모둠 이름</span><span class="fill l">&nbsp;</span></span>
+    <span class="gi"><span class="lb">모둠원</span><span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span> <span class="fill s">&nbsp;</span></span>
+    <span class="gi"><span class="lb">날짜</span><span class="fill m">&nbsp;</span> 월 <span class="fill m">&nbsp;</span> 일</span>
+  </div>
+
+  <div class="intro">
+    <p>12주 퀘스트의 <strong>마지막 시간</strong>이에요! 오늘은 단톡방 사건을 우리 모둠이 직접 몸으로 연기해 보고, 12주 여정 전체를 담은 <strong>'우리 반 디지털 시민 선언'</strong>을 함께 만들어요.</p>
+    <p>마지막에는 온 반이 모여 선언에 서명해요.</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 1 · 이야기 나누기 (모둠 토의) 🗣️</span>
+    <ol class="disc">
+      <li>우리 반(또는 다른 단톡방)에서 <strong>진짜 있었던 비슷한 일</strong>을 이야기해 봐요. — <em>단, 특정 친구 이름은 말하지 않기! "어느 단톡방에서나 있을 수 있는 일"로만 이야기해요.</em></li>
+      <li>게임의 다섯 사건(소문 · 수상한 링크 · 저격 · 사진 · 밤 알림) 중, 우리 모둠이 <strong>가장 자주 겪는 일</strong>은 무엇일까요?</li>
+      <li>'조용히 지켜보기 · 나만 안 누르기 · 자리 피하기'는 왜 <strong>'절반의 성공'</strong>일까요? 지킴이와 방관자는 무엇이 다를까요?</li>
+    </ol>
+    <p class="inlinefill">모둠이 고른, 우리에게 가장 필요한 사건 하나: ☐ 소문 ☐ 링크 ☐ 저격 ☐ 사진 ☐ 밤 알림</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 2 · 협력 미션 — 우리 반 단톡방 상황극 🎭</span>
+    <p class="lead"><strong>활동 1에서 고른 사건 하나로 짧은 역할극을 만들어요.</strong> 모둠원이 배역을 나누고, 아래 대본의 빈칸을 채워 완성해요. 게임 속 '슬기로운 선택'이 나오도록 만드는 것이 목표예요.</p>
+    <p class="q">배역 정하기 <span class="hint">(게임 속 인물 이름을 그대로 써도 좋아요: 도윤 🐯 · 서아 🐰 · 준호 ⚽ · 민재 🎮 · 유나 🎹 · 하람 🦊 · 지우 🌼)</span></p>
+    <table>
+      <tr><th style="width:28%">배역</th><th style="width:24%">맡은 모둠원</th><th>이 배역의 역할</th></tr>
+      <tr><td>사건을 일으키는 사람</td><td class="write"></td><td>소문/링크/저격 등을 시작해요</td></tr>
+      <tr><td>휩쓸리는 친구</td><td class="write"></td><td>처음엔 같이 반응해요</td></tr>
+      <tr><td><strong>지킴이(슬기로운 선택)</strong></td><td class="write"></td><td>흐름을 멈추는 한마디를 해요</td></tr>
+      <tr><td>상처받거나 곤란한 친구</td><td class="write"></td><td>마음을 표현해요</td></tr>
+    </table>
+    <p class="q">대본 채우기</p>
+    <div class="fill-line"><span class="lb">(사건 시작)</span><span class="fl"></span></div>
+    <div class="fill-line"><span class="lb">(휩쓸림)</span><span class="fl"></span></div>
+    <div class="fill-line"><span class="lb">(지킴이의 한마디)</span><span class="fl"></span></div>
+    <div class="fill-line"><span class="lb">(반응이 바뀜)</span><span class="fl"></span></div>
+    <p class="lead">💡 지킴이 대사 힌트 — 소문: "그거 직접 본 사람 있어?" / 링크: "비밀번호 치는 건 가짜 사이트 같아, 어른께 알리자" / 저격: "장난이어도 듣는 사람은 속상해, 그만하자" / 사진: "하람이한테 먼저 물어봐야지" / 밤 알림: "지금은 잘 시간이야, 내일 아침에 이어서 하자"</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 3 · 함께 만들기 — 우리 반 디지털 시민 선언 🏅 (12주 여정의 마무리)</span>
+    <p class="lead"><strong>이건 단톡방 약속만이 아니에요.</strong> 1부(알고리즘) · 2부(인공지능) · 3부(슬기로운 누리 생활)까지 <strong>열두 개 퀘스트에서 배운 것 전부</strong>를 담은, 우리 반의 큰 선언이에요. 각 부에서 배운 것을 한 줄씩 뽑아 '우리는 이렇게 살겠다'는 다짐으로 완성해요.</p>
+    <div class="bigbox">
+      <div class="bt">🏅 우리 반 디지털 시민 선언 🏅</div>
+      <p class="inlinefill" style="text-align:center">우리는 12주 동안 누리마을 지킴이로 배웠습니다.</p>
+      <p class="inlinefill" style="font-weight:600;margin-top:1.4mm">하나. (1부 · 알고리즘) 추천이 보여 주는 것만 믿지 않고,</p>
+      <div class="bl"><span class="lb">&nbsp;</span><span class="fl"></span></div>
+      <p class="inlinefill" style="font-weight:600">둘. (2부 · 인공지능) AI의 말과 가짜 콘텐츠는 눈이 아니라</p>
+      <div class="bl"><span class="lb">&nbsp;</span><span class="fl"></span></div>
+      <p class="inlinefill" style="font-weight:600">셋. (3부 · 시간·소비·검색·단톡방) 멈추기 어렵고 사고 싶고 믿고 싶어지는 건 설계 때문임을 알고, 우리는</p>
+      <div class="bl"><span class="lb">&nbsp;</span><span class="fl"></span></div>
+      <p class="inlinefill" style="font-weight:600">넷. 단톡방에서 힘든 친구를 모른 척하지 않고,</p>
+      <div class="bl"><span class="lb">&nbsp;</span><span class="fl"></span></div>
+      <p class="inlinefill" style="text-align:center;font-weight:700;margin-top:1.4mm">우리는 진짜 세상의 디지털 지킴이입니다!</p>
+    </div>
+    <p class="lead">힌트 — 하나: "출처를 확인하고 골고루 본다" / 둘: "절차(멈춤·출처·원본·공식)로 확인한다" / 셋: "계산하고 비교한 다음 스스로 정한다" / 넷: "먼저 말을 건다"</p>
+  </div>
+
+  <div class="sec">
+    <span class="sec-title">활동 4 · 발표 &amp; 온 반 서명 ✍️</span>
+    <p class="lead"><strong>모둠 상황극을 반 앞에서 발표한 뒤, 각 모둠의 선언을 모아 '우리 반 디지털 시민 선언' 하나로 완성하고, 반 전체가 서명해요.</strong></p>
+    <div class="fill-line"><span class="lb">우리 모둠 발표 담당(이름):</span><span class="fl"></span></div>
+    <p class="inlinefill">우리 모둠 한 줄 발표문: "우리가 만든 선언에서 가장 지키고 싶은 다짐은 <span class="blank xw">&nbsp;</span> 이에요."</p>
+    <p class="q">우리 반 디지털 시민 선언 서명란 <span class="hint">(반 친구들이 한 명씩 이름을 적어요)</span></p>
+    <table>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="write"></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="teacher-note">
+    <span class="tn-badge">📌 교사용 — 인쇄 시 제외됨</span>
+    <p><strong>교사용 지도 팁</strong> · 활동 1·2에서 실제 학급 사례가 나올 때 <strong>특정 학생·특정 사건이 연상되는 발화가 나오면 즉시 일반화</strong>("어느 단톡방에서나 일어날 수 있는 일이에요")로 되돌린다. 게임 속 인물 이름이 학급 학생과 겹치면 배역 이름을 바꾸도록 안내한다. · 실제로 유사 사안이 진행 중인 학급이라면 이 차시를 그 사안의 처리 수단으로 쓰지 않는다 — 사안은 별도의 생활지도 절차로 다룬다. · '아쉬운 선택'을 한 학생을 탓하는 분위기가 되지 않게 하고, 이 시간은 12주 대장정의 축하와 마무리이므로 선언 서명·발표를 학급 게시·수료 자료로 활용한다.</p>
+  </div>
+</section>
