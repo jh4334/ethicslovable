@@ -86,8 +86,10 @@ npm run build:offline  # dist-offline/index.html — 단일 파일, 더블클릭
 | 문서 | 내용 |
 |---|---|
 | `docs/teacher/차시별-지도안.md` | 12차시 지도안 (40분 과정안, 발문, 평가 관점) |
-| `docs/teacher/학습지-1~12차시.md` | 학습지 12종 (게임 기록 → 사고 확장 → 실천 다짐) |
+| `docs/teacher/학습지-1~12차시.md` | 개인 학습지 12종 (게임 기록 → 사고 확장 → 실천 다짐) |
 | `docs/teacher/학습지-인쇄용.html` | 인쇄용 학습지 모음 (브라우저에서 열고 Ctrl+P, A4 12쪽) |
+| `docs/teacher/모둠활동지-1~12차시.md` | 모둠 협력 활동지 12종 (토의 → 협력 미션 → 함께 만들기 → 발표) |
+| `docs/teacher/모둠활동지-인쇄용.html` | 인쇄용 모둠 활동지 모음 |
 | `docs/teacher/성취기준-매핑.md` | 2022 개정 교육과정 성취기준 매핑 (국어·도덕·사회·실과) |
 | `docs/worldview.md` | 가상 세계관 설정집 (콘텐츠 수정 시 참고) |
 | `docs/review/` | 콘텐츠 검수표 (기존→새 콘텐츠 대조) |
