@@ -1,5 +1,5 @@
 /**
- * 모두의 AI (14차시 · 포용 퍼즐) — 콘텐츠·게임 상태 타입.
+ * 모두의 AI (14차시 · 스테이지형 포용 퍼즐) — 콘텐츠·게임 상태 타입.
  * 콘텐츠 스키마는 src/content/ai-fair.json 과 1:1 대응한다.
  * (배포본에서는 data/ai-fair.json 을 고치면 재빌드 없이 게임 내용이 바뀐다.)
  */
@@ -13,6 +13,8 @@ export interface AfUser {
   barrierId: string;
   /** 기본 누리봇으로도 처음부터 잘 쓰는가 (평균적인 사용자) */
   canUseBaseline: boolean;
+  /** 손님으로 설계실에 찾아왔을 때 하는 말 (장벽 있는 친구만) */
+  arriveLine?: string;
   /** 이 친구가 '이제 쓸 수 있게 됐을 때' 하는 말 */
   fixedLine: string;
   /** 기본 사용자 설명(선택) — 왜 처음부터 잘 쓰는지 */
@@ -38,13 +40,26 @@ export interface AfImprovement {
   desc: string;
   /** 이 카드가 없애 주는 장벽 id 목록 (빈 배열이면 함정 카드) */
   helpsBarrierIds: string[];
+  /** 이 카드가 지금 손님을 못 도왔을 때 보여 줄 피드백 */
+  failLine: string;
 }
 
-export interface AfConfig {
-  /** 시작 슬롯 수 */
-  slotsStart: number;
-  /** 최대 슬롯 수 */
-  slotsMax: number;
+/** 최종 설계 심사 (개선을 budget개만 남기는 조합 퍼즐) */
+export interface AfFinalStage {
+  title: string;
+  /** 소장님 브리핑 문단들 */
+  briefs: string[];
+  /** 남길 수 있는 개선 카드 수 */
+  budget: number;
+  pickGuide: string;
+  testButton: string;
+  /** budget개를 아직 못 채웠을 때 안내 */
+  needMoreLine: string;
+  successLine: string;
+  /** 실패 시 머리말 (아래에 못 쓰게 된 친구 목록 표시) */
+  failLead: string;
+  /** 실패 시 힌트 */
+  failHint: string;
 }
 
 export interface AfMeta {
@@ -81,24 +96,27 @@ export interface AfGrade {
 
 export interface AfUi {
   buildTitle: string;
-  buildGuide: string;
-  meterLabel: string;
-  slotsLabel: string;
+  guestLabel: string;
+  stageGuide: string;
+  nuriBotLabel: string;
+  barrierLabel: string;
   trayTitle: string;
   trayGuide: string;
-  equipHint: string;
   testButton: string;
-  testButtonFirst: string;
   testingLine: string;
-  emptySlotLabel: string;
+  retryLine: string;
+  triedTag: string;
+  successTitle: string;
+  nextButton: string;
+  toFinalButton: string;
+  toInsightButton: string;
+  autoSolvedTitle: string;
+  autoSolvedLine: string;
+  installedLabel: string;
+  meterLabel: string;
   baselineTag: string;
   canUseTag: string;
   blockedTag: string;
-  newlyLabel: string;
-  stillBlockedLabel: string;
-  slotGrowLine: string;
-  solvedBanner: string;
-  toInsightButton: string;
   helpsLabel: string;
   helpsNoneLabel: string;
   /** 아직 시험해 보지 않은 카드의 '돕는 사람' 자리에 보이는 안내 */
@@ -120,9 +138,11 @@ export interface AfContent {
   $설명?: string[];
   meta: AfMeta;
   users: AfUser[];
+  /** 손님이 찾아오는 순서 (canUseBaseline=false인 users의 id) */
+  stageOrder: string[];
   barriers: AfBarrier[];
   improvements: AfImprovement[];
-  config: AfConfig;
+  finalStage: AfFinalStage;
   insight: AfInsight;
   rules: AfRule[];
   grades: AfGrade[];
@@ -131,18 +151,20 @@ export interface AfContent {
 
 /* ---------- 아래는 게임 실행 중에만 쓰는 상태 타입 ---------- */
 
-export type AfPhase = "intro" | "build" | "insight" | "result";
+export type AfPhase = "intro" | "stage" | "final" | "insight" | "result";
 
-/** '다시 시험하기' 한 번의 결과 */
-export interface AfTestResult {
-  /** 이번 시험에서 쓸 수 있게 된 친구 id 전체 */
+/** 손님 스테이지의 진행 상태 */
+export type AfStageStatus =
+  | "pick" // 카드를 고르는 중
+  | "fail" // 방금 고른 카드가 이 손님을 못 도움 — 다시 고르기
+  | "solved" // 이 손님을 도왔음 — 다음 손님으로
+  | "auto"; // 이미 단 개선이 이 손님까지 도움 (시험 없이 해결)
+
+/** 최종 심사 시험 한 번의 결과 */
+export interface AfFinalResult {
+  /** 남긴 조합으로 쓸 수 있는 친구 id */
   enabledIds: string[];
-  /** 지난 시험 대비 이번에 새로 쓸 수 있게 된 친구 id */
-  newlyEnabledIds: string[];
-  /** 아직 못 쓰는 친구 id */
+  /** 못 쓰게 되는 친구 id */
   blockedIds: string[];
-  /** 이번 시험이 끝난 뒤 슬롯이 늘었는가 */
-  slotGrew: boolean;
-  /** 여섯 명 모두 쓸 수 있게 됐는가 */
   solved: boolean;
 }

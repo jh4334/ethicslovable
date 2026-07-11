@@ -43,7 +43,7 @@ export default function InsightScreen({ content, game }: InsightScreenProps) {
           <div className="mt-2 grid gap-2">
             {barriers.map((barrier, i) => {
               const friend = users.find((u) => u.barrierId === barrier.id);
-              const fixes = game.equippedCards.filter((c) =>
+              const fixes = game.keptCards.filter((c) =>
                 c.helpsBarrierIds.includes(barrier.id),
               );
               return (
