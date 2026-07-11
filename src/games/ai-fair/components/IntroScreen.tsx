@@ -6,7 +6,7 @@ interface IntroScreenProps {
   onStart: () => void;
 }
 
-/** 인트로 — 공정 검사관 임무 안내 */
+/** 인트로 — 포용 설계자 임무 안내 */
 export default function IntroScreen({ content, onStart }: IntroScreenProps) {
   const { meta } = content;
   return (

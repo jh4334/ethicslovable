@@ -1,230 +1,155 @@
 /**
- * 모두의 AI — 게임 상태 훅.
- * 화면 흐름: intro → inspect(6명) → fix(4문제) → result
- * 모든 판정은 순수하게 setState로만 처리한다. 부수효과가 없어 StrictMode-safe.
+ * 모두의 AI — 포용 퍼즐 게임 상태 훅.
+ * 화면 흐름: intro → build(넣기→시험→개선 루프) → insight(6/6 달성) → result
+ *
+ * 핵심 규칙(모두 결정적이라 StrictMode-safe):
+ * - 친구가 누리봇을 '쓸 수 있다' = 기본 사용자이거나, 장착한 개선 카드 중
+ *   하나라도 그 친구의 접근 장벽(barrierId)을 없애 주면 참.
+ * - '다시 시험하기'를 누를 때마다 판정하고, 아직 6/6이 아니면 슬롯이 한 칸
+ *   늘어난다(최대 config.slotsMax). 그래서 어떤 조합으로도 결국 6/6에 도달한다.
  */
 import { useCallback, useMemo, useState } from "react";
-import type {
-  AfContent,
-  AfFix,
-  AfGrade,
-  AfPhase,
-  AfUser,
-  FixResult,
-  InspectResult,
-} from "./types";
-
-/** 검사(inspect) 단계의 세부 진행 */
-export type InspectStep = "ask" | "cause" | "revealed";
+import type { AfContent, AfGrade, AfPhase, AfTestResult } from "./types";
 
 export interface AiFairGame {
   phase: AfPhase;
-
-  /* ---- 1부 · 공정 시험 ---- */
-  userIndex: number;
-  currentUser: AfUser;
-  inspectStep: InspectStep;
-  /** 이번 사용자에 대해 플레이어가 고른 판단 (null=아직) */
-  judgedFair: boolean | null;
-  /** 이번 사용자에 대해 고른 원인 카드 id (null=아직) */
-  causePicked: string | null;
-  inspectResults: InspectResult[];
-  judgeUser: (fair: boolean) => void;
-  pickCause: (causeId: string) => void;
-  nextUser: () => void;
-
-  /* ---- 2부 · 공정하게 고치기 ---- */
-  fixIndex: number;
-  currentFix: AfFix;
-  /** 이번 문제에서 고른 선택지 인덱스들 (오답 재시도 추적) */
-  fixPicked: number[];
-  /** 이번 문제를 풀었는가 */
-  fixSolved: boolean;
-  fixResults: FixResult[];
-  pickFix: (choiceIndex: number) => void;
-  nextFix: () => void;
-
-  /* ---- 점수 ---- */
-  judgeScore: number;
-  causeScore: number;
-  fixScore: number;
-  fairnessScore: number;
+  /** 현재 개선 슬롯 수 */
+  slots: number;
+  /** 장착한 개선 카드 id (넣은 순서) */
+  equipped: string[];
+  /** 장착한 개선 카드 객체 */
+  equippedCards: AfContent["improvements"];
+  /** 가장 최근 시험에서 '쓸 수 있는' 친구 id (시험 전엔 기본 사용자) */
+  enabledIds: string[];
+  /** 처음부터 쓸 수 있는 기본 사용자 id */
+  baselineIds: string[];
+  /** 지금까지 '다시 시험하기'를 누른 횟수 */
+  rounds: number;
+  /** 가장 최근 시험 결과 (없으면 아직 시험 전) */
+  lastTest: AfTestResult | null;
+  /** 여섯 명 모두 쓸 수 있게 됐는가 */
+  solved: boolean;
+  /** 결과용 설계자 등급 */
   grade: AfGrade;
-  /** 도감에 담은 (정답으로 맞힌) 차별 유형 id 목록 */
-  collectedCauseIds: string[];
-  badgeCount: number;
-
-  /* ---- 흐름 ---- */
   start: () => void;
+  toggleCard: (id: string) => void;
+  runTest: () => void;
+  goInsight: () => void;
+  goResult: () => void;
   restart: () => void;
 }
 
-const MAX_JUDGE = 6; // 사용자 판단 최대 점수(사용자 수로 대체됨)
-const MAX_CAUSE = 5; // 불공평 사용자 수로 대체됨
-const MAX_FIX = 4; // 고치기 문제 수로 대체됨
+/** 장착 카드로 쓸 수 있게 되는 친구 id 목록을 결정적으로 계산 */
+function computeEnabled(content: AfContent, equipped: string[]): string[] {
+  const equippedSet = new Set(equipped);
+  // 장착 카드가 없애 주는 장벽 id 모음
+  const fixedBarriers = new Set<string>();
+  for (const imp of content.improvements) {
+    if (equippedSet.has(imp.id)) {
+      for (const b of imp.helpsBarrierIds) fixedBarriers.add(b);
+    }
+  }
+  return content.users
+    .filter((u) => u.canUseBaseline || (u.barrierId !== "" && fixedBarriers.has(u.barrierId)))
+    .map((u) => u.id);
+}
 
-function pickGrade(grades: AfGrade[], score: number): AfGrade {
-  // min 이 큰 순서로 정렬해 두고 처음 만족하는 등급을 고른다.
-  const sorted = [...grades].sort((a, b) => b.min - a.min);
-  return sorted.find((g) => score >= g.min) ?? sorted[sorted.length - 1];
+function pickGrade(grades: AfGrade[], rounds: number): AfGrade {
+  const sorted = [...grades].sort((a, b) => a.maxRounds - b.maxRounds);
+  return sorted.find((g) => rounds <= g.maxRounds) ?? sorted[sorted.length - 1];
 }
 
 export function useAiFairGame(content: AfContent): AiFairGame {
-  const [phase, setPhase] = useState<AfPhase>("intro");
-
-  // 1부 상태
-  const [userIndex, setUserIndex] = useState(0);
-  const [judgedFair, setJudgedFair] = useState<boolean | null>(null);
-  const [causePicked, setCausePicked] = useState<string | null>(null);
-  const [inspectResults, setInspectResults] = useState<InspectResult[]>([]);
-
-  // 2부 상태
-  const [fixIndex, setFixIndex] = useState(0);
-  const [fixPicked, setFixPicked] = useState<number[]>([]);
-  const [fixSolved, setFixSolved] = useState(false);
-  const [fixResults, setFixResults] = useState<FixResult[]>([]);
-
-  const users = content.users;
-  const fixes = content.fixes;
-  const currentUser = users[Math.min(userIndex, users.length - 1)];
-  const currentFix = fixes[Math.min(fixIndex, fixes.length - 1)];
-
-  // 검사 세부 단계 파생
-  const inspectStep: InspectStep = useMemo(() => {
-    if (judgedFair === null) return "ask";
-    // 불공평한 사용자는 원인을 고르기 전까지 cause 단계
-    if (!currentUser.isFair && causePicked === null) return "cause";
-    return "revealed";
-  }, [judgedFair, causePicked, currentUser.isFair]);
-
-  const start = useCallback(() => setPhase("inspect"), []);
-
-  const judgeUser = useCallback((fair: boolean) => {
-    setJudgedFair((prev) => (prev === null ? fair : prev));
-  }, []);
-
-  const pickCause = useCallback((causeId: string) => {
-    setCausePicked((prev) => (prev === null ? causeId : prev));
-  }, []);
-
-  const nextUser = useCallback(() => {
-    // 현재 사용자 결과를 확정해 누적한다.
-    const judged = judgedFair ?? false;
-    const judgeCorrect = judged === currentUser.isFair;
-    const causeCorrect =
-      !currentUser.isFair &&
-      causePicked !== null &&
-      causePicked === currentUser.causeId;
-    const result: InspectResult = {
-      userId: currentUser.id,
-      judgedFair: judged,
-      judgeCorrect,
-      causePicked,
-      causeCorrect,
-    };
-    setInspectResults((prev) => {
-      // 같은 사용자 중복 누적 방지 (StrictMode/더블클릭 안전)
-      if (prev.some((r) => r.userId === result.userId)) return prev;
-      return [...prev, result];
-    });
-    setJudgedFair(null);
-    setCausePicked(null);
-    if (userIndex + 1 < users.length) {
-      setUserIndex(userIndex + 1);
-    } else {
-      setPhase("fix");
-    }
-  }, [judgedFair, causePicked, currentUser, userIndex, users.length]);
-
-  const pickFix = useCallback(
-    (choiceIndex: number) => {
-      if (fixSolved) return;
-      const choice = currentFix.choices[choiceIndex];
-      if (!choice) return;
-      setFixPicked((prev) => {
-        if (prev.includes(choiceIndex)) return prev;
-        const next = [...prev, choiceIndex];
-        if (choice.isGood) {
-          const firstTry = prev.length === 0;
-          setFixSolved(true);
-          setFixResults((rs) => {
-            if (rs.some((r) => r.fixId === currentFix.id)) return rs;
-            return [...rs, { fixId: currentFix.id, firstTrySolved: firstTry }];
-          });
-        }
-        return next;
-      });
-    },
-    [fixSolved, currentFix],
+  const baselineIds = useMemo(
+    () => content.users.filter((u) => u.canUseBaseline).map((u) => u.id),
+    [content.users],
   );
 
-  const nextFix = useCallback(() => {
-    setFixPicked([]);
-    setFixSolved(false);
-    if (fixIndex + 1 < fixes.length) {
-      setFixIndex(fixIndex + 1);
-    } else {
-      setPhase("result");
-    }
-  }, [fixIndex, fixes.length]);
+  const [phase, setPhase] = useState<AfPhase>("intro");
+  const [slots, setSlots] = useState(content.config.slotsStart);
+  const [equipped, setEquipped] = useState<string[]>([]);
+  const [enabledIds, setEnabledIds] = useState<string[]>(baselineIds);
+  const [rounds, setRounds] = useState(0);
+  const [lastTest, setLastTest] = useState<AfTestResult | null>(null);
+
+  const solved = enabledIds.length === content.users.length;
+
+  const equippedCards = useMemo(
+    () => content.improvements.filter((i) => equipped.includes(i.id)),
+    [content.improvements, equipped],
+  );
+
+  const start = useCallback(() => {
+    setPhase("build");
+    setSlots(content.config.slotsStart);
+    setEquipped([]);
+    setEnabledIds(baselineIds);
+    setRounds(0);
+    setLastTest(null);
+  }, [content.config.slotsStart, baselineIds]);
+
+  const toggleCard = useCallback(
+    (id: string) => {
+      setEquipped((prev) => {
+        if (prev.includes(id)) return prev.filter((x) => x !== id);
+        if (prev.length >= slots) return prev; // 슬롯이 가득 차면 못 넣는다
+        return [...prev, id];
+      });
+    },
+    [slots],
+  );
+
+  const runTest = useCallback(() => {
+    const enabled = computeEnabled(content, equipped);
+    const prevSet = new Set(enabledIds);
+    const enabledSet = new Set(enabled);
+    const newlyEnabledIds = enabled.filter((id) => !prevSet.has(id));
+    const blockedIds = content.users.filter((u) => !enabledSet.has(u.id)).map((u) => u.id);
+    const nowSolved = enabled.length === content.users.length;
+    const slotGrew = !nowSolved && slots < content.config.slotsMax;
+
+    setEnabledIds(enabled);
+    setRounds((r) => r + 1);
+    if (slotGrew) setSlots((s) => Math.min(s + 1, content.config.slotsMax));
+    setLastTest({
+      enabledIds: enabled,
+      newlyEnabledIds,
+      blockedIds,
+      slotGrew,
+      solved: nowSolved,
+    });
+  }, [content, equipped, enabledIds, slots]);
+
+  const goInsight = useCallback(() => setPhase("insight"), []);
+  const goResult = useCallback(() => setPhase("result"), []);
 
   const restart = useCallback(() => {
     setPhase("intro");
-    setUserIndex(0);
-    setJudgedFair(null);
-    setCausePicked(null);
-    setInspectResults([]);
-    setFixIndex(0);
-    setFixPicked([]);
-    setFixSolved(false);
-    setFixResults([]);
-  }, []);
+    setSlots(content.config.slotsStart);
+    setEquipped([]);
+    setEnabledIds(baselineIds);
+    setRounds(0);
+    setLastTest(null);
+  }, [content.config.slotsStart, baselineIds]);
 
-  // 점수 계산
-  const judgeScore = inspectResults.filter((r) => r.judgeCorrect).length;
-  const causeScore = inspectResults.filter((r) => r.causeCorrect).length;
-  const fixScore = fixResults.filter((r) => r.firstTrySolved).length;
-  const badgeCount = fixResults.length;
-  const collectedCauseIds = inspectResults
-    .filter((r) => r.causeCorrect && r.causePicked)
-    .map((r) => r.causePicked as string);
-
-  const maxJudge = users.length || MAX_JUDGE;
-  const maxCause = users.filter((u) => !u.isFair).length || MAX_CAUSE;
-  const maxFix = fixes.length || MAX_FIX;
-  const totalMax = maxJudge + maxCause + maxFix;
-  const fairnessScore =
-    totalMax > 0
-      ? Math.round(((judgeScore + causeScore + fixScore) / totalMax) * 100)
-      : 0;
-  const grade = pickGrade(content.grades, fairnessScore);
+  const grade = useMemo(() => pickGrade(content.grades, rounds), [content.grades, rounds]);
 
   return {
     phase,
-    userIndex,
-    currentUser,
-    inspectStep,
-    judgedFair,
-    causePicked,
-    inspectResults,
-    judgeUser,
-    pickCause,
-    nextUser,
-    fixIndex,
-    currentFix,
-    fixPicked,
-    fixSolved,
-    fixResults,
-    pickFix,
-    nextFix,
-    judgeScore,
-    causeScore,
-    fixScore,
-    fairnessScore,
+    slots,
+    equipped,
+    equippedCards,
+    enabledIds,
+    baselineIds,
+    rounds,
+    lastTest,
+    solved,
     grade,
-    collectedCauseIds,
-    badgeCount,
     start,
+    toggleCard,
+    runTest,
+    goInsight,
+    goResult,
     restart,
   };
 }

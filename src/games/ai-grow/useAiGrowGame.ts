@@ -1,195 +1,422 @@
 /**
  * AI와 함께 크는 나 — 게임 상태 관리 훅.
- * 1부(상황 6개 선택 → 해설), 2부(AI가 잘하는 것 vs 나만 할 수 있는 것 분류),
- * 결과(성장 씨앗 집계·등급)를 담당한다.
  *
- * StrictMode 안전: 진행은 모두 사용자 클릭(이벤트 핸들러)으로만 굴러가고
- * 타이머·자동 이펙트가 없어, 이펙트가 두 번 돌아도 상태가 어긋나지 않는다.
- * 분류 카드 섞기는 이벤트 핸들러(start/restart)와 lazy state 초기화에서만
- * 하므로 렌더마다 순서가 바뀌지 않는다.
+ * 미션(분야별 4단계)을 차례로 해결한다:
+ *   ① 배우기(learn) → ② 좋은 질문(question) → ③ AI 답 검토(review)
+ *   → ④ 발전시키기(develop) → 미션 결과(result)
+ *
+ * 핵심 규칙은 모두 '지식 카드 보유(progress.acquired)'로 갈린다:
+ *   - ② 좋은 질문: requiresKnowledgeId 를 가진 질문만 열린다(막연한 질문은 늘 열림).
+ *   - ③ 오류 발견: botAnswer.requiresKnowledgeId 지식이 있어야 틀린 문장을 잡을 수 있다.
+ *   - ④ 발전: requiresKnowledgeId 를 가진 '가장 나다운 마무리'만 열린다.
+ * 지식이 없어도 게임은 막힘 없이 끝난다(막연한 질문·그대로 받기·복사 선택지가 늘 열림).
+ *
+ * StrictMode 안전: 진행은 모두 사용자 클릭(이벤트 핸들러)으로만 굴러가고,
+ * 타이머·자동 이펙트·무작위(셔플)가 없어 이펙트가 두 번 돌아도 상태가 어긋나지 않는다.
  */
 import { useCallback, useMemo, useState } from "react";
-import type { AgContent, AgSortCard, Phase, SituationStage } from "./types";
+import type {
+  AgBotAnswer,
+  AgContent,
+  AgMission,
+  AgQuestion,
+  LearnStage,
+  MissionProgress,
+  MissionStep,
+  Phase,
+  PickStage,
+  ReviewStage,
+} from "./types";
 
-/** Fisher–Yates 셔플 — 원본을 건드리지 않고 새 배열을 돌려준다 */
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-/** 콘텐츠의 aiCan/onlyHuman 을 한 벌 카드로 합쳐 섞는다 */
-function buildDeck(content: AgContent): AgSortCard[] {
-  const { aiCan, onlyHuman } = content.humanVsAi;
-  const cards: AgSortCard[] = [
-    ...aiCan.map((text) => ({ text, isHumanOnly: false })),
-    ...onlyHuman.map((text) => ({ text, isHumanOnly: true })),
-  ];
-  return shuffle(cards);
+function emptyProgress(): MissionProgress {
+  return {
+    acquired: [],
+    quizCorrect: 0,
+    questionId: null,
+    errorCatchable: false,
+    errorCaught: false,
+    reviewed: false,
+    developIndex: null,
+    developBest: false,
+  };
 }
 
 export interface AiGrowGame {
   phase: Phase;
-  /** 지금 진행 중인 상황 인덱스 */
-  sitIndex: number;
-  sitStage: SituationStage;
-  /** 상황별로 고른 선택지 인덱스 (아직 안 골랐으면 null) */
-  sitChoices: (number | null)[];
-  /** 나를 키우는 선택 수 = 모은 성장 씨앗 수 */
-  seeds: number;
+  missionIndex: number;
+  step: MissionStep;
 
-  /** 섞어 낸 분류 카드 한 벌 */
-  sortDeck: AgSortCard[];
-  /** 지금 보여 주는 카드 인덱스 */
-  sortIndex: number;
-  /** 방금 카드 판정 (선택 전이면 null) */
-  sortLastCorrect: boolean | null;
-  /** 맞게 분류한 카드 수 */
-  sortCorrect: number;
+  /** 현재 미션 / 진행 기록 (파생) */
+  mission: AgMission;
+  progress: MissionProgress;
+  question: AgQuestion | null;
+  botAnswer: AgBotAnswer | null;
+
+  /** ① 배우기 */
+  learnIndex: number;
+  learnStage: LearnStage;
+  learnQuizPicked: number | null;
+
+  /** ② 좋은 질문 */
+  questionStage: PickStage;
+  questionPicked: string | null;
+
+  /** ③ AI 답 검토 */
+  reviewStage: ReviewStage;
+  reviewWrongPick: boolean;
+
+  /** ④ 발전 */
+  developStage: PickStage;
+  developPicked: number | null;
+
+  /** 집계 (파생) */
+  totalMissions: number;
+  totalSkill: number;
+  maxSkill: number;
+  errorsCaught: number;
+  growthScore: number;
+  allProgress: MissionProgress[];
+
+  /** 질문·발전 선택지가 열려 있는지 (지식 보유 여부) */
+  isUnlocked: (requiresKnowledgeId?: string) => boolean;
 
   start: () => void;
-  choose: (choiceIndex: number) => void;
-  nextSituation: () => void;
-  sortCard: (pickedHumanOnly: boolean) => void;
-  nextCard: () => void;
+  learnChoose: (learn: boolean) => void;
+  learnAnswerQuiz: (optionIndex: number) => void;
+  learnNext: () => void;
+  pickQuestion: (id: string) => void;
+  questionNext: () => void;
+  reviewClickSentence: (line: string) => void;
+  reviewAccept: () => void;
+  reviewNext: () => void;
+  pickDevelop: (index: number) => void;
+  developNext: () => void;
+  missionResultNext: () => void;
   restart: () => void;
 }
 
 export function useAiGrowGame(content: AgContent): AiGrowGame {
-  const situations = content.situations;
-  const totalSituations = situations.length;
+  const missions = content.missions;
 
   const [phase, setPhase] = useState<Phase>("start");
-  const [sitIndex, setSitIndex] = useState(0);
-  const [sitStage, setSitStage] = useState<SituationStage>("choosing");
-  const [sitChoices, setSitChoices] = useState<(number | null)[]>(() =>
-    situations.map(() => null),
+  const [missionIndex, setMissionIndex] = useState(0);
+  const [step, setStep] = useState<MissionStep>("learn");
+
+  const [progressList, setProgressList] = useState<MissionProgress[]>(() =>
+    missions.map(emptyProgress),
   );
 
-  const [sortDeck, setSortDeck] = useState<AgSortCard[]>(() =>
-    buildDeck(content),
+  const [learnIndex, setLearnIndex] = useState(0);
+  const [learnStage, setLearnStage] = useState<LearnStage>("choose");
+  const [learnQuizPicked, setLearnQuizPicked] = useState<number | null>(null);
+
+  const [questionStage, setQuestionStage] = useState<PickStage>("choose");
+  const [questionPicked, setQuestionPicked] = useState<string | null>(null);
+
+  const [reviewStage, setReviewStage] = useState<ReviewStage>("inspect");
+  const [reviewWrongPick, setReviewWrongPick] = useState(false);
+
+  const [developStage, setDevelopStage] = useState<PickStage>("choose");
+  const [developPicked, setDevelopPicked] = useState<number | null>(null);
+
+  const mission = missions[missionIndex];
+  const progress = progressList[missionIndex] ?? emptyProgress();
+
+  const updateCurrent = useCallback(
+    (fn: (p: MissionProgress) => MissionProgress) => {
+      setProgressList((prev) =>
+        prev.map((p, i) => (i === missionIndex ? fn(p) : p)),
+      );
+    },
+    [missionIndex],
   );
-  const [sortIndex, setSortIndex] = useState(0);
-  const [sortLastCorrect, setSortLastCorrect] = useState<boolean | null>(null);
-  const [sortResults, setSortResults] = useState<boolean[]>([]);
+
+  const resetMissionSteps = useCallback(() => {
+    setStep("learn");
+    setLearnIndex(0);
+    setLearnStage("choose");
+    setLearnQuizPicked(null);
+    setQuestionStage("choose");
+    setQuestionPicked(null);
+    setReviewStage("inspect");
+    setReviewWrongPick(false);
+    setDevelopStage("choose");
+    setDevelopPicked(null);
+  }, []);
 
   const start = useCallback(() => {
-    setPhase("situations");
-    setSitIndex(0);
-    setSitStage("choosing");
-    setSitChoices(situations.map(() => null));
-    setSortDeck(buildDeck(content));
-    setSortIndex(0);
-    setSortLastCorrect(null);
-    setSortResults([]);
-  }, [situations, content]);
+    setProgressList(missions.map(emptyProgress));
+    setMissionIndex(0);
+    setPhase("mission");
+    resetMissionSteps();
+  }, [missions, resetMissionSteps]);
 
-  const choose = useCallback(
-    (choiceIndex: number) => {
-      if (sitStage !== "choosing") return; // 중복 클릭 방지
-      setSitChoices((prev) => {
-        const next = [...prev];
-        next[sitIndex] = choiceIndex;
-        return next;
-      });
-      setSitStage("feedback");
-    },
-    [sitStage, sitIndex],
-  );
+  const restart = useCallback(() => {
+    setProgressList(missions.map(emptyProgress));
+    setMissionIndex(0);
+    setPhase("start");
+    resetMissionSteps();
+  }, [missions, resetMissionSteps]);
 
-  const nextSituation = useCallback(() => {
-    if (sitStage !== "feedback") return;
-    if (sitIndex >= totalSituations - 1) {
-      setPhase("sort");
-      return;
+  // ── ① 배우기 ──────────────────────────────────────────────
+  const advanceLearn = useCallback(() => {
+    setLearnQuizPicked(null);
+    if (learnIndex >= mission.knowledgeCards.length - 1) {
+      setStep("question");
+      setQuestionStage("choose");
+      setQuestionPicked(null);
+    } else {
+      setLearnIndex((i) => i + 1);
+      setLearnStage("choose");
     }
-    setSitIndex((i) => i + 1);
-    setSitStage("choosing");
-  }, [sitStage, sitIndex, totalSituations]);
+  }, [learnIndex, mission.knowledgeCards.length]);
 
-  const sortCard = useCallback(
-    (pickedHumanOnly: boolean) => {
-      if (sortLastCorrect !== null) return; // 이미 판정됨
-      const card = sortDeck[sortIndex];
+  const learnChoose = useCallback(
+    (learn: boolean) => {
+      if (learnStage !== "choose") return;
+      const card = mission.knowledgeCards[learnIndex];
       if (!card) return;
-      const correct = pickedHumanOnly === card.isHumanOnly;
-      setSortLastCorrect(correct);
-      setSortResults((prev) => [...prev, correct]);
+      if (!learn) {
+        advanceLearn();
+        return;
+      }
+      updateCurrent((p) => ({
+        ...p,
+        acquired: p.acquired.includes(card.id)
+          ? p.acquired
+          : [...p.acquired, card.id],
+      }));
+      setLearnStage(card.quiz ? "quiz" : "done");
     },
-    [sortLastCorrect, sortDeck, sortIndex],
+    [learnStage, mission.knowledgeCards, learnIndex, updateCurrent, advanceLearn],
   );
 
-  const nextCard = useCallback(() => {
-    if (sortLastCorrect === null) return; // 판정 후에만 진행
-    if (sortIndex >= sortDeck.length - 1) {
+  const learnAnswerQuiz = useCallback(
+    (optionIndex: number) => {
+      if (learnStage !== "quiz") return;
+      const card = mission.knowledgeCards[learnIndex];
+      if (!card?.quiz) return;
+      setLearnQuizPicked(optionIndex);
+      if (optionIndex === card.quiz.answerIndex) {
+        updateCurrent((p) => ({ ...p, quizCorrect: p.quizCorrect + 1 }));
+      }
+      setLearnStage("done");
+    },
+    [learnStage, mission.knowledgeCards, learnIndex, updateCurrent],
+  );
+
+  const learnNext = useCallback(() => {
+    if (learnStage !== "done") return;
+    advanceLearn();
+  }, [learnStage, advanceLearn]);
+
+  // ── ② 좋은 질문 ──────────────────────────────────────────
+  const isUnlocked = useCallback(
+    (requiresKnowledgeId?: string) =>
+      !requiresKnowledgeId || progress.acquired.includes(requiresKnowledgeId),
+    [progress.acquired],
+  );
+
+  const pickQuestion = useCallback(
+    (id: string) => {
+      if (questionStage !== "choose") return;
+      const q = mission.questions.find((it) => it.id === id);
+      if (!q) return;
+      if (q.requiresKnowledgeId && !progress.acquired.includes(q.requiresKnowledgeId))
+        return; // 잠긴 질문은 고를 수 없음
+      updateCurrent((p) => ({ ...p, questionId: id }));
+      setQuestionPicked(id);
+      setQuestionStage("feedback");
+    },
+    [questionStage, mission.questions, progress.acquired, updateCurrent],
+  );
+
+  const questionNext = useCallback(() => {
+    if (questionStage !== "feedback" || !questionPicked) return;
+    const q = mission.questions.find((it) => it.id === questionPicked);
+    const ans = q
+      ? mission.botAnswers.find((a) => a.id === q.botAnswerId)
+      : undefined;
+    const catchable = ans
+      ? progress.acquired.includes(ans.requiresKnowledgeId)
+      : false;
+    updateCurrent((p) => ({ ...p, errorCatchable: catchable }));
+    setStep("review");
+    setReviewStage("inspect");
+    setReviewWrongPick(false);
+  }, [
+    questionStage,
+    questionPicked,
+    mission.questions,
+    mission.botAnswers,
+    progress.acquired,
+    updateCurrent,
+  ]);
+
+  // ── ③ AI 답 검토 ─────────────────────────────────────────
+  const question = useMemo(
+    () =>
+      mission.questions.find((q) => q.id === progress.questionId) ?? null,
+    [mission.questions, progress.questionId],
+  );
+  const botAnswer = useMemo(
+    () =>
+      question
+        ? mission.botAnswers.find((a) => a.id === question.botAnswerId) ?? null
+        : null,
+    [question, mission.botAnswers],
+  );
+
+  const reviewClickSentence = useCallback(
+    (line: string) => {
+      if (reviewStage !== "inspect" || !progress.errorCatchable || !botAnswer)
+        return;
+      if (line === botAnswer.errorSpan) {
+        updateCurrent((p) => ({ ...p, errorCaught: true, reviewed: true }));
+        setReviewStage("result");
+      } else {
+        setReviewWrongPick(true);
+      }
+    },
+    [reviewStage, progress.errorCatchable, botAnswer, updateCurrent],
+  );
+
+  const reviewAccept = useCallback(() => {
+    if (reviewStage !== "inspect") return;
+    updateCurrent((p) => ({ ...p, errorCaught: false, reviewed: true }));
+    setReviewStage("result");
+  }, [reviewStage, updateCurrent]);
+
+  const reviewNext = useCallback(() => {
+    if (reviewStage !== "result") return;
+    setStep("develop");
+    setDevelopStage("choose");
+    setDevelopPicked(null);
+  }, [reviewStage]);
+
+  // ── ④ 발전 ───────────────────────────────────────────────
+  const pickDevelop = useCallback(
+    (index: number) => {
+      if (developStage !== "choose") return;
+      const ch = mission.develop.choices[index];
+      if (!ch) return;
+      if (ch.requiresKnowledgeId && !progress.acquired.includes(ch.requiresKnowledgeId))
+        return;
+      updateCurrent((p) => ({
+        ...p,
+        developIndex: index,
+        developBest: ch.isBest,
+      }));
+      setDevelopPicked(index);
+      setDevelopStage("feedback");
+    },
+    [developStage, mission.develop.choices, progress.acquired, updateCurrent],
+  );
+
+  const developNext = useCallback(() => {
+    if (developStage !== "feedback") return;
+    setStep("result");
+  }, [developStage]);
+
+  const missionResultNext = useCallback(() => {
+    if (missionIndex >= missions.length - 1) {
       setPhase("finale");
       return;
     }
-    setSortIndex((i) => i + 1);
-    setSortLastCorrect(null);
-  }, [sortLastCorrect, sortIndex, sortDeck.length]);
+    setMissionIndex((i) => i + 1);
+    resetMissionSteps();
+  }, [missionIndex, missions.length, resetMissionSteps]);
 
-  const restart = useCallback(() => {
-    setPhase("start");
-    setSitIndex(0);
-    setSitStage("choosing");
-    setSitChoices(situations.map(() => null));
-    setSortDeck(buildDeck(content));
-    setSortIndex(0);
-    setSortLastCorrect(null);
-    setSortResults([]);
-  }, [situations, content]);
-
-  const seeds = useMemo(
-    () =>
-      sitChoices.reduce<number>((acc, choice, i) => {
-        if (choice == null) return acc;
-        return acc + (situations[i]?.choices[choice]?.isGrowth ? 1 : 0);
-      }, 0),
-    [sitChoices, situations],
+  // ── 집계 ─────────────────────────────────────────────────
+  const totalSkill = useMemo(
+    () => progressList.reduce((s, p) => s + p.acquired.length, 0),
+    [progressList],
   );
-
-  const sortCorrect = useMemo(
-    () => sortResults.filter(Boolean).length,
-    [sortResults],
+  const maxSkill = useMemo(
+    () => missions.reduce((s, m) => s + m.knowledgeCards.length, 0),
+    [missions],
   );
+  const errorsCaught = useMemo(
+    () => progressList.filter((p) => p.errorCaught).length,
+    [progressList],
+  );
+  const growthScore = totalSkill + errorsCaught;
 
   return useMemo(
     () => ({
       phase,
-      sitIndex,
-      sitStage,
-      sitChoices,
-      seeds,
-      sortDeck,
-      sortIndex,
-      sortLastCorrect,
-      sortCorrect,
+      missionIndex,
+      step,
+      mission,
+      progress,
+      question,
+      botAnswer,
+      learnIndex,
+      learnStage,
+      learnQuizPicked,
+      questionStage,
+      questionPicked,
+      reviewStage,
+      reviewWrongPick,
+      developStage,
+      developPicked,
+      totalMissions: missions.length,
+      totalSkill,
+      maxSkill,
+      errorsCaught,
+      growthScore,
+      allProgress: progressList,
+      isUnlocked,
       start,
-      choose,
-      nextSituation,
-      sortCard,
-      nextCard,
+      learnChoose,
+      learnAnswerQuiz,
+      learnNext,
+      pickQuestion,
+      questionNext,
+      reviewClickSentence,
+      reviewAccept,
+      reviewNext,
+      pickDevelop,
+      developNext,
+      missionResultNext,
       restart,
     }),
     [
       phase,
-      sitIndex,
-      sitStage,
-      sitChoices,
-      seeds,
-      sortDeck,
-      sortIndex,
-      sortLastCorrect,
-      sortCorrect,
+      missionIndex,
+      step,
+      mission,
+      progress,
+      question,
+      botAnswer,
+      learnIndex,
+      learnStage,
+      learnQuizPicked,
+      questionStage,
+      questionPicked,
+      reviewStage,
+      reviewWrongPick,
+      developStage,
+      developPicked,
+      missions.length,
+      totalSkill,
+      maxSkill,
+      errorsCaught,
+      growthScore,
+      progressList,
+      isUnlocked,
       start,
-      choose,
-      nextSituation,
-      sortCard,
-      nextCard,
+      learnChoose,
+      learnAnswerQuiz,
+      learnNext,
+      pickQuestion,
+      questionNext,
+      reviewClickSentence,
+      reviewAccept,
+      reviewNext,
+      pickDevelop,
+      developNext,
+      missionResultNext,
       restart,
     ],
   );
