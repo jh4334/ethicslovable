@@ -1,11 +1,11 @@
 /**
- * 14차시 · 모두의 AI
- * 누리봇의 '공정 검사관'이 되어, 누리봇이 누구에게나 공평하게 잘 도와주는지
- * 시험한다. 사투리·다문화·시각장애·농산어촌·유료 격차 사례를 살펴 편향·차별을
- * 찾아내고(1부), 사람이 아니라 AI 설계를 고쳐 모두가 쓸 수 있게 만든다(2부).
- * "AI는 모두를 똑같이 잘 돕지 않을 수 있다 — 살펴서 모두가 공평하게 쓸 수 있게"를
- * 체험한다. 근거: 충북형 AI 윤리 가이드라인 세부원칙 4·5·6, PART5 학생평가.
- * 콘텐츠(사용자·도감·고치기 문구)는 src/content/ai-fair.json 에서 분리 관리.
+ * 14차시 · 모두의 AI (포용 퍼즐)
+ * 누리봇을 '모두가 쓸 수 있게 만드는 포용 설계자'가 되어, 개선 카드를 슬롯에
+ * 장착 → '다시 시험하기' → 여섯 친구가 쓸 수 있는지 재판정하는 넣기→테스트→개선
+ * 루프를 돌린다. 처음엔 '평균적인 사람' 기준이라 2명만 쓰지만, 사투리·다문화·
+ * 시각·농산어촌 장벽을 하나씩 없애 6/6을 만든다. 배움은 플레이에서 저절로 드러난다.
+ * 근거: 충북형 AI 윤리 가이드라인 세부원칙 4(편향 최소화)·5(다양성)·6(취약계층 접근).
+ * 콘텐츠(친구·장벽·개선 카드·문구)는 src/content/ai-fair.json 에서 분리 관리.
  */
 import { useEffect, useState } from "react";
 import GameLayout from "@/components/GameLayout";
@@ -14,16 +14,16 @@ import fallbackContent from "@/content/ai-fair.json";
 import type { AfContent } from "./types";
 import { useAiFairGame } from "./useAiFairGame";
 import IntroScreen from "./components/IntroScreen";
-import InspectScreen from "./components/InspectScreen";
-import FixScreen from "./components/FixScreen";
+import BuildScreen from "./components/BuildScreen";
+import InsightScreen from "./components/InsightScreen";
 import ResultScreen from "./components/ResultScreen";
 import "./styles.css";
 
 function GameBody({ content }: { content: AfContent }) {
   const game = useAiFairGame(content);
 
-  if (game.phase === "inspect") return <InspectScreen content={content} game={game} />;
-  if (game.phase === "fix") return <FixScreen content={content} game={game} />;
+  if (game.phase === "build") return <BuildScreen content={content} game={game} />;
+  if (game.phase === "insight") return <InsightScreen content={content} game={game} />;
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <IntroScreen content={content} onStart={game.start} />;
 }
@@ -47,7 +47,7 @@ export default function AiFairGame() {
         <GameBody content={content} />
       ) : (
         <div className="flex min-h-[calc(100vh-2.75rem)] items-center justify-center text-sm text-muted-foreground">
-          공정 검사실 문을 여는 중이에요…
+          포용 설계실 문을 여는 중이에요…
         </div>
       )}
     </GameLayout>

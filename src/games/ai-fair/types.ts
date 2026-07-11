@@ -1,68 +1,50 @@
 /**
- * 모두의 AI — 콘텐츠·게임 상태 타입.
+ * 모두의 AI (14차시 · 포용 퍼즐) — 콘텐츠·게임 상태 타입.
  * 콘텐츠 스키마는 src/content/ai-fair.json 과 1:1 대응한다.
- * (배포본에서는 data/ai-fair.json 을 고치면 게임 내용이 바뀐다.)
+ * (배포본에서는 data/ai-fair.json 을 고치면 재빌드 없이 게임 내용이 바뀐다.)
  */
 
-/** 누리봇 반응 종류 */
-export type BotResult = "good" | "struggle" | "fail";
-
-/** 공정 시험에 등장하는 사용자 한 명 (교사 편집 가능) */
+/** 누리봇을 쓰려는 친구 한 명 (교사 편집 가능) */
 export interface AfUser {
   id: string;
   emoji: string;
-  /** 누구인지 — 존중하는 표현으로 */
   who: string;
-  /** 누리봇에게 부탁한 말 */
-  request: string;
-  /** 누리봇이 실제로 어떻게 반응했는가 */
-  botResult: BotResult;
-  /** 누리봇 말풍선 대사 */
-  botLine: string;
-  /** 이 상황이 공평한가 (true면 정답은 '공평해요') */
-  isFair: boolean;
-  /** 불공평할 때의 원인 — causes[].id 중 하나 (공평하면 "") */
-  causeId: string;
-  /** 검사 결과로 보여 주는 설명 (AI 설계의 문제로 프레이밍) */
-  explain: string;
+  /** 접근 장벽 id — barriers[].id 중 하나. 기본 사용자는 빈 문자열 */
+  barrierId: string;
+  /** 기본 누리봇으로도 처음부터 잘 쓰는가 (평균적인 사용자) */
+  canUseBaseline: boolean;
+  /** 이 친구가 '이제 쓸 수 있게 됐을 때' 하는 말 */
+  fixedLine: string;
+  /** 기본 사용자 설명(선택) — 왜 처음부터 잘 쓰는지 */
+  baseLine?: string;
 }
 
-/** 편향·차별 유형 도감 카드 한 장 */
-export interface AfCause {
+/** 접근 장벽 한 종류 */
+export interface AfBarrier {
+  id: string;
+  emoji: string;
+  name: string;
+  /** 아직 못 쓸 때 누리봇이 보이는 반응 */
+  blockedLine: string;
+  /** 관련 세부원칙 꼬리표 */
+  principle: string;
+}
+
+/** 개선 카드 한 장 */
+export interface AfImprovement {
   id: string;
   emoji: string;
   name: string;
   desc: string;
+  /** 이 카드가 없애 주는 장벽 id 목록 (빈 배열이면 함정 카드) */
+  helpsBarrierIds: string[];
 }
 
-/** 고치기 선택지 한 개 */
-export interface AfChoice {
-  text: string;
-  isGood: boolean;
-  feedback: string;
-}
-
-/** 공정하게 고치기 문제 한 개 */
-export interface AfFix {
-  id: string;
-  emoji: string;
-  problem: string;
-  choices: AfChoice[];
-}
-
-/** 모두를 위한 AI 원칙 카드 */
-export interface AfRule {
-  emoji: string;
-  title: string;
-  text: string;
-}
-
-/** 검사관 등급 (min 큰 순서로 먼저 맞는 등급을 쓴다) */
-export interface AfGrade {
-  min: number;
-  emoji: string;
-  name: string;
-  desc: string;
+export interface AfConfig {
+  /** 시작 슬롯 수 */
+  slotsStart: number;
+  /** 최대 슬롯 수 */
+  slotsMax: number;
 }
 
 export interface AfMeta {
@@ -73,41 +55,59 @@ export interface AfMeta {
   startButton: string;
 }
 
-/** 화면 문구 모음 */
-export interface AfUi {
-  inspectTitle: string;
-  inspectGuide: string;
-  requestLabel: string;
-  resultLabel: string;
-  resultGood: string;
-  resultStruggle: string;
-  resultFail: string;
-  fairQuestion: string;
-  answerFair: string;
-  answerUnfair: string;
-  judgeCorrect: string;
-  judgeWrong: string;
-  causeQuestion: string;
-  causeCorrect: string;
-  causeWrong: string;
-  explainTitle: string;
-  nextUserButton: string;
-  toFixButton: string;
-  fixTitle: string;
-  fixGuide: string;
-  problemLabel: string;
-  badgeEarned: string;
-  tryAgainNote: string;
-  nextFixButton: string;
+export interface AfInsight {
+  title: string;
+  whyTitle: string;
+  whyText: string;
+  mapTitle: string;
+  summaryLead: string;
+  closing: string;
   toResultButton: string;
-  badgesLabel: string;
+}
+
+export interface AfRule {
+  emoji: string;
+  title: string;
+  text: string;
+}
+
+/** 시험 횟수(rounds)에 따른 설계자 등급 — maxRounds 작은 것부터 먼저 맞는 등급 */
+export interface AfGrade {
+  maxRounds: number;
+  emoji: string;
+  name: string;
+  desc: string;
+}
+
+export interface AfUi {
+  buildTitle: string;
+  buildGuide: string;
+  meterLabel: string;
+  slotsLabel: string;
+  trayTitle: string;
+  trayGuide: string;
+  equipHint: string;
+  testButton: string;
+  testButtonFirst: string;
+  testingLine: string;
+  emptySlotLabel: string;
+  baselineTag: string;
+  canUseTag: string;
+  blockedTag: string;
+  newlyLabel: string;
+  stillBlockedLabel: string;
+  slotGrowLine: string;
+  solvedBanner: string;
+  toInsightButton: string;
+  helpsLabel: string;
+  helpsNoneLabel: string;
   resultTitle: string;
-  scoreLabel: string;
   gradeLabel: string;
-  codexTitle: string;
-  codexEmpty: string;
+  inclusionLabel: string;
+  roundsLabel: string;
   rulesTitle: string;
   finishNote: string;
+  worksheetNote: string;
   mapButton: string;
   restartButton: string;
 }
@@ -118,33 +118,29 @@ export interface AfContent {
   $설명?: string[];
   meta: AfMeta;
   users: AfUser[];
-  causes: AfCause[];
-  fixes: AfFix[];
-  fairnessRules: AfRule[];
+  barriers: AfBarrier[];
+  improvements: AfImprovement[];
+  config: AfConfig;
+  insight: AfInsight;
+  rules: AfRule[];
   grades: AfGrade[];
   ui: AfUi;
 }
 
 /* ---------- 아래는 게임 실행 중에만 쓰는 상태 타입 ---------- */
 
-/** 사용자 한 명에 대한 검사 결과 */
-export interface InspectResult {
-  userId: string;
-  /** 플레이어가 '공평'이라고 답했는가 */
-  judgedFair: boolean;
-  /** 판단이 정답과 맞았는가 */
-  judgeCorrect: boolean;
-  /** 고른 원인 카드 id (불공평 판단 시에만) */
-  causePicked: string | null;
-  /** 원인이 맞았는가 */
-  causeCorrect: boolean;
-}
+export type AfPhase = "intro" | "build" | "insight" | "result";
 
-/** 고치기 한 문제 결과 */
-export interface FixResult {
-  fixId: string;
-  /** 처음 고른 선택이 바로 정답이었는가 */
-  firstTrySolved: boolean;
+/** '다시 시험하기' 한 번의 결과 */
+export interface AfTestResult {
+  /** 이번 시험에서 쓸 수 있게 된 친구 id 전체 */
+  enabledIds: string[];
+  /** 지난 시험 대비 이번에 새로 쓸 수 있게 된 친구 id */
+  newlyEnabledIds: string[];
+  /** 아직 못 쓰는 친구 id */
+  blockedIds: string[];
+  /** 이번 시험이 끝난 뒤 슬롯이 늘었는가 */
+  slotGrew: boolean;
+  /** 여섯 명 모두 쓸 수 있게 됐는가 */
+  solved: boolean;
 }
-
-export type AfPhase = "intro" | "inspect" | "fix" | "result";

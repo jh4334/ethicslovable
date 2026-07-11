@@ -1,5 +1,5 @@
 /*
- * 모두의 AI — 게임 전용 스타일.
+ * 모두의 AI (포용 퍼즐) — 게임 전용 스타일.
  * 모든 선택자는 .game-ai-fair 아래로 범위를 한정하고,
  * 커스텀 클래스는 af- 접두사를 쓴다. (다른 게임과 충돌 방지)
  *
@@ -40,7 +40,7 @@
   cursor: not-allowed;
 }
 
-/* 그라디언트 알약 (단계 배지) */
+/* 그라디언트 알약 (단계 배지 · 카운터) */
 .game-ai-fair .af-pill {
   display: inline-flex;
   align-items: center;
@@ -53,7 +53,7 @@
   box-shadow: 0 4px 10px -4px hsl(var(--af-from) / 0.5);
 }
 
-/* 그라디언트 텍스트 (점수 % 등) */
+/* 그라디언트 텍스트 (미터 수치 등) */
 .game-ai-fair .af-grad-text {
   background-image: linear-gradient(120deg, hsl(var(--af-from)), hsl(var(--af-to)));
   -webkit-background-clip: text;
@@ -61,7 +61,7 @@
   color: transparent;
 }
 
-/* 그라디언트 진행 막대 채움 */
+/* 그라디언트 진행 막대 채움 (포용 미터) */
 .game-ai-fair .af-bar-fill {
   background-image: linear-gradient(90deg, hsl(var(--af-from)), hsl(var(--af-to)));
 }
@@ -73,49 +73,7 @@
   box-shadow: 0 8px 18px -10px hsl(var(--af-from) / 0.45);
 }
 
-/* 누리봇 — 둥실둥실 떠 있는 기본 동작 */
-.game-ai-fair .af-bot {
-  animation: af-bob 2.6s ease-in-out infinite;
-}
-@keyframes af-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-/* 누리봇이 헷갈릴 때 — 갸우뚱 */
-.game-ai-fair .af-wobble {
-  animation: af-wobble 0.9s ease-in-out infinite;
-}
-@keyframes af-wobble {
-  0%,
-  100% {
-    transform: rotate(-6deg);
-  }
-  50% {
-    transform: rotate(6deg);
-  }
-}
-
-/* 말풍선 꼬리 — 누리봇 쪽(왼쪽)을 향한다 */
-.game-ai-fair .af-bubble::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  bottom: 14px;
-  width: 12px;
-  height: 12px;
-  transform: rotate(45deg);
-  border-left: 1px solid hsl(var(--border));
-  border-bottom: 1px solid hsl(var(--border));
-  background: hsl(var(--card));
-}
-
-/* 통통 튀며 등장 (판정·배지 공개 순간) */
+/* 통통 튀며 등장 (배지·달성 공개 순간) */
 .game-ai-fair .af-bounce-in {
   animation: af-bounce-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
@@ -130,17 +88,84 @@
   }
 }
 
-/* 선택 카드 — 호버 시 살짝 떠오름 */
-.game-ai-fair .af-pick:hover:not(:disabled):not(.af-pick-on) {
+/* ---------- 친구 카드 (누리봇을 쓸 수 있나 상태) ---------- */
+
+/* 쓸 수 있는 친구 — 연두 링 + 은은한 틴트 */
+.game-ai-fair .af-friend-on {
+  border-color: hsl(var(--af-from) / 0.6);
+  background-color: hsl(95 66% 97%);
+}
+/* 아직 못 쓰는 친구 — 차분한 회색 (동정이 아니라 '설계가 놓친 상태') */
+.game-ai-fair .af-friend-off {
+  border-color: hsl(var(--border));
+  background-color: hsl(var(--card));
+}
+/* 이번 시험에서 새로 쓸 수 있게 된 친구 — 잠깐 강조 */
+.game-ai-fair .af-friend-new {
+  border-color: hsl(var(--af-from));
+  box-shadow:
+    0 0 0 3px hsl(var(--af-from) / 0.22),
+    0 10px 22px -8px hsl(var(--af-from) / 0.5);
+  animation: af-pop-in 0.35s ease-out;
+}
+@keyframes af-pop-in {
+  0% {
+    transform: scale(0.97);
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 상태 꼬리표 */
+.game-ai-fair .af-tag-on {
+  background-color: hsl(var(--af-from) / 0.16);
+  color: hsl(138 52% 28%);
+}
+.game-ai-fair .af-tag-off {
+  background-color: hsl(28 60% 92%);
+  color: hsl(28 62% 34%);
+}
+
+/* 새로 쓸 수 있게 됨 체크 배지 — 연두 그라디언트 */
+.game-ai-fair .af-check {
+  background-image: linear-gradient(135deg, hsl(var(--af-from)), hsl(var(--af-to)));
+  box-shadow: 0 2px 6px hsl(var(--af-from) / 0.5);
+}
+
+/* ---------- 개선 슬롯 ---------- */
+.game-ai-fair .af-slot-filled {
+  border-color: hsl(var(--af-from));
+  background-color: hsl(95 66% 96%);
+}
+.game-ai-fair .af-slot-filled:hover:not(:disabled) {
+  box-shadow: 0 6px 16px -8px hsl(var(--af-from) / 0.5);
+}
+.game-ai-fair .af-slot-empty {
+  border-style: dashed;
+  border-color: hsl(var(--af-from) / 0.4);
+  background-color: hsl(95 40% 98%);
+}
+
+/* ---------- 개선 카드 트레이 ---------- */
+.game-ai-fair .af-cardbtn {
+  border-color: transparent;
+  box-shadow:
+    0 1px 2px hsl(232 32% 15% / 0.05),
+    0 6px 16px -8px hsl(232 32% 15% / 0.1);
+}
+.game-ai-fair .af-cardbtn:hover:not(:disabled):not(.af-cardbtn-on) {
   transform: translateY(-3px);
   box-shadow:
     0 2px 4px hsl(232 32% 15% / 0.06),
     0 14px 26px -10px hsl(var(--af-from) / 0.35);
 }
-
-/* 고른(정답) 카드 — 연두 링 + 틴트 */
-.game-ai-fair .af-pick-on {
-  transform: translateY(-3px) scale(1.03);
+/* 슬롯에 장착된 카드 — 연두 링 + 팝 */
+.game-ai-fair .af-cardbtn-on {
+  transform: translateY(-2px) scale(1.02);
   border-color: hsl(var(--af-from));
   background-color: hsl(95 66% 96%);
   box-shadow:
@@ -148,22 +173,16 @@
     0 10px 22px -8px hsl(var(--af-from) / 0.5);
 }
 
-/* 도감 카드 — 담긴 것 강조 */
-.game-ai-fair .af-codex-on {
-  border-color: hsl(var(--af-from));
-  background-color: hsl(95 66% 96%);
-}
-
-/* 도감에 아직 안 담긴 카드 — 흐리게 */
-.game-ai-fair .af-codex-off {
-  opacity: 0.5;
-  filter: grayscale(0.4);
+/* ---------- 6/6 달성 배너 ---------- */
+.game-ai-fair .af-solved {
+  border: 1px solid hsl(var(--af-from) / 0.5);
+  background: linear-gradient(135deg, hsl(95 72% 93%), hsl(138 64% 90%));
+  box-shadow: 0 10px 26px -10px hsl(var(--af-from) / 0.55);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .game-ai-fair .af-bot,
-  .game-ai-fair .af-wobble,
-  .game-ai-fair .af-bounce-in {
+  .game-ai-fair .af-bounce-in,
+  .game-ai-fair .af-friend-new {
     animation: none;
   }
 }
