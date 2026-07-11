@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfBarrier, AfContent, AfImprovement, AfUser } from "../types";
@@ -18,6 +18,11 @@ export default function BuildScreen({ content, game }: BuildScreenProps) {
 
   const [testing, setTesting] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
+  // 한 번이라도 '시험'에 넣어 본 카드만 '돕는 사람'을 공개한다 —
+  // 처음부터 정답을 알려 주지 않고, 넣고 시험하며 스스로 발견하게 한다.
+  const [revealedCardIds, setRevealedCardIds] = useState<Set<string>>(() => new Set());
+  // 시험 버튼을 누른 순간의 장착 카드 스냅샷 (판정 후 공개 처리에 사용)
+  const testedSnapshot = useRef<string[]>([]);
 
   const barrierById = useMemo(() => {
     const map = new Map<string, AfBarrier>();
@@ -37,6 +42,12 @@ export default function BuildScreen({ content, game }: BuildScreenProps) {
       runTest();
       setTesting(false);
       setShowReveal(true);
+      // 이번 시험에 들어가 있던 카드들의 '돕는 사람'을 이제 공개한다
+      setRevealedCardIds((prev) => {
+        const next = new Set(prev);
+        for (const id of testedSnapshot.current) next.add(id);
+        return next;
+      });
     }, 1200);
     return () => clearTimeout(timer);
   }, [testing, runTest]);
@@ -194,7 +205,11 @@ export default function BuildScreen({ content, game }: BuildScreenProps) {
         <button
           type="button"
           disabled={!canTest}
-          onClick={() => canTest && setTesting(true)}
+          onClick={() => {
+            if (!canTest) return;
+            testedSnapshot.current = game.equipped;
+            setTesting(true);
+          }}
           className={cn(
             "w-full px-6 py-3 text-sm font-bold",
             canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
@@ -289,6 +304,7 @@ export default function BuildScreen({ content, game }: BuildScreenProps) {
             const isEquipped = game.equipped.includes(imp.id);
             const locked = !isEquipped && slotsFull;
             const helps = helpedBy(imp);
+            const revealed = revealedCardIds.has(imp.id);
             return (
               <button
                 key={imp.id}
@@ -316,13 +332,19 @@ export default function BuildScreen({ content, game }: BuildScreenProps) {
                 </div>
                 <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">{imp.desc}</p>
                 <div className="mt-1.5 flex items-center gap-1 text-[10px] font-bold text-foreground/70">
-                  <span>{ui.helpsLabel}:</span>
-                  {helps.length > 0 ? (
-                    <span className="text-base leading-none" aria-hidden>
-                      {helps.map((h) => h.emoji).join(" ")}
-                    </span>
+                  {revealed ? (
+                    <>
+                      <span>{ui.helpsLabel}:</span>
+                      {helps.length > 0 ? (
+                        <span className="text-base leading-none" aria-hidden>
+                          {helps.map((h) => h.emoji).join(" ")}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground/70">{ui.helpsNoneLabel}</span>
+                      )}
+                    </>
                   ) : (
-                    <span className="text-muted-foreground/70">{ui.helpsNoneLabel}</span>
+                    <span className="text-muted-foreground/70">{ui.helpsHiddenLabel}</span>
                   )}
                 </div>
               </button>

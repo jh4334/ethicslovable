@@ -101,6 +101,8 @@ export interface AfUi {
   toInsightButton: string;
   helpsLabel: string;
   helpsNoneLabel: string;
+  /** 아직 시험해 보지 않은 카드의 '돕는 사람' 자리에 보이는 안내 */
+  helpsHiddenLabel: string;
   resultTitle: string;
   gradeLabel: string;
   inclusionLabel: string;
