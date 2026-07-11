@@ -1,0 +1,218 @@
+/*
+ * 누가 만들었게? — 게임 전용 스타일.
+ * 모든 선택자는 .game-ai-copyright 아래로 범위를 한정하고,
+ * 커스텀 클래스는 ac- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ * 테마: 보라(hue 285) — 핵심 가치 '책임'의 아이덴티티.
+ */
+
+.game-ai-copyright .ac-shell {
+  background:
+    radial-gradient(circle at 12% 0%, hsl(285 82% 93%), transparent 46%),
+    radial-gradient(circle at 100% 100%, hsl(266 80% 95%), transparent 44%),
+    hsl(285 45% 97%);
+}
+
+/* ── 보라 그라디언트 ─────────────────────────────────────────── */
+.game-ai-copyright .ac-gradient-text {
+  background-image: linear-gradient(120deg, hsl(285 78% 45%), hsl(262 82% 58%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.game-ai-copyright .ac-btn-cta {
+  background-image: linear-gradient(135deg, hsl(285 74% 50%), hsl(262 82% 58%));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 8px 20px -6px hsl(278 78% 50% / 0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.game-ai-copyright .ac-btn-cta:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px -8px hsl(278 78% 50% / 0.6);
+}
+.game-ai-copyright .ac-btn-cta:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.game-ai-copyright .ac-btn-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── 시작 화면 히어로 타일 ───────────────────────────────────── */
+.game-ai-copyright .ac-hero-tile {
+  --tile-hue: 285;
+  box-shadow:
+    inset 0 -2px 6px hsl(285 60% 80% / 0.5),
+    0 0 0 6px hsl(285 82% 58% / 0.12),
+    0 14px 30px -12px hsl(285 82% 50% / 0.5);
+}
+
+.game-ai-copyright .ac-portal {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(285 40% 90%);
+  box-shadow:
+    0 1px 2px hsl(278 40% 20% / 0.05),
+    0 8px 20px -10px hsl(278 60% 35% / 0.18);
+}
+
+/* ── 부(部) 태그 ─────────────────────────────────────────────── */
+.game-ai-copyright .ac-part-tag {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.4rem;
+  background: hsl(285 70% 94%);
+  color: hsl(285 55% 42%);
+  font-size: 10px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+/* ── 상황 카드 ───────────────────────────────────────────────── */
+.game-ai-copyright .ac-situation-card {
+  border-radius: 1rem;
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(285 40% 90%);
+  box-shadow:
+    0 1px 2px hsl(278 40% 20% / 0.05),
+    0 8px 20px -12px hsl(278 55% 35% / 0.2);
+}
+.game-ai-copyright .ac-situation-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 0.8rem;
+  background: linear-gradient(145deg, hsl(285 88% 96%), hsl(285 82% 91%));
+  box-shadow: inset 0 -2px 5px hsl(285 60% 80% / 0.5);
+}
+.game-ai-copyright .ac-chip-soft {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.5rem;
+  border-radius: 9999px;
+  background: hsl(285 55% 95%);
+  color: hsl(285 50% 42%);
+}
+
+/* ── 선택지 카드 ─────────────────────────────────────────────── */
+.game-ai-copyright .ac-choice {
+  border: 1.5px solid hsl(285 35% 88%);
+  background: hsl(0 0% 100%);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.game-ai-copyright .ac-choice-active {
+  cursor: pointer;
+}
+.game-ai-copyright .ac-choice-active:hover {
+  border-color: hsl(285 75% 62%);
+  box-shadow: 0 4px 14px -8px hsl(285 70% 50% / 0.4);
+}
+.game-ai-copyright .ac-choice-correct {
+  border-color: hsl(var(--success));
+  background: hsl(152 62% 97%);
+  box-shadow: 0 0 0 2px hsl(152 62% 40% / 0.2);
+}
+.game-ai-copyright .ac-choice-wrong {
+  border-color: hsl(var(--destructive));
+  background: hsl(0 78% 98%);
+  box-shadow: 0 0 0 2px hsl(0 80% 58% / 0.18);
+}
+
+/* 판단 배지 — ok/no/disclose 색 구분 */
+.game-ai-copyright .ac-verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.game-ai-copyright .ac-verdict-ok {
+  background: hsl(152 55% 92%);
+  color: hsl(155 60% 26%);
+}
+.game-ai-copyright .ac-verdict-no {
+  background: hsl(0 80% 95%);
+  color: hsl(0 65% 42%);
+}
+.game-ai-copyright .ac-verdict-disclose {
+  background: hsl(38 92% 90%);
+  color: hsl(30 78% 38%);
+}
+
+/* 2부 선택지 번호 배지 */
+.game-ai-copyright .ac-choice-num {
+  background: hsl(285 70% 94%);
+  color: hsl(285 55% 42%);
+}
+
+/* ── 판정 배너 ───────────────────────────────────────────────── */
+.game-ai-copyright .ac-banner-correct {
+  background: hsl(152 62% 95%);
+  border: 1px solid hsl(152 50% 78%);
+}
+.game-ai-copyright .ac-banner-wrong {
+  background: hsl(0 78% 97%);
+  border: 1px solid hsl(0 65% 88%);
+}
+
+/* ── 책임 원칙 카드 ──────────────────────────────────────────── */
+.game-ai-copyright .ac-principle-card {
+  background: linear-gradient(180deg, hsl(285 88% 97%), hsl(285 80% 93%));
+  border: 1.5px solid hsl(285 60% 82%);
+  box-shadow: 0 6px 14px -8px hsl(285 70% 45% / 0.35);
+}
+.game-ai-copyright .ac-principle-card-missed {
+  background: hsl(220 20% 96%);
+  border: 1.5px dashed hsl(220 15% 80%);
+}
+
+/* ── 결과 화면 ───────────────────────────────────────────────── */
+.game-ai-copyright .ac-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  padding: 5px;
+  border-radius: 9999px;
+  background-image: linear-gradient(135deg, hsl(285 74% 50%), hsl(262 82% 58%));
+  box-shadow: 0 10px 24px -8px hsl(278 78% 50% / 0.5);
+}
+.game-ai-copyright .ac-emblem > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: hsl(0 0% 100%);
+  font-size: 2.5rem;
+}
+
+/* 원칙 도감 칸 */
+.game-ai-copyright .ac-book-slot {
+  border: 1px solid hsl(285 55% 85%);
+  background: linear-gradient(180deg, hsl(285 88% 98%), hsl(285 78% 94%));
+  border-radius: 0.8rem;
+}
+.game-ai-copyright .ac-book-slot-locked {
+  border: 1px dashed hsl(220 15% 82%);
+  background: hsl(220 20% 96.5%);
+  color: hsl(220 10% 55%);
+}
+.game-ai-copyright .ac-book-slot-locked .ac-book-emoji {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+/* AI 창작 3약속 카드 */
+.game-ai-copyright .ac-promise-card {
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(285 40% 90%);
+  border-radius: 0.9rem;
+  box-shadow: 0 1px 2px hsl(278 40% 20% / 0.04), 0 5px 12px -8px hsl(278 50% 30% / 0.12);
+}
