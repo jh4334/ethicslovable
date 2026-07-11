@@ -6,7 +6,7 @@ import { getProgress, resetProgress, completedCount, GAME_IDS } from "@/lib/prog
 import { cn } from "@/lib/utils";
 
 /** 차시별 포인트 색상(hue) — 이모지 타일·차시 배지에 사용 */
-const LESSON_HUES = [252, 199, 320, 262, 152, 33, 217, 174, 340, 45, 210, 130];
+const LESSON_HUES = [252, 199, 320, 262, 152, 33, 217, 174, 340, 45, 210, 130, 200, 95, 285, 20];
 
 export default function PortalPage() {
   const [progress, setProgress] = useState(getProgress);
@@ -38,7 +38,7 @@ export default function PortalPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed opacity-95 sm:text-base">
             인터넷 세상 '누리마을'의 IT 회사 <b>누리소프트</b>에 새내기 알고리즘
-            요원으로 입사했어요. 12개의 퀘스트를 차례대로 깨면서 추천 알고리즘과
+            요원으로 입사했어요. 16개의 퀘스트를 차례대로 깨면서 추천 알고리즘과
             인공지능의 비밀을 파헤쳐 보세요. 설치도, 로그인도 필요 없어요!
           </p>
         </div>

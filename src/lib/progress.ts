@@ -16,7 +16,11 @@ export type GameId =
   | "short-form"
   | "gacha-box"
   | "search-detective"
-  | "chat-guard";
+  | "chat-guard"
+  | "ai-privacy"
+  | "ai-fair"
+  | "ai-copyright"
+  | "ai-grow";
 
 export const GAME_IDS: GameId[] = [
   "feed-algorithm",
@@ -31,6 +35,10 @@ export const GAME_IDS: GameId[] = [
   "gacha-box",
   "search-detective",
   "chat-guard",
+  "ai-privacy",
+  "ai-fair",
+  "ai-copyright",
+  "ai-grow",
 ];
 
 export interface GameRecord {

@@ -17,6 +17,10 @@ const ShortFormGame = lazy(() => import("./games/short-form"));
 const GachaBoxGame = lazy(() => import("./games/gacha-box"));
 const SearchDetectiveGame = lazy(() => import("./games/search-detective"));
 const ChatGuardGame = lazy(() => import("./games/chat-guard"));
+const AiPrivacyGame = lazy(() => import("./games/ai-privacy"));
+const AiFairGame = lazy(() => import("./games/ai-fair"));
+const AiCopyrightGame = lazy(() => import("./games/ai-copyright"));
+const AiGrowGame = lazy(() => import("./games/ai-grow"));
 
 function Loading() {
   return (
@@ -46,6 +50,10 @@ export default function App() {
           <Route path="/games/gacha-box" element={<GachaBoxGame />} />
           <Route path="/games/search-detective" element={<SearchDetectiveGame />} />
           <Route path="/games/chat-guard" element={<ChatGuardGame />} />
+          <Route path="/games/ai-privacy" element={<AiPrivacyGame />} />
+          <Route path="/games/ai-fair" element={<AiFairGame />} />
+          <Route path="/games/ai-copyright" element={<AiCopyrightGame />} />
+          <Route path="/games/ai-grow" element={<AiGrowGame />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
