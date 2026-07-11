@@ -9,7 +9,7 @@ export interface GameMeta {
   /** 차시 (1~8) */
   lesson: number;
   /** 챕터: 1부(추천 알고리즘) / 2부(AI 알고리즘) / 3부(디지털 생활) */
-  chapter: 1 | 2 | 3;
+  chapter: 1 | 2 | 3 | 4;
   title: string;
   subtitle: string;
   /** 학습 목표 한 줄 (교사·학생용 안내) */
@@ -21,7 +21,7 @@ export interface GameMeta {
 }
 
 export interface ChapterMeta {
-  chapter: 1 | 2 | 3;
+  chapter: 1 | 2 | 3 | 4;
   title: string;
   tagline: string;
 }
@@ -41,6 +41,11 @@ export const CHAPTERS: ChapterMeta[] = [
     chapter: 3,
     title: "3부 · 슬기로운 누리 생활",
     tagline: "누리마을 지킴이가 되어 매일 쓰는 앱 속 설계를 꿰뚫어 봐요",
+  },
+  {
+    chapter: 4,
+    title: "4부 · AI와 바르게 쓰기",
+    tagline: "충북형 AI 윤리 가이드라인으로 배우는, AI를 대하는 나의 태도",
   },
 ];
 
@@ -176,5 +181,49 @@ export const GAMES: GameMeta[] = [
     minutes: 15,
     emoji: "💬",
     path: "/games/chat-guard",
+  },
+  {
+    id: "ai-privacy",
+    lesson: 13,
+    chapter: 4,
+    title: "누리봇에게 말해도 될까?",
+    subtitle: "AI와 개인정보 (안전)",
+    goal: "생성형 AI에게 말해도 되는 것과 안 되는 것을 가려요",
+    minutes: 15,
+    emoji: "🔒",
+    path: "/games/ai-privacy",
+  },
+  {
+    id: "ai-fair",
+    lesson: 14,
+    chapter: 4,
+    title: "모두의 AI",
+    subtitle: "AI와 공정·포용 (공정)",
+    goal: "AI가 모두를 똑같이 잘 돕는지 살피고 공정을 생각해요",
+    minutes: 15,
+    emoji: "⚖️",
+    path: "/games/ai-fair",
+  },
+  {
+    id: "ai-copyright",
+    lesson: 15,
+    chapter: 4,
+    title: "누가 만들었게?",
+    subtitle: "AI와 저작권 (책임)",
+    goal: "AI로 만든 것을 쓸 때 지킬 책임과 저작권을 배워요",
+    minutes: 15,
+    emoji: "📝",
+    path: "/games/ai-copyright",
+  },
+  {
+    id: "ai-grow",
+    lesson: 16,
+    chapter: 4,
+    title: "AI와 함께 크는 나",
+    subtitle: "AI로 성장하기 (성장)",
+    goal: "AI를 베끼기가 아니라 배움의 도구로 주도적으로 써요",
+    minutes: 15,
+    emoji: "🌱",
+    path: "/games/ai-grow",
   },
 ];
