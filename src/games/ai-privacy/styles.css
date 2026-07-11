@@ -1,0 +1,410 @@
+/*
+ * 누리봇에게 말해도 될까? — 게임 전용 스타일.
+ * 모든 선택자는 .game-ai-privacy 아래로 범위를 한정하고,
+ * 커스텀 클래스는 ap- 접두사를 쓴다. (다른 게임과 충돌 방지)
+ * 테마: 파랑(hue 200) — '안전'을 상징하는 신뢰의 파란색.
+ */
+
+.game-ai-privacy .ap-shell {
+  background:
+    radial-gradient(circle at 12% 0%, hsl(200 70% 90%), transparent 46%),
+    radial-gradient(circle at 100% 100%, hsl(214 65% 92%), transparent 45%),
+    hsl(205 55% 96%);
+}
+
+/* ── 파랑 그라디언트 (ap- 변형) ──────────────────────────────── */
+.game-ai-privacy .ap-gradient-text {
+  background-image: linear-gradient(120deg, hsl(208 80% 42%), hsl(196 78% 40%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.game-ai-privacy .ap-btn-cta {
+  background-image: linear-gradient(135deg, hsl(208 78% 48%), hsl(196 75% 42%));
+  color: hsl(0 0% 100%);
+  box-shadow: 0 8px 20px -6px hsl(206 70% 40% / 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.game-ai-privacy .ap-btn-cta:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px -8px hsl(206 70% 40% / 0.55);
+}
+.game-ai-privacy .ap-btn-cta:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.game-ai-privacy .ap-btn-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 시작 화면 히어로 타일 */
+.game-ai-privacy .ap-hero-tile {
+  --tile-hue: 200;
+  box-shadow:
+    inset 0 -2px 6px hsl(200 60% 78% / 0.5),
+    0 0 0 6px hsl(206 80% 50% / 0.12),
+    0 14px 30px -12px hsl(206 70% 42% / 0.45);
+}
+
+.game-ai-privacy .ap-chip-blue {
+  background: hsl(205 75% 92%);
+  color: hsl(208 70% 34%);
+  border: 1px solid hsl(205 55% 80%);
+}
+
+/* ── 폰(챗봇) 프레임 ────────────────────────────────────────── */
+.game-ai-privacy .ap-phone {
+  background: hsl(205 30% 93%);
+  border: 1px solid hsl(205 28% 84%);
+  border-radius: 1.4rem;
+  box-shadow:
+    0 2px 4px hsl(206 30% 20% / 0.06),
+    0 22px 44px -16px hsl(206 40% 25% / 0.28);
+}
+
+/* 상단 누리봇 헤더 바 */
+.game-ai-privacy .ap-bot-header {
+  background: hsl(205 34% 97% / 0.96);
+  border-bottom: 1px solid hsl(205 26% 86%);
+  backdrop-filter: blur(6px);
+}
+
+/* 누리봇 아바타 (그라디언트 링) */
+.game-ai-privacy .ap-bot-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  flex-shrink: 0;
+  border-radius: 40%;
+  font-size: 1.15rem;
+  background: linear-gradient(145deg, hsl(200 90% 92%), hsl(210 80% 84%));
+  border: 1px solid hsl(205 40% 78%);
+  box-shadow: inset 0 -2px 4px hsl(206 45% 72% / 0.4);
+}
+
+/* 채팅 영역 배경 */
+.game-ai-privacy .ap-feed {
+  background:
+    radial-gradient(circle at 80% 6%, hsl(200 55% 92% / 0.7), transparent 42%),
+    hsl(205 32% 91%);
+}
+
+/* ── 친구 아바타 ────────────────────────────────────────────── */
+.game-ai-privacy .ap-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 42%;
+  font-size: 1rem;
+  background: linear-gradient(145deg, hsl(0 0% 100%), hsl(205 40% 93%));
+  border: 1px solid hsl(205 30% 83%);
+  box-shadow: inset 0 -2px 4px hsl(205 40% 76% / 0.35);
+}
+
+/* ── 말풍선 ────────────────────────────────────────────────── */
+.game-ai-privacy .ap-msg {
+  animation: ap-msg-in 0.28s ease-out;
+}
+@keyframes ap-msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 작성 중(아직 안 보낸) 초안 말풍선 — 점선 테두리로 '대기중' 표현 */
+.game-ai-privacy .ap-draft {
+  background: hsl(0 0% 100%);
+  border: 1.5px dashed hsl(205 45% 68%);
+  border-radius: 1rem;
+  border-top-right-radius: 5px;
+  box-shadow: 0 1px 2px hsl(206 30% 20% / 0.06);
+}
+
+/* 사진 초안 — 이모지 콜라주 카드 */
+.game-ai-privacy .ap-photo {
+  background: linear-gradient(160deg, hsl(200 50% 92%), hsl(214 45% 92%));
+  border: 1px dashed hsl(205 45% 68%);
+  border-radius: 0.9rem;
+  overflow: hidden;
+}
+.game-ai-privacy .ap-photo-frame {
+  font-size: 1.9rem;
+  letter-spacing: 0.12em;
+  padding: 0.9rem 1.1rem;
+  text-align: center;
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.55), transparent 55%),
+    repeating-linear-gradient(45deg, hsl(205 35% 88% / 0.5) 0 8px, transparent 8px 16px);
+}
+
+/* 개인정보 강조 표시 */
+.game-ai-privacy .ap-mark {
+  background: hsl(0 82% 92%);
+  color: hsl(0 70% 40%);
+  border-bottom: 2px solid hsl(0 72% 62%);
+  border-radius: 3px;
+  padding: 0 2px;
+  font-weight: 800;
+}
+
+/* ── 판단 버튼 (보내기 OK / 멈춰) ──────────────────────────── */
+.game-ai-privacy .ap-judge-panel {
+  background: hsl(0 0% 100%);
+  border-top: 1px solid hsl(205 26% 86%);
+  box-shadow: 0 -8px 20px -12px hsl(206 40% 25% / 0.3);
+  animation: ap-panel-in 0.3s ease-out;
+}
+@keyframes ap-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-ai-privacy .ap-judge-btn {
+  transition: transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.game-ai-privacy .ap-judge-btn:active {
+  transform: scale(0.97);
+}
+.game-ai-privacy .ap-judge-send {
+  background: linear-gradient(135deg, hsl(150 60% 42%), hsl(165 58% 38%));
+  color: white;
+  box-shadow: 0 6px 16px -6px hsl(150 55% 35% / 0.5);
+}
+.game-ai-privacy .ap-judge-send:hover {
+  filter: brightness(1.05);
+}
+.game-ai-privacy .ap-judge-stop {
+  background: linear-gradient(135deg, hsl(2 78% 56%), hsl(12 78% 52%));
+  color: white;
+  box-shadow: 0 6px 16px -6px hsl(4 70% 45% / 0.5);
+}
+.game-ai-privacy .ap-judge-stop:hover {
+  filter: brightness(1.05);
+}
+
+/* ── 판정 해설 카드 ───────────────────────────────────────── */
+.game-ai-privacy .ap-verdict {
+  animation: ap-msg-in 0.32s ease-out;
+}
+.game-ai-privacy .ap-verdict-ok {
+  background: hsl(150 55% 95%);
+  border: 1.5px solid hsl(150 45% 68%);
+}
+.game-ai-privacy .ap-verdict-bad {
+  background: hsl(0 80% 96.5%);
+  border: 1.5px solid hsl(0 62% 76%);
+}
+
+/* 도감 수집 배지 */
+.game-ai-privacy .ap-collect-badge {
+  background: linear-gradient(135deg, hsl(208 72% 48%), hsl(196 70% 42%));
+  color: white;
+  box-shadow: 0 6px 14px -5px hsl(206 65% 40% / 0.55);
+  animation: ap-badge-pop 0.45s ease-out;
+}
+@keyframes ap-badge-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-8deg);
+  }
+  70% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ── 하단 입력바 (장식) ────────────────────────────────────── */
+.game-ai-privacy .ap-inputbar {
+  background: hsl(0 0% 100%);
+  border-top: 1px solid hsl(205 26% 88%);
+}
+.game-ai-privacy .ap-input-fake {
+  background: hsl(205 30% 95%);
+  border: 1px solid hsl(205 26% 88%);
+  color: hsl(206 12% 55%);
+}
+.game-ai-privacy .ap-send-btn {
+  background: hsl(208 72% 48%);
+  color: white;
+}
+
+/* ── 진행 표시(문항 점) ────────────────────────────────────── */
+.game-ai-privacy .ap-dot {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.game-ai-privacy .ap-dot-current {
+  animation: ap-dot-pulse 1.6s ease-in-out infinite;
+}
+@keyframes ap-dot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+.game-ai-privacy .ap-score-chip {
+  background: hsl(0 0% 100% / 0.85);
+  border: 1px solid hsl(205 34% 80%);
+  color: hsl(208 65% 34%);
+}
+
+/* ── 2부 상황 카드 ────────────────────────────────────────── */
+.game-ai-privacy .ap-situation {
+  background: linear-gradient(160deg, hsl(205 60% 97%), hsl(214 50% 95%));
+  border: 1.5px solid hsl(205 40% 82%);
+  border-radius: 1.1rem;
+}
+
+.game-ai-privacy .ap-choice-btn {
+  background: hsl(205 40% 98%);
+  border: 1.5px solid hsl(205 28% 86%);
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    transform 0.1s ease, box-shadow 0.15s ease;
+}
+.game-ai-privacy .ap-choice-btn:hover:not(:disabled) {
+  border-color: hsl(208 65% 52%);
+  background: hsl(205 60% 96%);
+  box-shadow: 0 4px 12px -6px hsl(206 60% 42% / 0.35);
+}
+.game-ai-privacy .ap-choice-btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+.game-ai-privacy .ap-choice-btn:disabled {
+  cursor: default;
+}
+.game-ai-privacy .ap-choice-good {
+  background: hsl(150 55% 95%);
+  border-color: hsl(150 50% 55%);
+}
+.game-ai-privacy .ap-choice-bad {
+  background: hsl(0 80% 96.5%);
+  border-color: hsl(0 60% 74%);
+}
+.game-ai-privacy .ap-choice-dim {
+  opacity: 0.55;
+}
+
+/* ── 결과 화면 ─────────────────────────────────────────────── */
+.game-ai-privacy .ap-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.75rem;
+  height: 5.75rem;
+  padding: 5px;
+  border-radius: 9999px;
+  background-image: linear-gradient(135deg, hsl(208 74% 50%), hsl(196 70% 42%));
+  box-shadow: 0 10px 24px -8px hsl(206 65% 40% / 0.5);
+}
+.game-ai-privacy .ap-emblem > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: hsl(0 0% 100%);
+  font-size: 2.5rem;
+}
+
+/* 안전 점수 미터 */
+.game-ai-privacy .ap-meter {
+  height: 0.85rem;
+  border-radius: 9999px;
+  background: hsl(205 30% 88%);
+  overflow: hidden;
+}
+.game-ai-privacy .ap-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, hsl(196 72% 46%), hsl(150 60% 44%));
+  transition: width 0.6s ease-out;
+}
+
+/* 도감 타일 */
+.game-ai-privacy .ap-dex-tile {
+  background: hsl(205 30% 97%);
+  border: 1.5px solid hsl(205 26% 87%);
+  border-radius: 0.9rem;
+  transition: transform 0.15s ease;
+}
+.game-ai-privacy .ap-dex-tile[data-got="true"] {
+  background: linear-gradient(160deg, hsl(200 65% 95%), hsl(210 55% 93%));
+  border-color: hsl(206 60% 60%);
+  box-shadow: 0 4px 12px -6px hsl(206 60% 42% / 0.4);
+}
+.game-ai-privacy .ap-dex-tile[data-got="false"] {
+  opacity: 0.55;
+  filter: grayscale(0.5);
+}
+
+/* 정리 카드 (말해도 돼요 / 안 돼요) */
+.game-ai-privacy .ap-compare-ok {
+  background: hsl(150 50% 96%);
+  border: 1.5px solid hsl(150 45% 72%);
+  border-radius: 1rem;
+}
+.game-ai-privacy .ap-compare-no {
+  background: hsl(0 75% 97%);
+  border: 1.5px solid hsl(0 60% 80%);
+  border-radius: 1rem;
+}
+
+/* 안전 수칙 카드 */
+.game-ai-privacy .ap-rule-card {
+  background: linear-gradient(160deg, hsl(205 55% 97%), hsl(196 45% 95%));
+  border: 2px solid transparent;
+  border-radius: 1.2rem;
+  position: relative;
+  box-shadow: 0 14px 30px -14px hsl(206 55% 35% / 0.35);
+}
+.game-ai-privacy .ap-rule-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, hsl(208 72% 50%), hsl(196 68% 44%), hsl(208 72% 50%));
+}
+.game-ai-privacy .ap-rule-num {
+  background-image: linear-gradient(135deg, hsl(208 72% 48%), hsl(196 68% 42%));
+  color: white;
+}
+
+/* 저사양·모션 최소화 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .game-ai-privacy .ap-msg,
+  .game-ai-privacy .ap-verdict,
+  .game-ai-privacy .ap-judge-panel,
+  .game-ai-privacy .ap-collect-badge,
+  .game-ai-privacy .ap-dot-current,
+  .game-ai-privacy .ap-meter > span {
+    animation: none;
+    transition: none;
+  }
+}
