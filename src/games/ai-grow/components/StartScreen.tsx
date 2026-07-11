@@ -1,4 +1,4 @@
-import { Sprout, Sparkles } from "lucide-react";
+import { Sparkles, Sprout } from "lucide-react";
 import type { AgContent } from "../types";
 
 interface StartScreenProps {
@@ -6,9 +6,9 @@ interface StartScreenProps {
   onStart: () => void;
 }
 
-/** 시작 화면 — 마지막 퀘스트 안내 + 성장 여정 시작 */
+/** 시작 화면 — 마지막 퀘스트 안내 + 성장 미션 시작 */
 export default function StartScreen({ content, onStart }: StartScreenProps) {
-  const { intro, situations } = content;
+  const { intro, missions, labels } = content;
 
   return (
     <div className="ag-shell flex min-h-[calc(100vh-3rem)] items-center justify-center px-4 py-10">
@@ -26,20 +26,27 @@ export default function StartScreen({ content, onStart }: StartScreenProps) {
           {intro.story}
         </p>
 
-        {/* 오늘 만날 학습 상황 미리보기 */}
+        {/* 오늘 해결할 미션 미리보기 */}
         <div className="mb-5 rounded-2xl border border-border bg-secondary/40 p-4">
-          <p className="mb-2 text-xs font-extrabold text-secondary-foreground">
-            누리봇과 함께 겪을 {situations.length}가지 학습 상황
+          <p className="mb-3 text-xs font-extrabold text-secondary-foreground">
+            누리봇과 함께 해결할 {missions.length}가지 미션
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-2 text-2xl">
-            {situations.map((s) => (
-              <span
-                key={s.id}
-                className="ag-preview-tile inline-flex h-10 w-10 items-center justify-center rounded-xl"
-                aria-hidden
+          <div className="flex flex-col gap-2">
+            {missions.map((m) => (
+              <div
+                key={m.id}
+                className="ag-preview-tile flex items-center gap-3 rounded-xl px-3 py-2 text-left"
               >
-                {s.emoji}
-              </span>
+                <span className="text-2xl" aria-hidden>
+                  {m.emoji}
+                </span>
+                <span>
+                  <span className="ag-chip-field mr-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-black">
+                    {m.field}
+                  </span>
+                  <span className="text-sm font-bold">{m.title}</span>
+                </span>
+              </div>
             ))}
           </div>
         </div>
@@ -62,6 +69,8 @@ export default function StartScreen({ content, onStart }: StartScreenProps) {
           <Sparkles className="h-5 w-5" />
           {intro.startLabel}
         </button>
+
+        <p className="mt-4 text-[11px] text-muted-foreground">{labels.stepHint}</p>
       </div>
     </div>
   );

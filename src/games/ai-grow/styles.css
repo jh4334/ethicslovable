@@ -59,74 +59,183 @@
   border: 1px solid hsl(32 70% 84%);
 }
 
-/* ── 1부 상황 화면 ─────────────────────────────────────────── */
-.game-ai-grow .ag-seed-count {
-  background: hsl(120 45% 92%);
-  color: hsl(140 55% 30%);
-  border: 1px solid hsl(125 45% 78%);
+/* 분야 배지 (시작 미리보기·미션 헤더 공용) */
+.game-ai-grow .ag-chip-field {
+  background: hsl(24 88% 52%);
+  color: hsl(0 0% 100%);
 }
 
-.game-ai-grow .ag-progress {
-  background-image: linear-gradient(90deg, hsl(24 90% 54%), hsl(42 92% 52%));
+/* ── 미션 단계 표시(4단계 트래커) ─────────────────────────── */
+.game-ai-grow .ag-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.game-ai-grow .ag-step {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 9999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  white-space: nowrap;
+  background: hsl(32 40% 92%);
+  color: hsl(28 25% 55%);
+  border: 1px solid transparent;
+}
+.game-ai-grow .ag-step-current {
+  background: hsl(32 90% 92%);
+  color: hsl(22 85% 40%);
+  border-color: hsl(30 82% 72%);
+  box-shadow: 0 4px 12px -6px hsl(28 85% 45% / 0.5);
+}
+.game-ai-grow .ag-step-done {
+  background: hsl(140 50% 93%);
+  color: hsl(142 55% 32%);
+}
+.game-ai-grow .ag-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 9999px;
+  background: hsl(0 0% 100% / 0.7);
+  font-size: 0.62rem;
 }
 
-.game-ai-grow .ag-sit-emoji {
+/* 미션 헤더 이모지 */
+.game-ai-grow .ag-mission-emoji {
   background: hsl(32 85% 93%);
   border: 1px solid hsl(32 70% 82%);
 }
 
-/* 선택 버튼 */
-.game-ai-grow .ag-choice-dot {
-  background: hsl(30 60% 92%);
-  color: hsl(24 70% 40%);
-}
-.game-ai-grow .ag-choice-growth {
-  border-color: hsl(140 55% 45%);
-  background: hsl(130 55% 95%);
-}
-.game-ai-grow .ag-choice-growth .ag-choice-dot {
-  background: hsl(140 55% 42%);
-  color: hsl(0 0% 100%);
-}
-.game-ai-grow .ag-choice-nongrowth {
-  border-color: hsl(28 80% 58%);
-  background: hsl(32 85% 95%);
-}
-.game-ai-grow .ag-choice-nongrowth .ag-choice-dot {
-  background: hsl(28 80% 52%);
-  color: hsl(0 0% 100%);
+/* 누리봇 아바타 */
+.game-ai-grow .ag-bot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 35%, hsl(200 90% 92%), hsl(210 80% 84%));
+  border: 1px solid hsl(208 70% 78%);
 }
 
-/* 판정 카드 */
-.game-ai-grow .ag-verdict-growth {
-  border-color: hsl(140 45% 72%);
-  background: hsl(130 50% 96%);
+/* ── ① 배우기: 지식 카드 ──────────────────────────────────── */
+.game-ai-grow .ag-learn-card {
+  border-radius: 1.25rem;
+  background: hsl(0 0% 100%);
+  border: 1px solid hsl(32 60% 84%);
+  box-shadow: 0 16px 40px -20px hsl(28 60% 40% / 0.35);
 }
-.game-ai-grow .ag-verdict-nongrowth {
-  border-color: hsl(32 75% 76%);
+.game-ai-grow .ag-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  font-size: 1.6rem;
+  background: hsl(45 90% 92%);
+  border: 1px solid hsl(40 80% 78%);
+}
+
+/* 선택형 버튼 공용(퀴즈·질문·발전) */
+.game-ai-grow .ag-opt {
+  width: 100%;
+  text-align: left;
+  border-radius: 1rem;
+  border: 1.5px solid hsl(32 45% 84%);
+  background: hsl(0 0% 100%);
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.game-ai-grow .ag-opt:hover:not(:disabled) {
+  border-color: hsl(28 80% 60%);
+  background: hsl(32 90% 97%);
+  transform: translateY(-1px);
+}
+.game-ai-grow .ag-opt:disabled {
+  cursor: not-allowed;
+}
+.game-ai-grow .ag-opt-locked {
+  opacity: 0.6;
+  background: hsl(32 20% 95%);
+  border-style: dashed;
+  border-color: hsl(32 25% 80%);
+}
+.game-ai-grow .ag-opt-picked {
+  border-color: hsl(24 88% 54%);
+  background: hsl(32 92% 96%);
+}
+.game-ai-grow .ag-opt-correct {
+  border-color: hsl(142 55% 45%);
+  background: hsl(135 55% 95%);
+}
+.game-ai-grow .ag-opt-wrong {
+  border-color: hsl(0 70% 62%);
+  background: hsl(0 75% 97%);
+}
+
+/* 태그 */
+.game-ai-grow .ag-tag-good {
+  background: hsl(140 50% 92%);
+  color: hsl(142 55% 30%);
+}
+.game-ai-grow .ag-tag-vague {
+  background: hsl(38 85% 90%);
+  color: hsl(28 70% 38%);
+}
+.game-ai-grow .ag-tag-lock {
+  background: hsl(32 20% 90%);
+  color: hsl(28 20% 45%);
+}
+
+/* ── ③ AI 답 검토 ─────────────────────────────────────────── */
+.game-ai-grow .ag-answer {
+  border-radius: 1.1rem;
+  background: hsl(206 60% 97%);
+  border: 1px solid hsl(206 55% 86%);
+}
+.game-ai-grow .ag-sentence {
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.7rem;
+  transition: background 0.12s ease, box-shadow 0.12s ease;
+}
+.game-ai-grow .ag-sentence-live {
+  cursor: pointer;
+}
+.game-ai-grow .ag-sentence-live:hover {
+  background: hsl(45 95% 88%);
+  box-shadow: inset 0 0 0 1.5px hsl(40 85% 60%);
+}
+.game-ai-grow .ag-sentence-error {
+  background: hsl(0 80% 94%);
+  box-shadow: inset 0 0 0 1.5px hsl(0 72% 62%);
+}
+.game-ai-grow .ag-verdict-good {
+  border: 1px solid hsl(140 45% 72%);
+  background: hsl(135 50% 96%);
+}
+.game-ai-grow .ag-verdict-bad {
+  border: 1px solid hsl(28 75% 76%);
   background: hsl(34 85% 96%);
 }
 
-/* ── 2부 분류 활동 ─────────────────────────────────────────── */
-.game-ai-grow .ag-sort-card {
-  background: hsl(0 0% 100%);
-  border: 2px dashed hsl(32 70% 72%);
-  box-shadow: 0 10px 26px -14px hsl(28 70% 40% / 0.35);
+/* ── 미션 결과: 게이지 ────────────────────────────────────── */
+.game-ai-grow .ag-gauge {
+  height: 0.6rem;
+  border-radius: 9999px;
+  background: hsl(32 40% 90%);
+  overflow: hidden;
 }
-
-.game-ai-grow .ag-bucket {
-  color: hsl(24 40% 30%);
+.game-ai-grow .ag-gauge-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-image: linear-gradient(90deg, hsl(24 90% 54%), hsl(42 92% 52%));
+  transition: width 0.5s ease;
 }
-.game-ai-grow .ag-bucket-answer {
-  border-color: hsl(140 55% 45%);
-  background: hsl(130 55% 95%);
-  color: hsl(140 55% 28%);
-}
-
-.game-ai-grow .ag-summary {
-  background: hsl(45 90% 93%);
-  border: 1px solid hsl(40 80% 76%);
-  color: hsl(28 55% 30%);
+.game-ai-grow .ag-gauge-fill-green {
+  background-image: linear-gradient(90deg, hsl(142 55% 45%), hsl(155 60% 46%));
 }
 
 /* ── 결과 화면 ─────────────────────────────────────────────── */
@@ -144,6 +253,15 @@
     0 16px 34px -14px hsl(28 85% 45% / 0.5);
 }
 
+.game-ai-grow .ag-recall-can {
+  border: 1px solid hsl(140 45% 74%);
+  background: hsl(135 50% 96%);
+}
+.game-ai-grow .ag-recall-cannot {
+  border: 1px dashed hsl(28 40% 72%);
+  background: hsl(30 30% 96%);
+}
+
 .game-ai-grow .ag-promise-card {
   border-radius: 1.25rem;
   background: hsl(0 0% 100%);
@@ -158,7 +276,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .game-ai-grow .ag-btn-cta {
+  .game-ai-grow .ag-btn-cta,
+  .game-ai-grow .ag-opt,
+  .game-ai-grow .ag-gauge-fill {
     transition: none;
   }
 }
