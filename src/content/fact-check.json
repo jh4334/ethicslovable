@@ -195,6 +195,7 @@
     "retryButton": "다시 검증하기",
     "homeButton": "퀘스트 지도로",
     "resultTitle": "검증 결과",
-    "correctCountLabel": "정확히 검증한 라운드"
+    "correctCountLabel": "정확히 검증한 라운드",
+    "worksheetNote": "정확히 검증한 라운드와 검증 요원 등급을 학습지 검증 결과지에 옮겨 적어 보세요."
   }
 }

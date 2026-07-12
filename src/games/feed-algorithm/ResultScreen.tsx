@@ -69,6 +69,11 @@ const ResultScreen = ({ content, ending, day, stats, log, onContinue }: ResultSc
         </div>
       </div>
 
+      {/* 학습지 연계 안내 */}
+      <p className="fa-dim mb-6 w-full max-w-sm text-[11px] leading-relaxed break-keep">
+        📄 {content.result.worksheetNote}
+      </p>
+
       <motion.button
         onClick={onContinue}
         className="fa-btn fa-btn-primary w-full max-w-xs py-4"

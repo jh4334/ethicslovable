@@ -6,7 +6,7 @@
  * 확률 구현: 단순 누적 분포. Math.random()은 draw() 안에서만 호출되고,
  * draw()는 반드시 클릭 이벤트 핸들러에서만 불린다. (StrictMode-safe)
  */
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import type { GbContent, GbPhase, GbRarity, PullRecord } from "./types";
 
 export interface GachaGame {
@@ -76,8 +76,14 @@ export function useGachaGame(content: GbContent): GachaGame {
 
   const start = useCallback(() => setPhase("shop"), []);
 
+  // 연속 클릭 버스트(오토클리커) 방어 — state는 같은 프레임에서 stale할 수
+  // 있으므로, 동기적으로 갱신되는 ref로 뽑기 횟수를 이중 가드한다.
+  const drawCountRef = useRef(0);
+
   const draw = useCallback((): PullRecord | null => {
     if (coins < gachaPrice) return null;
+    if (drawCountRef.current >= maxPulls) return null;
+    drawCountRef.current += 1;
     const rarity = rollRarity(content.rarities, Math.random());
     const item = rarity.pool[Math.floor(Math.random() * rarity.pool.length)];
     // 아쉬움 연출: 희귀 등급일 때 50% 확률로 붙는다. 결과는 불변 — 연출만.
@@ -91,7 +97,7 @@ export function useGachaGame(content: GbContent): GachaGame {
     setCoins((c) => c - gachaPrice);
     setPulls((prev) => [...prev, record]);
     return record;
-  }, [coins, gachaPrice, content.rarities, pulls.length]);
+  }, [coins, gachaPrice, maxPulls, content.rarities, pulls.length]);
 
   const stopShopping = useCallback(() => setPhase("reveal"), []);
 
@@ -114,6 +120,7 @@ export function useGachaGame(content: GbContent): GachaGame {
   const goResult = useCallback(() => setPhase("result"), []);
 
   const restart = useCallback(() => {
+    drawCountRef.current = 0;
     setPhase("intro");
     setCoins(content.shop.coins);
     setPulls([]);

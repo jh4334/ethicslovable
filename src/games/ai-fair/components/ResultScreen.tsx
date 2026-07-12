@@ -24,7 +24,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
     savedRef.current = true;
     markCompleted(
       "ai-fair",
-      `포용 설계자 ${grade.name} · ${enabledCount}/${total}명 모두 쓰게 함 (시험 ${rounds}번)`,
+      `${grade.name} · ${enabledCount}/${total}명 모두 쓰게 함 (시험 ${rounds}번)`,
     );
   }, [grade.name, enabledCount, total, rounds]);
 
@@ -62,6 +62,20 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
               <div className="af-grad-text text-2xl font-black tabular-nums">{rounds}</div>
             </div>
           </div>
+
+          {/* 최종으로 남긴 개선 — 학습지 '남긴 3개' 기록용 */}
+          {game.keptCards.length > 0 && (
+            <div className="mt-3 border-t pt-3">
+              <div className="text-[11px] font-bold text-muted-foreground">{ui.keptLabel}</div>
+              <div className="mt-1.5 flex flex-wrap justify-center gap-1.5">
+                {game.keptCards.map((c) => (
+                  <span key={c.id} className="af-tag-on rounded-full px-2 py-0.5 text-[11px] font-bold">
+                    {c.emoji} {c.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 모두를 위한 AI 3원칙 */}

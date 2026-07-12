@@ -84,6 +84,11 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           </p>
         </div>
 
+        {/* 학습지 연계 안내 */}
+        <p className="mt-4 text-center text-[11px] leading-relaxed text-muted-foreground">
+          📄 {result.worksheetNote}
+        </p>
+
         <button
           type="button"
           onClick={restart}

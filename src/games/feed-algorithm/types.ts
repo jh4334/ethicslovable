@@ -91,6 +91,8 @@ export interface FeedAlgorithmContent {
     gameOverHeading: string;
     reportTitle: string;
     logTitle: string;
+    /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+    worksheetNote: string;
     continueButton: string;
   };
   reflection: {

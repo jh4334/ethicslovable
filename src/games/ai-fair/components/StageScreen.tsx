@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
@@ -45,6 +45,16 @@ export default function StageScreen({ content, game }: StageScreenProps) {
   const topRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     scrollToward(topRef.current, "start");
+  }, [game.stageIndex]);
+
+  // 자동 해결 스테이지는 도착 직후 '다음' 버튼이 같은 자리에 또 뜬다 —
+  // 더블클릭 두 번째 클릭이 통찰 화면("이미 돼요!")을 건너뛰지 않게
+  // 손님이 바뀌면 잠깐(0.5초) 버튼을 잠근다. (cleanup으로 StrictMode-safe)
+  const [nextArmed, setNextArmed] = useState(false);
+  useEffect(() => {
+    setNextArmed(false);
+    const timer = setTimeout(() => setNextArmed(true), 500);
+    return () => clearTimeout(timer);
   }, [game.stageIndex]);
 
   if (!guest) return null;
@@ -216,8 +226,9 @@ export default function StageScreen({ content, game }: StageScreenProps) {
       {isDone && (
         <button
           type="button"
-          onClick={game.nextStage}
-          className="af-btn mt-4 w-full px-6 py-3 text-sm"
+          disabled={!nextArmed}
+          onClick={() => nextArmed && game.nextStage()}
+          className={cn("af-btn mt-4 w-full px-6 py-3 text-sm", !nextArmed && "opacity-60")}
         >
           {isLast ? `🏛️ ${ui.toFinalButton}` : `👋 ${ui.nextButton}`}
         </button>

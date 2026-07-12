@@ -99,6 +99,8 @@ export interface FcLabels {
   homeButton: string;
   resultTitle: string;
   correctCountLabel: string;
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
 }
 
 /** 콘텐츠 JSON 전체 스키마 */

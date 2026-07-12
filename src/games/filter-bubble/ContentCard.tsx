@@ -22,9 +22,11 @@ export function ContentCard({ item, category, onClick }: ContentCardProps) {
   const isHot = item.intensity >= 4;
 
   return (
-    <div
+    // 진짜 버튼으로 — 키보드(Tab+Enter)와 보조기기에서도 카드를 고를 수 있다
+    <button
+      type="button"
       onClick={() => onClick(item)}
-      className="fb-card-interactive relative flex h-full flex-col overflow-hidden rounded-2xl bg-card shadow-soft"
+      className="fb-card-interactive relative flex h-full flex-col overflow-hidden rounded-2xl bg-card text-left shadow-soft"
     >
       {/* 썸네일 영역 */}
       <div className={`fb-thumb relative aspect-video w-full flex-none ${meta.thumbClass}`}>
@@ -80,6 +82,6 @@ export function ContentCard({ item, category, onClick }: ContentCardProps) {
 
       {/* 자극이 아주 강한 카드 표시 줄 */}
       {item.intensity >= 5 && <div className="fb-hot-bar absolute bottom-0 h-1 w-full" />}
-    </div>
+    </button>
   );
 }

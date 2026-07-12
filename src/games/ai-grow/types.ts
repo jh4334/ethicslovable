@@ -120,6 +120,8 @@ export interface AgFinale {
   resultTitle: string;
   skillSummary: string;
   errorSummary: string;
+  /** 결과 화면의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
   promiseTitle: string;
   promiseGuide: string;
   cardName: string;
@@ -142,6 +144,8 @@ export interface AgLabels {
   quizPrompt: string;
   quizCorrect: string;
   quizWrong: string;
+  /** 확인 문제를 틀렸을 때 재도전 안내 */
+  quizRetryHint: string;
   learnedTag: string;
   skippedTag: string;
   learnNext: string;
@@ -156,6 +160,8 @@ export interface AgLabels {
   cannotFindHint: string;
   acceptBtn: string;
   wrongPick: string;
+  /** 오답 문장을 한 번 짚은 뒤 마지막 기회 경고 */
+  wrongPickWarn: string;
   caughtTag: string;
   missedTag: string;
   missedReveal: string;

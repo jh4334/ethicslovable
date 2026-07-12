@@ -57,6 +57,11 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           </p>
         </div>
 
+        {/* 학습지 연계 안내 */}
+        <p className="mb-3 text-left text-[11px] leading-relaxed text-muted-foreground">
+          📄 {content.meta.worksheetNote}
+        </p>
+
         {/* 명예의 전당 Top 5 */}
         <div className="mb-4 rounded-xl bg-secondary/40 p-2.5">
           <div className="mb-1.5 flex items-center justify-center gap-1">

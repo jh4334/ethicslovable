@@ -121,8 +121,13 @@ export default function FinaleScreen({ content, game }: FinaleScreenProps) {
             </span>
           </div>
 
-          <p className="mx-auto mb-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+          <p className="mx-auto mb-4 max-w-md text-sm leading-relaxed text-muted-foreground">
             {grade.desc}
+          </p>
+
+          {/* 학습지 연계 안내 */}
+          <p className="mx-auto mb-6 max-w-md text-[11px] leading-relaxed text-muted-foreground">
+            📄 {finale.worksheetNote}
           </p>
 
           {/* 다짐 카드 */}

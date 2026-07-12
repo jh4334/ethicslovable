@@ -143,6 +143,7 @@
     ],
     "summaryTemplate": "가상 {시간} 시청 · 멈추기 {멈춤}",
     "summaryStop": { "early": "성공", "late": "늦게 성공", "forced": "실패" },
+    "worksheetNote": "내가 본 영상 수와 가상 시청 시간, 지킴이 등급을 학습지 조사 수첩에 옮겨 적어 보세요.",
     "restartButton": "다시 조사하기"
   }
 }

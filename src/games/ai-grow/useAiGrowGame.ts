@@ -56,6 +56,8 @@ export interface AiGrowGame {
   learnIndex: number;
   learnStage: LearnStage;
   learnQuizPicked: number | null;
+  /** 이 카드 확인 문제에서 틀렸던 보기 번호들 (재도전용) */
+  learnWrongPicks: number[];
 
   /** ② 좋은 질문 */
   questionStage: PickStage;
@@ -64,6 +66,8 @@ export interface AiGrowGame {
   /** ③ AI 답 검토 */
   reviewStage: ReviewStage;
   reviewWrongPick: boolean;
+  /** 틀리게 짚었던 문장들 — 2번 틀리면 '놓침' 처리 */
+  reviewWrongLines: string[];
 
   /** ④ 발전 */
   developStage: PickStage;
@@ -109,12 +113,14 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
   const [learnIndex, setLearnIndex] = useState(0);
   const [learnStage, setLearnStage] = useState<LearnStage>("choose");
   const [learnQuizPicked, setLearnQuizPicked] = useState<number | null>(null);
+  const [learnWrongPicks, setLearnWrongPicks] = useState<number[]>([]);
 
   const [questionStage, setQuestionStage] = useState<PickStage>("choose");
   const [questionPicked, setQuestionPicked] = useState<string | null>(null);
 
   const [reviewStage, setReviewStage] = useState<ReviewStage>("inspect");
   const [reviewWrongPick, setReviewWrongPick] = useState(false);
+  const [reviewWrongLines, setReviewWrongLines] = useState<string[]>([]);
 
   const [developStage, setDevelopStage] = useState<PickStage>("choose");
   const [developPicked, setDevelopPicked] = useState<number | null>(null);
@@ -136,10 +142,12 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
     setLearnIndex(0);
     setLearnStage("choose");
     setLearnQuizPicked(null);
+    setLearnWrongPicks([]);
     setQuestionStage("choose");
     setQuestionPicked(null);
     setReviewStage("inspect");
     setReviewWrongPick(false);
+    setReviewWrongLines([]);
     setDevelopStage("choose");
     setDevelopPicked(null);
   }, []);
@@ -161,6 +169,7 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
   // ── ① 배우기 ──────────────────────────────────────────────
   const advanceLearn = useCallback(() => {
     setLearnQuizPicked(null);
+    setLearnWrongPicks([]);
     if (learnIndex >= mission.knowledgeCards.length - 1) {
       setStep("question");
       setQuestionStage("choose");
@@ -196,13 +205,21 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
       if (learnStage !== "quiz") return;
       const card = mission.knowledgeCards[learnIndex];
       if (!card?.quiz) return;
-      setLearnQuizPicked(optionIndex);
       if (optionIndex === card.quiz.answerIndex) {
-        updateCurrent((p) => ({ ...p, quizCorrect: p.quizCorrect + 1 }));
+        // 첫 시도에 맞힌 경우만 점수 — 재도전으로 맞혀도 카드는 이미 얻었다
+        if (learnWrongPicks.length === 0) {
+          updateCurrent((p) => ({ ...p, quizCorrect: p.quizCorrect + 1 }));
+        }
+        setLearnQuizPicked(optionIndex);
+        setLearnStage("done");
+      } else {
+        // 틀리면 그 보기만 잠그고 다시 골라 보게 한다 (재도전)
+        setLearnWrongPicks((prev) =>
+          prev.includes(optionIndex) ? prev : [...prev, optionIndex],
+        );
       }
-      setLearnStage("done");
     },
-    [learnStage, mission.knowledgeCards, learnIndex, updateCurrent],
+    [learnStage, mission.knowledgeCards, learnIndex, learnWrongPicks, updateCurrent],
   );
 
   const learnNext = useCallback(() => {
@@ -275,10 +292,20 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
         updateCurrent((p) => ({ ...p, errorCaught: true, reviewed: true }));
         setReviewStage("result");
       } else {
+        // 틀린 문장은 잠그고, 두 번 틀리면 '놓침'으로 마무리 —
+        // 하나씩 다 눌러 보는 찍기를 막아 '아는 만큼 보인다'의 긴장을 지킨다
+        // (updater 안에 부작용을 두지 않는다 — StrictMode 이중 실행 안전)
+        if (reviewWrongLines.includes(line)) return;
+        const next = [...reviewWrongLines, line];
+        setReviewWrongLines(next);
         setReviewWrongPick(true);
+        if (next.length >= 2) {
+          updateCurrent((p) => ({ ...p, errorCaught: false, reviewed: true }));
+          setReviewStage("result");
+        }
       }
     },
-    [reviewStage, progress.errorCatchable, botAnswer, updateCurrent],
+    [reviewStage, progress.errorCatchable, botAnswer, reviewWrongLines, updateCurrent],
   );
 
   const reviewAccept = useCallback(() => {
@@ -354,10 +381,12 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
       learnIndex,
       learnStage,
       learnQuizPicked,
+      learnWrongPicks,
       questionStage,
       questionPicked,
       reviewStage,
       reviewWrongPick,
+      reviewWrongLines,
       developStage,
       developPicked,
       totalMissions: missions.length,
@@ -392,10 +421,12 @@ export function useAiGrowGame(content: AgContent): AiGrowGame {
       learnIndex,
       learnStage,
       learnQuizPicked,
+      learnWrongPicks,
       questionStage,
       questionPicked,
       reviewStage,
       reviewWrongPick,
+      reviewWrongLines,
       developStage,
       developPicked,
       missions.length,

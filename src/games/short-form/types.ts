@@ -140,6 +140,8 @@ export interface SfResultText {
   /** 학습 기록 요약 — {시간}·{멈춤} 치환 */
   summaryTemplate: string;
   summaryStop: Record<SfOutcome, string>;
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
   restartButton: string;
 }
 

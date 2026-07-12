@@ -111,6 +111,8 @@ export interface AfUi {
   autoSolvedTitle: string;
   autoSolvedLine: string;
   installedLabel: string;
+  /** 결과 화면 — 최종으로 남긴 개선 목록 제목 */
+  keptLabel: string;
   meterLabel: string;
   canUseTag: string;
   blockedTag: string;

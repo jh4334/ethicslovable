@@ -275,6 +275,7 @@
     "gameOverHeading": "시뮬레이션 종료",
     "reportTitle": "요원 평가 리포트",
     "logTitle": "내 선택이 만든 결과",
+    "worksheetNote": "며칠까지 버텼는지와 마지막 네 가지 점수, 엔딩 이름을 학습지 요원 근무 일지에 옮겨 적어 보세요.",
     "continueButton": "진실 마주하기"
   },
   "reflection": {

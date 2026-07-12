@@ -109,6 +109,11 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
           <TendencyTable history={history} categories={content.categories} />
         </div>
 
+        {/* 학습지 연계 안내 */}
+        <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
+          📄 {content.ui.worksheetNote}
+        </p>
+
         {/* 동작 버튼 */}
         <div className="space-y-3 pt-2">
           <button
