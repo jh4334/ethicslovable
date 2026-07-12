@@ -115,6 +115,7 @@ export default function PortalPage() {
                       >
                         <div className="flex items-start gap-4">
                           <span
+                            aria-hidden
                             className="mlq-emoji-tile h-16 w-16 shrink-0 text-4xl transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-3"
                             style={{ "--tile-hue": hue } as React.CSSProperties}
                           >
@@ -122,7 +123,8 @@ export default function PortalPage() {
                           </span>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between gap-2">
-                              <p className="text-xs font-extrabold" style={{ color: `hsl(${hue} 72% 46%)` }}>
+                              {/* 글자용 색은 명도를 낮춰 흰 카드 위 대비 4.5:1 이상 확보 */}
+                              <p className="text-xs font-extrabold" style={{ color: `hsl(${hue} 65% 32%)` }}>
                                 {game.lesson}차시 · {game.subtitle}
                               </p>
                               {completed ? (

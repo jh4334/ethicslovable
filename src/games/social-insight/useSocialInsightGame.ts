@@ -23,7 +23,8 @@ import {
   saveToLeaderboard,
 } from "./storage";
 
-const FEEDBACK_MS = 1100;
+// 오답·시간초과 해설을 읽을 시간을 준다 — 느린 학생이 연쇄 실패하지 않게
+const FEEDBACK_MS = 2000;
 const COMBO_FLASH_MS = 900;
 
 function pick<T>(list: T[]): T {
@@ -44,9 +45,8 @@ export function findComboPraise(
 
 export function useSocialInsightGame(content: SiContent) {
   const [phase, setPhase] = useState<Phase>("start");
-  const [difficultyId, setDifficultyId] = useState(
-    () => content.difficulties[1]?.id ?? content.difficulties[0].id,
-  );
+  // 기본 난이도는 '쉬움' — 그냥 시작 버튼을 누르는 학생이 가장 편한 길로
+  const [difficultyId, setDifficultyId] = useState(() => content.difficulties[0].id);
   const [playerName, setPlayerName] = useState(() => getSavedPlayerName());
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);

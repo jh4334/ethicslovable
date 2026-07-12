@@ -35,7 +35,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
       {/* HUD — 폰 프레임 밖(위)에 고정. 스크롤해도 타이머가 보인다 */}
       <div className="sticky top-1 z-20 mx-auto mb-2 w-full max-w-[420px] rounded-xl border bg-card/90 px-3 py-2 shadow-soft backdrop-blur">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold text-muted-foreground">
+          <span className="text-xs font-bold text-muted-foreground">
             {game.round} / {game.totalRounds} 라운드
           </span>
           <div className="flex items-center gap-1.5">
@@ -90,7 +90,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
 
       {/* 미션 안내 — 폰 프레임 위쪽 프레이밍 */}
       <div className="mx-auto mb-2 w-full max-w-[420px] rounded-xl border border-primary/20 bg-primary/5 px-3 py-1.5 text-center">
-        <p className="text-[11px] font-bold text-primary">🎯 {content.meta.mission}</p>
+        <p className="text-xs font-bold text-primary">🎯 {content.meta.mission}</p>
       </div>
 
       {/* 콤보 칭찬 문구 */}
@@ -117,7 +117,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
                 type="button"
                 onClick={() => game.setShowHint(!game.showHint)}
                 className={cn(
-                  "flex w-full items-center justify-center gap-1.5 rounded-lg p-1.5 text-[10px] font-medium transition-colors",
+                  "flex w-full items-center justify-center gap-1.5 rounded-lg p-1.5 text-xs font-medium transition-colors",
                   game.showHint
                     ? "border border-destructive/30 bg-destructive/10 text-destructive"
                     : "bg-muted text-muted-foreground hover:bg-muted/80",
@@ -127,7 +127,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
                 {game.showHint ? "힌트 숨기기" : "힌트 보기 (함정 조심!)"}
               </button>
               {game.showHint && question.dislikeLabel && (
-                <div className="mt-1.5 animate-fade-in rounded-lg border border-destructive/30 bg-destructive/10 p-2 text-center text-[10px] text-destructive">
+                <div className="mt-1.5 animate-fade-in rounded-lg border border-destructive/30 bg-destructive/10 p-2 text-center text-xs text-destructive">
                   ⚠️ 이 친구는 <strong>{question.dislikeLabel}</strong> 게시물을 싫어해서 그냥 넘겨요!
                 </div>
               )}
@@ -142,9 +142,13 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
         </div>
       </PhoneFrame>
 
-      {/* 정답/오답 알림 — 화면 중앙 고정 */}
+      {/* 정답/오답 알림 — 화면 중앙 고정 (스크린리더에도 읽히도록 status) */}
       {game.feedback && (
-        <div className="fixed left-1/2 top-1/2 z-30 w-52 -translate-x-1/2 -translate-y-1/2 animate-scale-in">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed left-1/2 top-1/2 z-30 w-52 -translate-x-1/2 -translate-y-1/2 animate-scale-in"
+        >
           <div
             className={cn(
               "flex flex-col items-center rounded-2xl border bg-card/95 p-4 shadow-lift backdrop-blur-md",
@@ -167,7 +171,7 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
             >
               {game.feedback.title}
             </h4>
-            <p className="mt-0.5 text-center text-[10px] text-muted-foreground">
+            <p className="mt-0.5 text-center text-xs text-muted-foreground">
               {game.feedback.message}
             </p>
           </div>
