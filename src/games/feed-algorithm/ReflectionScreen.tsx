@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import NextQuest from "@/components/NextQuest";
 import type { FeedAlgorithmContent } from "./types";
 
 interface ReflectionScreenProps {
@@ -40,9 +41,13 @@ const ReflectionScreen = ({ content, onRestart }: ReflectionScreenProps) => {
         </ul>
       </div>
 
+      <div className="mt-8 w-full max-w-xs">
+        <NextQuest gameId="feed-algorithm" />
+      </div>
+
       <motion.button
         onClick={onRestart}
-        className="fa-btn fa-btn-ghost mt-8 px-8 py-3"
+        className="fa-btn fa-btn-ghost mt-3 px-8 py-3"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >

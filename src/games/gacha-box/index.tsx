@@ -18,15 +18,40 @@ import RevealScreen from "./components/RevealScreen";
 import TricksScreen from "./components/TricksScreen";
 import ScenarioScreen from "./components/ScenarioScreen";
 import ResultScreen from "./components/ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: GbContent }) {
   const game = useGachaGame(content);
 
-  if (game.phase === "shop") return <ShopScreen content={content} game={game} />;
-  if (game.phase === "reveal") return <RevealScreen content={content} game={game} />;
-  if (game.phase === "tricks") return <TricksScreen content={content} game={game} />;
-  if (game.phase === "scenario") return <ScenarioScreen content={content} game={game} />;
+  if (game.phase === "shop")
+    return (
+      <>
+        <ExitGuard />
+        <ShopScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "reveal")
+    return (
+      <>
+        <ExitGuard />
+        <RevealScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "tricks")
+    return (
+      <>
+        <ExitGuard />
+        <TricksScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "scenario")
+    return (
+      <>
+        <ExitGuard />
+        <ScenarioScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <IntroScreen content={content} onStart={game.start} />;
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GameLayout from "@/components/GameLayout";
 import { loadContent } from "@/lib/content";
 import fallbackContent from "@/content/filter-bubble.json";
+import ExitGuard from "@/components/ExitGuard";
 import { IntroScreen } from "./IntroScreen";
 import { GameScreen } from "./GameScreen";
 import { ResultScreen } from "./ResultScreen";
@@ -35,12 +36,15 @@ function GameFlow({ content }: { content: FilterBubbleContent }) {
   }
 
   return (
-    <GameScreen
-      feed={feed}
-      clicks={clicks}
-      categories={content.categories}
-      onCardClick={handleCardClick}
-    />
+    <>
+      <ExitGuard />
+      <GameScreen
+        feed={feed}
+        clicks={clicks}
+        categories={content.categories}
+        onCardClick={handleCardClick}
+      />
+    </>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Check, Home, RotateCcw, X } from "lucide-react";
+import { Check, RotateCcw, X } from "lucide-react";
+import NextQuest from "@/components/NextQuest";
 import { markCompleted } from "@/lib/progress";
 import type { AgContent } from "../types";
 import type { AiGrowGame } from "../useAiGrowGame";
@@ -162,6 +162,9 @@ export default function FinaleScreen({ content, game }: FinaleScreenProps) {
             <p className="text-muted-foreground">{finale.graduationMessage}</p>
           </div>
 
+          <div className="mx-auto mb-3 max-w-md">
+            <NextQuest gameId="ai-grow" />
+          </div>
           <div className="flex flex-wrap items-center justify-center gap-2.5">
             <button
               onClick={game.restart}
@@ -170,13 +173,6 @@ export default function FinaleScreen({ content, game }: FinaleScreenProps) {
               <RotateCcw className="h-4 w-4" />
               {finale.retryButton}
             </button>
-            <Link
-              to="/"
-              className="ag-btn-cta inline-flex items-center gap-1.5 rounded-xl px-5 py-3 text-sm font-extrabold"
-            >
-              <Home className="h-4 w-4" />
-              {finale.homeButton}
-            </Link>
           </div>
         </div>
       </div>

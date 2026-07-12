@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check, RefreshCw, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import { getCategoryMeta } from "./categoryMeta";
 import { computeRiskScore } from "./logic";
 import { FilterBubbleGauge } from "./FilterBubbleGauge";
@@ -118,6 +119,7 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
 
         {/* 동작 버튼 */}
         <div className="space-y-3 pt-2">
+          <NextQuest gameId="filter-bubble" />
           <button
             type="button"
             onClick={handleShare}

@@ -19,14 +19,33 @@ import FeedScreen from "./FeedScreen";
 import JourneyScreen from "./JourneyScreen";
 import ProtectScreen from "./ProtectScreen";
 import ResultScreen from "./ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: DtContent }) {
   const game = useDataTrailGame(content);
 
-  if (game.phase === "feed") return <FeedScreen content={content} game={game} />;
-  if (game.phase === "journey") return <JourneyScreen content={content} game={game} />;
-  if (game.phase === "protect") return <ProtectScreen content={content} game={game} />;
+  if (game.phase === "feed")
+    return (
+      <>
+        <ExitGuard />
+        <FeedScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "journey")
+    return (
+      <>
+        <ExitGuard />
+        <JourneyScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "protect")
+    return (
+      <>
+        <ExitGuard />
+        <ProtectScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <IntroScreen content={content} onStart={game.startFeed} />;
 }

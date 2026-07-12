@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Trophy, RotateCcw, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { SiContent } from "../types";
 import type { SocialInsightGame } from "../useSocialInsightGame";
 import { LEADERBOARD_SHOW } from "../storage";
@@ -115,6 +116,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           )}
         </div>
 
+        <div className="mb-3">
+          <NextQuest gameId="social-insight" />
+        </div>
         <div className="flex gap-2">
           <button
             type="button"

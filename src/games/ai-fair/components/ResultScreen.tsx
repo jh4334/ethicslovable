@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import NextQuest from "@/components/NextQuest";
 import { markCompleted } from "@/lib/progress";
 import type { AfContent } from "../types";
 import type { AiFairGame } from "../useAiFairGame";
@@ -102,7 +103,8 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
         </div>
 
         <div className="mt-4 flex flex-col gap-2">
-          <Link to="/" className="af-btn w-full px-6 py-3 text-center text-sm">
+          <NextQuest gameId="ai-fair" />
+          <Link to="/" className="w-full rounded-xl border bg-card px-6 py-3 text-center text-sm font-bold text-foreground transition-colors hover:bg-muted">
             {ui.mapButton}
           </Link>
           <button

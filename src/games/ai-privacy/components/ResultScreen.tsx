@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Check, Home, RotateCcw, X } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { ApContent } from "../types";
 import type { AiPrivacyGame } from "../useAiPrivacyGame";
 
@@ -148,6 +149,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           ✏️ 이 안전 수칙 4가지를 학습지에 옮겨 적고, 우리 반 누리봇 사용 약속으로 삼아 봐요.
         </p>
 
+        <div className="mx-auto mb-3 max-w-md">
+          <NextQuest gameId="ai-privacy" />
+        </div>
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           <button
             onClick={game.restart}

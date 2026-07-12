@@ -18,14 +18,33 @@ import EyeTestScreen from "./components/EyeTestScreen";
 import MidResultScreen from "./components/MidResultScreen";
 import CaseScreen from "./components/CaseScreen";
 import ResultScreen from "./components/ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: DfContent }) {
   const game = useDeepfakeGame(content);
 
-  if (game.phase === "eye") return <EyeTestScreen content={content} game={game} />;
-  if (game.phase === "mid") return <MidResultScreen content={content} game={game} />;
-  if (game.phase === "case") return <CaseScreen content={content} game={game} />;
+  if (game.phase === "eye")
+    return (
+      <>
+        <ExitGuard />
+        <EyeTestScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "mid")
+    return (
+      <>
+        <ExitGuard />
+        <MidResultScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "case")
+    return (
+      <>
+        <ExitGuard />
+        <CaseScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <StartScreen content={content} onStart={game.start} />;
 }

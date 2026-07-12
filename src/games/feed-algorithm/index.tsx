@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GameLayout from "@/components/GameLayout";
 import { loadContent } from "@/lib/content";
 import fallbackContent from "@/content/feed-algorithm.json";
+import ExitGuard from "@/components/ExitGuard";
 import IntroScreen from "./IntroScreen";
 import PlayingScreen from "./PlayingScreen";
 import ResultScreen from "./ResultScreen";
@@ -69,7 +70,10 @@ function AlgorithmGame({ content }: { content: FeedAlgorithmContent }) {
         {screen === "INTRO" && <IntroScreen content={content} onStart={handleStart} />}
 
         {screen === "PLAYING" && (
-          <PlayingScreen content={content} onGameOver={handleGameOver} onSuccess={handleSuccess} />
+          <>
+            <ExitGuard />
+            <PlayingScreen content={content} onGameOver={handleGameOver} onSuccess={handleSuccess} />
+          </>
         )}
 
         {screen === "RESULT" && ending && (

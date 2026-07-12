@@ -13,12 +13,19 @@ import { useSocialInsightGame } from "./useSocialInsightGame";
 import StartScreen from "./components/StartScreen";
 import PlayScreen from "./components/PlayScreen";
 import ResultScreen from "./components/ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: SiContent }) {
   const game = useSocialInsightGame(content);
 
-  if (game.phase === "playing") return <PlayScreen content={content} game={game} />;
+  if (game.phase === "playing")
+    return (
+      <>
+        <ExitGuard />
+        <PlayScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <StartScreen content={content} game={game} />;
 }

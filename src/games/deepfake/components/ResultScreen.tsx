@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Home, PencilLine, RotateCcw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { DfContent } from "../types";
 import type { DeepfakeGame } from "../useDeepfakeGame";
 
@@ -135,6 +136,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           <p className="mt-1 text-sm leading-relaxed">{result.finalMessage}</p>
         </div>
 
+        <div className="mb-3">
+          <NextQuest gameId="deepfake" />
+        </div>
         <div className="flex gap-2">
           <button
             onClick={game.restart}
