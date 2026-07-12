@@ -67,7 +67,7 @@
       "barrierId": "vision",
       "canUseBaseline": false,
       "arriveLine": "누리봇은 답을 화면에만 적어 줘. 나는 화면이 잘 안 보여서, 답이 와도 받을 수가 없어.",
-      "fixedLine": "이제 소리로 읽어 줘서, 화면을 안 봐도 답을 들을 수 있어요."
+      "fixedLine": "이제 나도 답을 받을 수 있어요. 눈이 잘 안 보여도 문제없어요!"
     },
     {
       "id": "mountain",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
@@ -33,6 +33,16 @@ export default function StageScreen({ content, game }: StageScreenProps) {
     }, 1100);
     return () => clearTimeout(timer);
   }, [testing, testStage]);
+
+  // 판정 피드백은 카드 목록 위에 뜬다 — 모바일에서 시험 버튼(하단)을 누른 뒤
+  // 결과가 화면 밖에 있지 않도록, 판정이 끝나면 피드백으로 스크롤한다.
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (testing) return;
+    if (game.stageStatus === "solved" || game.stageStatus === "fail" || game.stageStatus === "auto") {
+      feedbackRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [testing, game.stageStatus]);
 
   if (!guest) return null;
 
@@ -119,6 +129,8 @@ export default function StageScreen({ content, game }: StageScreenProps) {
         )}
       </motion.div>
 
+      {/* 판정 피드백 묶음 — 스크롤 목표 지점 */}
+      <div ref={feedbackRef}>
       {/* 자동 해결 — 이미 단 개선이 이 손님까지 도움 */}
       {game.stageStatus === "auto" && (
         <div className="af-solved af-bounce-in mt-3 rounded-2xl p-4">
@@ -162,6 +174,7 @@ export default function StageScreen({ content, game }: StageScreenProps) {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
 
       {/* 카드 트레이 + 시험 버튼 (아직 못 도운 동안만) */}
       {!isDone && (
@@ -186,13 +199,14 @@ export default function StageScreen({ content, game }: StageScreenProps) {
             </div>
           </div>
 
-          <div className="mt-4">
+          {/* 카드를 훑는 동안에도 시험 버튼이 손에 닿도록 하단 고정 */}
+          <div className="sticky bottom-3 z-10 mt-4">
             <button
               type="button"
               disabled={!canTest}
               onClick={() => canTest && setTesting(true)}
               className={cn(
-                "w-full px-6 py-3 text-sm font-bold",
+                "w-full px-6 py-3 text-sm font-bold shadow-lg",
                 canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
               )}
             >

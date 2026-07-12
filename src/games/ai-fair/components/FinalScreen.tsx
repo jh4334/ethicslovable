@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
@@ -29,6 +29,15 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
     return () => clearTimeout(timer);
   }, [testing, testFinal]);
 
+  // 심사 결과는 카드 목록 위에 뜬다 — 시험 버튼(하단)을 누른 뒤 결과가
+  // 화면 밖에 있지 않도록, 판정이 끝나면 결과로 스크롤한다.
+  const resultRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!testing && game.finalResult) {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [testing, game.finalResult]);
+
   const picked = game.finalSelected.length;
   const budget = game.finalBudget;
   const canTest = !testing && picked === budget && !game.finalResult?.solved;
@@ -58,6 +67,7 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
       </div>
 
       {/* 시험 결과 — 포용 미터 + 친구 상태 (시험을 본 뒤에만) */}
+      <div ref={resultRef}>
       <AnimatePresence>
         {result && !testing && (
           <motion.div
@@ -108,6 +118,7 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
 
       {/* 카드 고르기 (통과 전까지) */}
       {!result?.solved && (
@@ -146,13 +157,14 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
             </div>
           </div>
 
-          <div className="mt-4">
+          {/* 카드를 훑는 동안에도 시험 버튼이 손에 닿도록 하단 고정 */}
+          <div className="sticky bottom-3 z-10 mt-4">
             <button
               type="button"
               disabled={!canTest}
               onClick={() => canTest && setTesting(true)}
               className={cn(
-                "w-full px-6 py-3 text-sm font-bold",
+                "w-full px-6 py-3 text-sm font-bold shadow-lg",
                 canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
               )}
             >
