@@ -93,6 +93,10 @@ export interface ApLabels {
   dangerVerdict: string;
   dexLabel: string;
   collected: string;
+  /** 오답으로 이 위험 유형 도감을 못 모았을 때 안내 */
+  missedCollect: string;
+  /** 1부 절반을 지날 때 응원 한 줄 */
+  halfwayLine: string;
   roundLabel: string;
   nextRound: string;
   toPart2: string;

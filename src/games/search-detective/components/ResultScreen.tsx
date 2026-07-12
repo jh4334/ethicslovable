@@ -120,6 +120,11 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           </div>
         </div>
 
+        {/* 학습지 연계 안내 */}
+        <p className="mb-4 text-[11px] leading-relaxed text-muted-foreground">
+          📄 {labels.worksheetNote}
+        </p>
+
         <div className="flex gap-2">
           <button
             onClick={game.restart}

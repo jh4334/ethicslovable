@@ -94,6 +94,11 @@
   background: hsl(140 50% 93%);
   color: hsl(142 55% 32%);
 }
+/* 지나갔지만 알차게 못 채운 단계 — 초록 대신 회색 체크 (겉으로만 완성과 신호 일치) */
+.game-ai-grow .ag-step-weak {
+  background: hsl(32 20% 92%);
+  color: hsl(28 12% 55%);
+}
 .game-ai-grow .ag-step-num {
   display: inline-flex;
   align-items: center;

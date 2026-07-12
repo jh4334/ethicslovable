@@ -222,7 +222,7 @@ export const GAMES: GameMeta[] = [
     title: "AI와 함께 크는 나",
     subtitle: "AI로 성장하기 (성장)",
     goal: "AI를 베끼기가 아니라 배움의 도구로 주도적으로 써요",
-    minutes: 15,
+    minutes: 20,
     emoji: "🌱",
     path: "/games/ai-grow",
   },

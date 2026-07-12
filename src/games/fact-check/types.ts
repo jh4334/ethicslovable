@@ -33,10 +33,8 @@ export interface FcRound {
   asker: string;
   /** 마을 사람의 질문 */
   question: string;
-  /** 누리봇 답변 문장들 */
+  /** 누리봇 답변 문장들 — 거짓 문장이 하나도 없으면 '모두 사실'이 정답 */
   sentences: FcSentence[];
-  /** 모든 문장이 사실이면 true */
-  allTrue?: boolean;
   /** 이 라운드의 근거 자료들 */
   evidence: FcEvidence[];
   /** 판정 후 보여 주는 해설 */
@@ -99,6 +97,8 @@ export interface FcLabels {
   homeButton: string;
   resultTitle: string;
   correctCountLabel: string;
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
 }
 
 /** 콘텐츠 JSON 전체 스키마 */

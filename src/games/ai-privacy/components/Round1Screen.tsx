@@ -121,6 +121,15 @@ export default function Round1Screen({ content, game }: Round1ScreenProps) {
 
         {/* 대화 영역 */}
         <div ref={feedRef} className="ap-feed flex-1 overflow-y-auto px-3 pb-4 pt-4">
+          {/* 절반 통과 응원 — 10라운드 반복의 중간 마디 */}
+          {game.r1Index === Math.floor(round1.length / 2) && (
+            <div className="mb-2 flex items-center justify-center">
+              <span className="ap-collect-badge inline-flex items-center gap-1 rounded-full px-3 py-1 text-[11px] font-black">
+                🎉 {labels.halfwayLine}
+              </span>
+            </div>
+          )}
+
           {/* 친구 소개 라인 */}
           <div className="mb-3 flex items-center justify-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/5 px-3 py-1 text-[11px] font-bold text-muted-foreground">
@@ -150,16 +159,20 @@ export default function Round1Screen({ content, game }: Round1ScreenProps) {
               </p>
               <p className="text-[13px] leading-relaxed text-foreground/85">{round.explain}</p>
 
-              {/* 위험 유형 · 도감 수집 */}
+              {/* 위험 유형 · 도감 수집 (오답이면 못 모았음을 그 자리에서 알려 준다) */}
               {danger && (
                 <div className="mt-2.5 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1 rounded-full border border-destructive/30 bg-destructive/10 px-2.5 py-1 text-xs font-bold text-destructive">
                     <span aria-hidden>{danger.emoji}</span>
                     개인정보: {danger.name}
                   </span>
-                  {correct && (
+                  {correct ? (
                     <span className="ap-collect-badge inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-black">
                       📒 {danger.name} {labels.collected}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs font-bold text-muted-foreground">
+                      📒 {labels.missedCollect}
                     </span>
                   )}
                 </div>

@@ -62,6 +62,8 @@ export interface SiMeta {
   mission: string;
   /** 결과 화면에 보여 주는 배움 정리 문구 */
   resultNote: string;
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
 }
 
 export interface SiRules {

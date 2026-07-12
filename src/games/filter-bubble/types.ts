@@ -54,8 +54,15 @@ export interface GaugeLevel {
   description: string;
 }
 
+/** 결과 화면 문구 */
+export interface FilterBubbleUi {
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
+}
+
 /** filter-bubble.json 전체 구조 */
 export interface FilterBubbleContent {
+  ui: FilterBubbleUi;
   categories: Category[];
   personas: PersonaTemplates;
   gaugeLevels: GaugeLevel[];

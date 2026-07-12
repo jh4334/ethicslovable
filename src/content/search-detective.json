@@ -686,6 +686,7 @@
     "clueBookHint": "미션을 해결하면 그 라운드의 단서가 도감에 모여요.",
     "lockedClueLabel": "아직 못 모은 단서",
     "habitsTitle": "검색 3단계 습관",
+    "worksheetNote": "해결한 미션 수와 최종 점수, 탐정 등급을 학습지 최종 보고서에 옮겨 적어 보세요.",
     "retryButton": "다시 도전",
     "homeButton": "퀘스트 지도로"
   }

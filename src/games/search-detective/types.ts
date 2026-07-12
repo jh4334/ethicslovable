@@ -125,6 +125,8 @@ export interface SdLabels {
   clueBookHint: string;
   lockedClueLabel: string;
   habitsTitle: string;
+  /** 결과 화면 하단의 학습지 연계 안내 한 줄 */
+  worksheetNote: string;
   retryButton: string;
   homeButton: string;
 }

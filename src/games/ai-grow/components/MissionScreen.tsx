@@ -5,6 +5,7 @@ import {
   Check,
   Lightbulb,
   Lock,
+  MessageCircle,
   Search,
   Sprout,
   X,
@@ -53,23 +54,32 @@ export default function MissionScreen({ content, game }: MissionScreenProps) {
           </div>
         </div>
 
-        {/* 4단계 진행 트래커 */}
+        {/* 4단계 진행 트래커 — 알차게 채운 단계만 초록, 건너뛴 단계는 회색 체크 */}
         <ol className="ag-steps mb-5">
           {labels.stepNames.map((name, i) => {
             const done = i < stepIdx;
             const current = i === stepIdx;
+            const p = game.progress;
+            const pickedQ = game.mission.questions.find((q) => q.id === p.questionId);
+            const quality = [
+              p.acquired.length > 0,
+              Boolean(pickedQ?.isGood),
+              p.errorCaught,
+              p.developBest,
+            ][i];
             return (
               <li
                 key={name}
                 className={[
                   "ag-step flex-1 justify-center",
-                  done ? "ag-step-done" : current ? "ag-step-current" : "",
+                  done ? (quality ? "ag-step-done" : "ag-step-weak") : current ? "ag-step-current" : "",
                 ].join(" ")}
               >
                 <span className="ag-step-num">
                   {done ? <Check className="h-3 w-3" /> : i + 1}
                 </span>
-                <span className="hidden sm:inline">{name}</span>
+                {/* 모바일에서도 지금 단계 이름은 보인다 */}
+                <span className={current ? "inline" : "hidden sm:inline"}>{name}</span>
               </li>
             );
           })}
@@ -97,8 +107,6 @@ function LearnStep({ content, game }: MissionScreenProps) {
   const cards = game.mission.knowledgeCards;
   const card = cards[game.learnIndex];
   const acquired = game.progress.acquired.includes(card.id);
-  const quizCorrect =
-    card.quiz != null && game.learnQuizPicked === card.quiz.answerIndex;
 
   return (
     <div className="animate-fade-in">
@@ -143,7 +151,7 @@ function LearnStep({ content, game }: MissionScreenProps) {
           </>
         )}
 
-        {/* 퀴즈 */}
+        {/* 퀴즈 — 틀리면 그 보기만 잠기고 다시 골라 본다 (재도전) */}
         {game.learnStage === "quiz" && card.quiz && (
           <>
             <p className="mb-3 rounded-xl bg-muted/60 p-3 text-sm font-bold leading-relaxed">
@@ -153,16 +161,30 @@ function LearnStep({ content, game }: MissionScreenProps) {
               ❓ {labels.quizPrompt}: {card.quiz.q}
             </p>
             <div className="flex flex-col gap-2">
-              {card.quiz.options.map((opt, oi) => (
-                <button
-                  key={oi}
-                  onClick={() => game.learnAnswerQuiz(oi)}
-                  className="ag-opt px-4 py-2.5 text-sm font-bold"
-                >
-                  {opt}
-                </button>
-              ))}
+              {card.quiz.options.map((opt, oi) => {
+                const wrongTried = game.learnWrongPicks.includes(oi);
+                return (
+                  <button
+                    key={oi}
+                    onClick={() => game.learnAnswerQuiz(oi)}
+                    disabled={wrongTried}
+                    className={[
+                      "ag-opt px-4 py-2.5 text-sm font-bold",
+                      wrongTried ? "opacity-40 line-through" : "",
+                    ].join(" ")}
+                  >
+                    {wrongTried ? "✕ " : ""}
+                    {opt}
+                  </button>
+                );
+              })}
             </div>
+            {game.learnWrongPicks.length > 0 && (
+              <div className="ag-verdict-bad animate-fade-in mt-3 rounded-xl p-3 text-sm leading-relaxed">
+                <p className="mb-1 font-black">💭 {labels.quizWrong}</p>
+                <p className="text-foreground/85">{labels.quizRetryHint}</p>
+              </div>
+            )}
           </>
         )}
 
@@ -173,14 +195,10 @@ function LearnStep({ content, game }: MissionScreenProps) {
               {card.fact}
             </p>
             {card.quiz && game.learnQuizPicked != null && (
-              <div
-                className={[
-                  "mb-3 rounded-xl p-3 text-sm leading-relaxed",
-                  quizCorrect ? "ag-verdict-good" : "ag-verdict-bad",
-                ].join(" ")}
-              >
+              <div className="ag-verdict-good mb-3 rounded-xl p-3 text-sm leading-relaxed">
                 <p className="mb-1 font-black">
-                  {quizCorrect ? `🎉 ${labels.quizCorrect}` : `💭 ${labels.quizWrong}`}
+                  🎉 {labels.quizCorrect}
+                  {game.learnWrongPicks.length > 0 && " (다시 도전해서 맞혔어요!)"}
                 </p>
                 <p className="text-foreground/85">{card.quiz.explain}</p>
               </div>
@@ -242,6 +260,9 @@ function QuestionStep({ content, game }: MissionScreenProps) {
                 <span className="mt-0.5 shrink-0">
                   {locked ? (
                     <Lock className="h-4 w-4 text-muted-foreground" />
+                  ) : !decided ? (
+                    /* 고르기 전에는 중립 아이콘 — 아이콘으로 정답이 새지 않게 */
+                    <MessageCircle className="h-4 w-4 text-muted-foreground" />
                   ) : q.isGood ? (
                     <Lightbulb className="h-4 w-4 text-amber-500" />
                   ) : (
@@ -317,7 +338,8 @@ function ReviewStep({ content, game }: MissionScreenProps) {
         <div className="flex flex-col gap-1.5">
           {lines.map((line, li) => {
             const isError = line === ans.errorSpan;
-            const clickable = catchable && !done;
+            const wrongTried = game.reviewWrongLines.includes(line);
+            const clickable = catchable && !done && !wrongTried;
             const revealError = done && isError;
             return (
               <button
@@ -328,6 +350,7 @@ function ReviewStep({ content, game }: MissionScreenProps) {
                   "ag-sentence text-left text-sm leading-relaxed",
                   clickable ? "ag-sentence-live" : "",
                   revealError ? "ag-sentence-error" : "",
+                  wrongTried && !done ? "opacity-45" : "",
                 ].join(" ")}
               >
                 {revealError && (
@@ -335,6 +358,7 @@ function ReviewStep({ content, game }: MissionScreenProps) {
                     {caught ? "🔍" : "⚠️"}
                   </span>
                 )}
+                {wrongTried && !done && <span className="mr-1">✕</span>}
                 {line}
               </button>
             );
@@ -349,9 +373,10 @@ function ReviewStep({ content, game }: MissionScreenProps) {
             🔍 {labels.canFindHint}
           </p>
           {game.reviewWrongPick && (
-            <p className="animate-fade-in text-center text-xs font-bold text-muted-foreground">
-              {labels.wrongPick}
-            </p>
+            <div className="ag-verdict-bad animate-fade-in rounded-xl p-3 text-center text-xs font-bold leading-relaxed">
+              <p>{labels.wrongPick}</p>
+              <p className="mt-1">{labels.wrongPickWarn}</p>
+            </div>
           )}
         </>
       )}
@@ -446,6 +471,9 @@ function DevelopStep({ content, game }: MissionScreenProps) {
                 <span className="mt-0.5 shrink-0">
                   {locked ? (
                     <Lock className="h-4 w-4 text-muted-foreground" />
+                  ) : !decided ? (
+                    /* 고르기 전에는 중립 아이콘 — 아이콘으로 정답이 새지 않게 */
+                    <MessageCircle className="h-4 w-4 text-muted-foreground" />
                   ) : ch.isBest ? (
                     <Sprout className="h-4 w-4 text-emerald-600" />
                   ) : (

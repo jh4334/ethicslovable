@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
 import type { AiFairGame } from "../useAiFairGame";
 import ImprovementCard from "./ImprovementCard";
+import TestButton, { useJudgeDelay } from "./TestButton";
 
 interface FinalScreenProps {
   content: AfContent;
@@ -17,21 +18,22 @@ interface FinalScreenProps {
  */
 export default function FinalScreen({ content, game }: FinalScreenProps) {
   const { ui, users, improvements, finalStage } = content;
-  const [testing, setTesting] = useState(false);
+  const [testing, startTesting] = useJudgeDelay(game.testFinal);
 
-  const { testFinal } = game;
+  // 심사 결과는 카드 목록 위에 뜬다 — 시험 버튼(하단)을 누른 뒤 결과가
+  // 화면 밖에 있지 않도록, 판정이 끝나면 결과로 스크롤한다.
+  const resultRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!testing) return;
-    const timer = setTimeout(() => {
-      testFinal();
-      setTesting(false);
-    }, 1100);
-    return () => clearTimeout(timer);
-  }, [testing, testFinal]);
+    if (!testing && game.finalResult) {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      resultRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    }
+  }, [testing, game.finalResult]);
 
   const picked = game.finalSelected.length;
   const budget = game.finalBudget;
-  const canTest = !testing && picked === budget && !game.finalResult?.solved;
+  // 통과하면 카드 트레이·버튼 영역 자체가 사라지므로 solved 검사는 불필요
+  const canTest = !testing && picked === budget;
   const result = game.finalResult;
   const total = users.length;
   const enabledCount = result ? result.enabledIds.length : 0;
@@ -51,13 +53,13 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
             key={i}
             className={cn("text-xs leading-relaxed text-foreground/90", i > 0 && "mt-2")}
           >
-            {i === 1 ? "🧑‍🔬 " : ""}
             {line}
           </p>
         ))}
       </div>
 
       {/* 시험 결과 — 포용 미터 + 친구 상태 (시험을 본 뒤에만) */}
+      <div ref={resultRef}>
       <AnimatePresence>
         {result && !testing && (
           <motion.div
@@ -108,6 +110,7 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
 
       {/* 카드 고르기 (통과 전까지) */}
       {!result?.solved && (
@@ -146,24 +149,18 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
             </div>
           </div>
 
-          <div className="mt-4">
-            <button
-              type="button"
-              disabled={!canTest}
-              onClick={() => canTest && setTesting(true)}
-              className={cn(
-                "w-full px-6 py-3 text-sm font-bold",
-                canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
-              )}
-            >
-              {testing ? `⏳ ${ui.testingLine}` : `🏛️ ${finalStage.testButton}`}
-            </button>
-            {picked < budget && !testing && (
-              <p className="mt-1.5 text-center text-[11px] font-semibold text-muted-foreground">
-                {finalStage.needMoreLine}
-              </p>
-            )}
-          </div>
+          <TestButton
+            canTest={canTest}
+            testing={testing}
+            idleLabel={`🏛️ ${finalStage.testButton}`}
+            testingLabel={ui.testingLine}
+            onTest={startTesting}
+          />
+          {picked < budget && !testing && (
+            <p className="mt-1.5 text-center text-[11px] font-semibold text-muted-foreground">
+              {finalStage.needMoreLine}
+            </p>
+          )}
         </>
       )}
     </div>

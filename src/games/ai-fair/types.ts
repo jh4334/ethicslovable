@@ -17,8 +17,6 @@ export interface AfUser {
   arriveLine?: string;
   /** 이 친구가 '이제 쓸 수 있게 됐을 때' 하는 말 */
   fixedLine: string;
-  /** 기본 사용자 설명(선택) — 왜 처음부터 잘 쓰는지 */
-  baseLine?: string;
 }
 
 /** 접근 장벽 한 종류 */
@@ -113,10 +111,13 @@ export interface AfUi {
   autoSolvedTitle: string;
   autoSolvedLine: string;
   installedLabel: string;
+  /** 결과 화면 — 최종으로 남긴 개선 목록 제목 */
+  keptLabel: string;
   meterLabel: string;
-  baselineTag: string;
   canUseTag: string;
   blockedTag: string;
+  /** 실패 피드백 머리말 — "{카드 이름} — {이 문구}" 형태로 표시 */
+  failedCardLead: string;
   helpsLabel: string;
   helpsNoneLabel: string;
   /** 아직 시험해 보지 않은 카드의 '돕는 사람' 자리에 보이는 안내 */

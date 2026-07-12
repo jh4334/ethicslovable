@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import html2canvas from "html2canvas";
 import { Check, RefreshCw, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { markCompleted } from "@/lib/progress";
@@ -40,6 +39,9 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
     setCopied(false);
 
     try {
+      // html2canvas(~200kB)는 '이미지 저장'을 누른 순간에만 내려받는다 —
+      // 게임 진입 청크를 가볍게 유지 (저사양·느린 학내망 배려)
+      const { default: html2canvas } = await import("html2canvas");
       const canvas = await html2canvas(captureRef.current, {
         backgroundColor: "#f4f5f7",
         scale: 2,
@@ -108,6 +110,11 @@ export function ResultScreen({ history, persona, content, onRestart }: ResultScr
           <FilterBubbleGauge riskScore={riskScore} levels={content.gaugeLevels} />
           <TendencyTable history={history} categories={content.categories} />
         </div>
+
+        {/* 학습지 연계 안내 */}
+        <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
+          📄 {content.ui.worksheetNote}
+        </p>
 
         {/* 동작 버튼 */}
         <div className="space-y-3 pt-2">

@@ -11,9 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+# 배포는 완료시키고 대기 중인 것만 건너뛴다 — 진행 중 프로덕션 배포 취소 방지
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build-deploy:
@@ -28,6 +29,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run typecheck
       - run: npm run build
       - uses: actions/configure-pages@v5
         with:

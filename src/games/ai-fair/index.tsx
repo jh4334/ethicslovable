@@ -37,7 +37,11 @@ export default function AiFairGame() {
   useEffect(() => {
     let alive = true;
     loadContent<AfContent>("ai-fair", fallbackContent as AfContent).then((loaded) => {
-      if (alive) setContent(loaded);
+      if (!alive) return;
+      // 서버의 data/ai-fair.json이 옛 스키마(스테이지 개편 전)면 내장 콘텐츠로
+      // 대체한다 — 재빌드 없이 데이터만 남은 배포에서도 게임이 깨지지 않게.
+      const valid = Array.isArray(loaded?.stageOrder) && loaded?.finalStage?.budget != null;
+      setContent(valid ? loaded : (fallbackContent as AfContent));
     });
     return () => {
       alive = false;
