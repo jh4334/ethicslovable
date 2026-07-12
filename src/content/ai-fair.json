@@ -10,7 +10,8 @@
     "[stageOrder] 손님이 찾아오는 순서예요(canUseBaseline=false인 users의 id). 순서가 학습 장치예요: 첫 손님(language)은 정답 카드가 2장(multilang·translate)이고, 둘째 손님(dialect)은 multilang로만 풀려요. 첫 손님에서 multilang을 골랐다면 둘째 손님은 '이미 돼요!'(자동 해결)로 만나며 '좋은 개선 하나는 여러 사람을 돕는다'를 몸으로 배워요.",
     "[finalStage] 최종 심사예요. budget(3)개의 개선만 남겨 여섯 명 모두 유지해야 해요. 정답 조합: multilang + (voice 또는 bigtext) + light. translate를 넣으면 사투리 장벽이 다시 살아나서 통과 못 해요.",
     "[insight] 심사 통과 후 통찰 화면 문구. [rules] 결과 화면의 '모두를 위한 AI 3원칙'(세부원칙 4·5·6 연결). [grades] 시험 버튼을 누른 총횟수(rounds)로 설계자 등급을 정해요 — 완벽 플레이는 4~5번이에요(둘째 손님 자동 해결 시 4번). maxRounds가 작은 것부터 먼저 맞는 등급을 써요.",
-    "[문구] 문체는 해요체, 실존 브랜드·인물·로마자 은어 금지. 누리봇·누리소프트·누리마을 세계관을 지켜 주세요."
+    "[문구] 문체는 해요체, 실존 브랜드·인물·로마자 은어 금지. 누리봇·누리소프트·누리마을 세계관을 지켜 주세요.",
+    "[편집 방어] stageOrder에 잘못된 id(오타·기본 사용자)를 넣으면 그 항목은 건너뛰어요. finalStage.budget은 1~카드 수 범위로 자동 보정돼요. 단, budget으로 4개 장벽을 모두 덮을 수 있는 카드 조합이 존재해야 최종 심사를 통과할 수 있으니, 카드 구성을 바꿀 때는 반드시 직접 플레이로 확인해 주세요."
   ],
   "meta": {
     "gameTitle": "모두의 AI",
@@ -30,8 +31,7 @@
       "who": "표준어를 쓰는 우리 반 친구",
       "barrierId": "",
       "canUseBaseline": true,
-      "fixedLine": "누리봇, 곤충 알려 줘! — 처음부터 잘 돼요.",
-      "baseLine": "기본 누리봇이 이런 친구를 기준으로 만들어져서, 처음부터 잘 써요."
+      "fixedLine": "누리봇, 곤충 알려 줘! — 처음부터 잘 돼요."
     },
     {
       "id": "phone",
@@ -39,8 +39,7 @@
       "who": "새 휴대폰으로 쓰는 옆 반 친구",
       "barrierId": "",
       "canUseBaseline": true,
-      "fixedLine": "누리봇, 숙제 도와줘! — 처음부터 잘 돼요.",
-      "baseLine": "빠른 인터넷과 새 기기를 써서, 기본 누리봇도 잘 돌아가요."
+      "fixedLine": "누리봇, 숙제 도와줘! — 처음부터 잘 돼요."
     },
     {
       "id": "newcomer",
@@ -79,7 +78,12 @@
       "fixedLine": "이제 느린 인터넷에서도 가볍게 열려요. 우리 마을에서도 돼요!"
     }
   ],
-  "stageOrder": ["newcomer", "grandma", "lowvision", "mountain"],
+  "stageOrder": [
+    "newcomer",
+    "grandma",
+    "lowvision",
+    "mountain"
+  ],
   "barriers": [
     {
       "id": "dialect",
@@ -116,7 +120,10 @@
       "emoji": "🗣️",
       "name": "사투리·여러 나라 말 배우기",
       "desc": "사투리와 여러 나라 말, 쉬운 말까지 함께 배워요.",
-      "helpsBarrierIds": ["dialect", "language"],
+      "helpsBarrierIds": [
+        "dialect",
+        "language"
+      ],
       "failLine": "누리봇이 말은 더 잘 알아듣게 됐어요. 그런데 이 친구가 막힌 곳은 '말'이 아니었나 봐요."
     },
     {
@@ -124,7 +131,9 @@
       "emoji": "🌏",
       "name": "다른 나라 말 번역 도우미",
       "desc": "서툰 한국어와 다른 나라 말을 알아듣고 도와줘요.",
-      "helpsBarrierIds": ["language"],
+      "helpsBarrierIds": [
+        "language"
+      ],
       "failLine": "번역은 잘하게 됐어요. 그런데 이 친구가 막힌 곳은 번역이 아니에요. (사투리는 외국어가 아니라서 번역기로는 안 풀려요!)"
     },
     {
@@ -132,7 +141,9 @@
       "emoji": "🔊",
       "name": "소리로 읽어 주고 들려주기",
       "desc": "답을 소리로 읽어 줘요. 화면을 못 봐도 답을 들을 수 있어요.",
-      "helpsBarrierIds": ["vision"],
+      "helpsBarrierIds": [
+        "vision"
+      ],
       "failLine": "소리로 읽어 주게 됐어요. 그런데 이 친구가 막힌 곳은 소리가 아니에요."
     },
     {
@@ -140,7 +151,9 @@
       "emoji": "🔎",
       "name": "큰 글자·고대비 화면",
       "desc": "글자를 크고 또렷하게 보여 줘요. 잘 안 보이는 친구도 읽을 수 있어요.",
-      "helpsBarrierIds": ["vision"],
+      "helpsBarrierIds": [
+        "vision"
+      ],
       "failLine": "글자는 커졌어요. 그런데 이 친구가 막힌 곳은 글자 크기가 아니에요."
     },
     {
@@ -148,7 +161,9 @@
       "emoji": "🪶",
       "name": "가벼운 버전·학교 컴퓨터 지원",
       "desc": "앱을 가볍게 만들고 학교 컴퓨터도 지원해요. 느린 인터넷에서도 열려요.",
-      "helpsBarrierIds": ["network"],
+      "helpsBarrierIds": [
+        "network"
+      ],
       "failLine": "앱은 가벼워졌어요. 그런데 이 친구가 막힌 곳은 속도가 아니에요."
     },
     {
@@ -164,7 +179,7 @@
     "title": "최종 설계 심사",
     "briefs": [
       "네 친구를 모두 도왔어요! 그때 연구소장님이 찾아왔어요.",
-      "\"훌륭해요, 설계자님. 그런데 개선을 전부 켜 두면 누리봇이 무거워져서, 느린 인터넷 마을에서 또 안 열리게 돼요. 개선은 딱 3개만 남길 수 있어요.\"",
+      "🧑‍🔬 \"훌륭해요, 설계자님. 그런데 개선을 전부 켜 두면 누리봇이 무거워져서, 느린 인터넷 마을에서 또 안 열리게 돼요. 개선은 딱 3개만 남길 수 있어요.\"",
       "여섯 명 '모두' 계속 쓸 수 있게, 남길 개선 3개를 골라 최종 시험을 통과하세요. 어떤 개선 하나는 두 사람을 한꺼번에 돕는다는 걸 기억해요!"
     ],
     "budget": 3,
@@ -202,10 +217,30 @@
     }
   ],
   "grades": [
-    { "maxRounds": 5, "emoji": "🏅", "name": "으뜸 포용 설계자", "desc": "친구마다 딱 맞는 개선을 한 번에 찾아냈어요. 최고의 설계자예요!" },
-    { "maxRounds": 7, "emoji": "🌟", "name": "훌륭한 포용 설계자", "desc": "야무지게 관찰하고 시험해서 여섯 명 모두 쓰게 만들었어요!" },
-    { "maxRounds": 10, "emoji": "🌱", "name": "새내기 포용 설계자", "desc": "차근차근 시험하며 결국 모두를 포용했어요. 잘했어요!" },
-    { "maxRounds": 99, "emoji": "🔰", "name": "포용 견습 설계자", "desc": "여러 번 시험하며 끝내 모두를 포용했어요. 포기하지 않았어요!" }
+    {
+      "maxRounds": 5,
+      "emoji": "🏅",
+      "name": "으뜸 포용 설계자",
+      "desc": "친구마다 딱 맞는 개선을 한 번에 찾아냈어요. 최고의 설계자예요!"
+    },
+    {
+      "maxRounds": 7,
+      "emoji": "🌟",
+      "name": "훌륭한 포용 설계자",
+      "desc": "야무지게 관찰하고 시험해서 여섯 명 모두 쓰게 만들었어요!"
+    },
+    {
+      "maxRounds": 10,
+      "emoji": "🌱",
+      "name": "새내기 포용 설계자",
+      "desc": "차근차근 시험하며 결국 모두를 포용했어요. 잘했어요!"
+    },
+    {
+      "maxRounds": 99,
+      "emoji": "🔰",
+      "name": "포용 견습 설계자",
+      "desc": "여러 번 시험하며 끝내 모두를 포용했어요. 포기하지 않았어요!"
+    }
   ],
   "ui": {
     "buildTitle": "누리봇 포용 설계실",
@@ -227,9 +262,9 @@
     "autoSolvedLine": "시험해 보기도 전에 벌써 잘 써요. 아까 단 개선이 이 친구까지 도와줬거든요. 좋은 개선 하나는 여러 사람을 한꺼번에 도와요!",
     "installedLabel": "지금까지 단 개선",
     "meterLabel": "쓸 수 있는 사람",
-    "baselineTag": "기본 사용자",
     "canUseTag": "잘 써요",
     "blockedTag": "아직 못 써요",
+    "failedCardLead": "이 손님에겐 효과가 없었어요",
     "helpsLabel": "돕는 사람",
     "helpsNoneLabel": "아무도 못 도와요 (함정!)",
     "helpsHiddenLabel": "시험해 보면 누구를 돕는지 알 수 있어요",

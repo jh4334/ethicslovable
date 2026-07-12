@@ -1,9 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
 import type { AiFairGame } from "../useAiFairGame";
 import ImprovementCard from "./ImprovementCard";
+import TestButton, { useJudgeDelay } from "./TestButton";
+
+/** 동작 축소 설정을 존중하는 스크롤 */
+function scrollToward(el: HTMLElement | null, block: ScrollLogicalPosition) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block });
+}
 
 interface StageScreenProps {
   content: AfContent;
@@ -17,33 +24,28 @@ interface StageScreenProps {
  * 이미 단 개선이 이 손님까지 돕고 있으면 '이미 돼요!'(자동 해결)를 보여 준다.
  */
 export default function StageScreen({ content, game }: StageScreenProps) {
-  const { ui, users, improvements, stageOrder } = content;
-  const [testing, setTesting] = useState(false);
+  const { ui, users, improvements } = content;
+  const [testing, startTesting] = useJudgeDelay(game.testStage);
 
   const guest = game.currentGuest;
   const barrier = game.currentBarrier;
-
-  // 시험 연출: 잠깐 보여 준 뒤 판정 (cleanup으로 StrictMode-safe)
-  const { testStage } = game;
-  useEffect(() => {
-    if (!testing) return;
-    const timer = setTimeout(() => {
-      testStage();
-      setTesting(false);
-    }, 1100);
-    return () => clearTimeout(timer);
-  }, [testing, testStage]);
 
   // 판정 피드백은 카드 목록 위에 뜬다 — 모바일에서 시험 버튼(하단)을 누른 뒤
   // 결과가 화면 밖에 있지 않도록, 판정이 끝나면 피드백으로 스크롤한다.
   const feedbackRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (testing) return;
-    if (game.stageStatus === "solved" || game.stageStatus === "fail" || game.stageStatus === "auto") {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      feedbackRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    if (!testing && (game.stageStatus === "solved" || game.stageStatus === "fail")) {
+      scrollToward(feedbackRef.current, "center");
     }
   }, [testing, game.stageStatus]);
+
+  // 손님이 바뀌면 손님 소개가 보이도록 맨 위로 — '다음 손님' 버튼은 페이지
+  // 하단에 있어, 스크롤을 되돌리지 않으면 새 손님의 이야기(카드를 고르는 데
+  // 필요한 정보)가 화면 밖에 남는다. (자동 해결 안내도 상단에 함께 보인다)
+  const topRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    scrollToward(topRef.current, "start");
+  }, [game.stageIndex]);
 
   if (!guest) return null;
 
@@ -55,7 +57,7 @@ export default function StageScreen({ content, game }: StageScreenProps) {
   const canTest = !testing && !isDone && game.selectedId !== null;
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-fade-in px-4 py-5 pb-6">
+    <div ref={topRef} className="mx-auto w-full max-w-2xl animate-fade-in px-4 py-5 pb-6">
       {/* 헤더 */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="af-pill text-[11px]">
@@ -67,7 +69,7 @@ export default function StageScreen({ content, game }: StageScreenProps) {
 
       {/* 손님 진행 점 — 도운 손님은 초록으로 */}
       <div className="mt-3 flex items-center gap-1.5">
-        {stageOrder.map((id, i) => {
+        {game.guestIds.map((id, i) => {
           const u = users.find((x) => x.id === id);
           const done = i < game.stageIndex || (i === game.stageIndex && isDone);
           const current = i === game.stageIndex;
@@ -168,7 +170,7 @@ export default function StageScreen({ content, game }: StageScreenProps) {
             className="mlq-card mt-3 border-2 border-destructive/25 p-3.5"
           >
             <p className="text-xs font-extrabold text-foreground/80">
-              {failedCard.emoji} {failedCard.name} — 이 손님에겐 효과가 없었어요
+              {failedCard.emoji} {failedCard.name} — {ui.failedCardLead}
             </p>
             <p className="mt-1 text-xs leading-relaxed text-foreground/90">{failedCard.failLine}</p>
             <p className="mt-2 text-[11px] font-semibold text-muted-foreground">💪 {ui.retryLine}</p>
@@ -200,20 +202,13 @@ export default function StageScreen({ content, game }: StageScreenProps) {
             </div>
           </div>
 
-          {/* 카드를 훑는 동안에도 시험 버튼이 손에 닿도록 하단 고정 */}
-          <div className="sticky bottom-3 z-10 mt-4">
-            <button
-              type="button"
-              disabled={!canTest}
-              onClick={() => canTest && setTesting(true)}
-              className={cn(
-                "w-full px-6 py-3 text-sm font-bold shadow-lg",
-                canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
-              )}
-            >
-              {testing ? `⏳ ${ui.testingLine}` : `🧪 ${ui.testButton}`}
-            </button>
-          </div>
+          <TestButton
+            canTest={canTest}
+            testing={testing}
+            idleLabel={`🧪 ${ui.testButton}`}
+            testingLabel={ui.testingLine}
+            onTest={startTesting}
+          />
         </>
       )}
 

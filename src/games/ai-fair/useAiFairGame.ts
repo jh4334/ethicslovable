@@ -11,6 +11,9 @@
  * - 최종 심사: 개선을 budget(3)개만 골라 여섯 명 전원이 유지되는 조합을 찾는다.
  * - rounds = 시험 버튼을 누른 총횟수. 적을수록 높은 등급.
  * - 카드가 누구를 돕는지는 시험해 본 카드만 공개된다(revealedIds).
+ *
+ * 교사 편집(JSON) 방어: stageOrder의 잘못된 id(오타·기본 사용자)는 걸러 내고,
+ * budget은 1~카드 수로 강제해, 콘텐츠 실수로 게임이 막히지 않게 한다.
  */
 import { useCallback, useMemo, useState } from "react";
 import type {
@@ -29,6 +32,8 @@ export interface AiFairGame {
   stageIndex: number;
   /** 손님 스테이지 총 수 */
   stageTotal: number;
+  /** 유효성 검사를 통과한 손님 id 순서 (진행 점 표시용) */
+  guestIds: string[];
   /** 지금 찾아온 손님 (stage 페이즈에서만) */
   currentGuest: AfUser | null;
   /** 지금 손님의 접근 장벽 */
@@ -46,17 +51,14 @@ export interface AiFairGame {
   revealedIds: string[];
   /** 시험 버튼을 누른 총횟수 */
   rounds: number;
-  /** 지금까지(설치 기준) 쓸 수 있는 친구 id */
+  /** 현재 설계(최종 통과 후엔 남긴 3개 기준)로 쓸 수 있는 친구 id */
   enabledIds: string[];
-  baselineIds: string[];
   /* ---- 최종 심사 ---- */
   finalSelected: string[];
   finalBudget: number;
   finalResult: AfFinalResult | null;
   /** 최종으로 남긴 개선 카드 객체 (통찰·결과 화면용) */
   keptCards: AfContent["improvements"];
-  /** 최종 심사까지 통과했는가 */
-  solved: boolean;
   grade: AfGrade;
   start: () => void;
   selectCard: (id: string) => void;
@@ -93,11 +95,23 @@ function pickGrade(grades: AfGrade[], rounds: number): AfGrade {
 }
 
 export function useAiFairGame(content: AfContent): AiFairGame {
-  const baselineIds = useMemo(
-    () => content.users.filter((u) => u.canUseBaseline).map((u) => u.id),
-    [content.users],
+  // stageOrder 방어: 존재하지 않는 id·장벽 없는(기본) 사용자는 걸러 낸다 —
+  // 교사가 JSON에 오타를 내도 게임이 빈 화면·무한 시험으로 막히지 않는다.
+  const stageIds = useMemo(
+    () =>
+      content.stageOrder.filter((id) => {
+        const u = content.users.find((x) => x.id === id);
+        return Boolean(u && u.barrierId !== "");
+      }),
+    [content.stageOrder, content.users],
   );
-  const stageTotal = content.stageOrder.length;
+  const stageTotal = stageIds.length;
+
+  // budget 방어: 최소 1, 최대 카드 수
+  const finalBudget = Math.min(
+    Math.max(1, content.finalStage.budget),
+    content.improvements.length,
+  );
 
   const [phase, setPhase] = useState<AfPhase>("intro");
   const [stageIndex, setStageIndex] = useState(0);
@@ -113,29 +127,32 @@ export function useAiFairGame(content: AfContent): AiFairGame {
 
   const currentGuest = useMemo(() => {
     if (phase !== "stage") return null;
-    const id = content.stageOrder[stageIndex];
+    const id = stageIds[stageIndex];
     return content.users.find((u) => u.id === id) ?? null;
-  }, [phase, stageIndex, content.stageOrder, content.users]);
+  }, [phase, stageIndex, stageIds, content.users]);
 
   const currentBarrier = useMemo(() => {
     if (!currentGuest || currentGuest.barrierId === "") return null;
     return content.barriers.find((b) => b.id === currentGuest.barrierId) ?? null;
   }, [currentGuest, content.barriers]);
 
+  // 최종 통과 후엔 '남긴 조합' 기준 — 결과 화면 수치가 서사(3개만 남김)와 일치한다
+  const keptSource = finalResult?.solved ? finalSelected : installed;
+
   const enabledIds = useMemo(
-    () => computeEnabled(content, installed),
-    [content, installed],
+    () => computeEnabled(content, keptSource),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [content, finalResult, finalSelected, installed],
   );
 
-  const keptCards = useMemo(() => {
-    const source = finalResult?.solved ? finalSelected : installed;
-    return content.improvements.filter((i) => source.includes(i.id));
-  }, [content.improvements, finalResult, finalSelected, installed]);
+  const keptCards = useMemo(
+    () => content.improvements.filter((i) => keptSource.includes(i.id)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [content.improvements, finalResult, finalSelected, installed],
+  );
 
-  const solved = Boolean(finalResult?.solved);
-
-  const start = useCallback(() => {
-    setPhase("stage");
+  /** start/restart 공용 초기화 — 새 상태가 생기면 여기 한 곳만 고친다 */
+  const resetAll = useCallback(() => {
     setStageIndex(0);
     setStageStatus("pick"); // 첫 손님은 설치 카드가 없어 자동 해결이 불가능
     setSelectedId(null);
@@ -147,6 +164,17 @@ export function useAiFairGame(content: AfContent): AiFairGame {
     setFinalSelected([]);
     setFinalResult(null);
   }, []);
+
+  const start = useCallback(() => {
+    resetAll();
+    // 손님이 하나도 없으면(콘텐츠 편집 실수) 바로 최종 심사로
+    setPhase(stageTotal > 0 ? "stage" : "final");
+  }, [resetAll, stageTotal]);
+
+  const restart = useCallback(() => {
+    resetAll();
+    setPhase("intro");
+  }, [resetAll]);
 
   const selectCard = useCallback(
     (id: string) => {
@@ -187,8 +215,7 @@ export function useAiFairGame(content: AfContent): AiFairGame {
       setFinalResult(null);
       return;
     }
-    const nextGuestId = content.stageOrder[next];
-    const nextGuest = content.users.find((u) => u.id === nextGuestId);
+    const nextGuest = content.users.find((u) => u.id === stageIds[next]);
     const fixed = fixedBarrierSet(content, installed);
     const auto = Boolean(nextGuest && nextGuest.barrierId !== "" && fixed.has(nextGuest.barrierId));
     setStageIndex(next);
@@ -196,22 +223,22 @@ export function useAiFairGame(content: AfContent): AiFairGame {
     setSelectedId(null);
     setTriedIds([]);
     setLastFailedId(null);
-  }, [stageIndex, stageTotal, content, installed]);
+  }, [stageIndex, stageTotal, stageIds, content, installed]);
 
   const toggleFinal = useCallback(
     (id: string) => {
       setFinalResult(null);
       setFinalSelected((prev) => {
         if (prev.includes(id)) return prev.filter((x) => x !== id);
-        if (prev.length >= content.finalStage.budget) return prev;
+        if (prev.length >= finalBudget) return prev;
         return [...prev, id];
       });
     },
-    [content.finalStage.budget],
+    [finalBudget],
   );
 
   const testFinal = useCallback(() => {
-    if (finalSelected.length !== content.finalStage.budget) return;
+    if (finalSelected.length !== finalBudget) return;
     setRounds((r) => r + 1);
     setRevealedIds((prev) => {
       const next = [...prev];
@@ -226,24 +253,10 @@ export function useAiFairGame(content: AfContent): AiFairGame {
       blockedIds,
       solved: enabled.length === content.users.length,
     });
-  }, [finalSelected, content]);
+  }, [finalSelected, finalBudget, content]);
 
   const goInsight = useCallback(() => setPhase("insight"), []);
   const goResult = useCallback(() => setPhase("result"), []);
-
-  const restart = useCallback(() => {
-    setPhase("intro");
-    setStageIndex(0);
-    setStageStatus("pick");
-    setSelectedId(null);
-    setTriedIds([]);
-    setLastFailedId(null);
-    setInstalled([]);
-    setRevealedIds([]);
-    setRounds(0);
-    setFinalSelected([]);
-    setFinalResult(null);
-  }, []);
 
   const grade = useMemo(() => pickGrade(content.grades, rounds), [content.grades, rounds]);
 
@@ -251,6 +264,7 @@ export function useAiFairGame(content: AfContent): AiFairGame {
     phase,
     stageIndex,
     stageTotal,
+    guestIds: stageIds,
     currentGuest,
     currentBarrier,
     stageStatus,
@@ -261,12 +275,10 @@ export function useAiFairGame(content: AfContent): AiFairGame {
     revealedIds,
     rounds,
     enabledIds,
-    baselineIds,
     finalSelected,
-    finalBudget: content.finalStage.budget,
+    finalBudget,
     finalResult,
     keptCards,
-    solved,
     grade,
     start,
     selectCard,

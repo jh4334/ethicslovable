@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { AfContent } from "../types";
 import type { AiFairGame } from "../useAiFairGame";
 import ImprovementCard from "./ImprovementCard";
+import TestButton, { useJudgeDelay } from "./TestButton";
 
 interface FinalScreenProps {
   content: AfContent;
@@ -17,17 +18,7 @@ interface FinalScreenProps {
  */
 export default function FinalScreen({ content, game }: FinalScreenProps) {
   const { ui, users, improvements, finalStage } = content;
-  const [testing, setTesting] = useState(false);
-
-  const { testFinal } = game;
-  useEffect(() => {
-    if (!testing) return;
-    const timer = setTimeout(() => {
-      testFinal();
-      setTesting(false);
-    }, 1100);
-    return () => clearTimeout(timer);
-  }, [testing, testFinal]);
+  const [testing, startTesting] = useJudgeDelay(game.testFinal);
 
   // 심사 결과는 카드 목록 위에 뜬다 — 시험 버튼(하단)을 누른 뒤 결과가
   // 화면 밖에 있지 않도록, 판정이 끝나면 결과로 스크롤한다.
@@ -41,7 +32,8 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
 
   const picked = game.finalSelected.length;
   const budget = game.finalBudget;
-  const canTest = !testing && picked === budget && !game.finalResult?.solved;
+  // 통과하면 카드 트레이·버튼 영역 자체가 사라지므로 solved 검사는 불필요
+  const canTest = !testing && picked === budget;
   const result = game.finalResult;
   const total = users.length;
   const enabledCount = result ? result.enabledIds.length : 0;
@@ -61,7 +53,6 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
             key={i}
             className={cn("text-xs leading-relaxed text-foreground/90", i > 0 && "mt-2")}
           >
-            {i === 1 ? "🧑‍🔬 " : ""}
             {line}
           </p>
         ))}
@@ -158,25 +149,18 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
             </div>
           </div>
 
-          {/* 카드를 훑는 동안에도 시험 버튼이 손에 닿도록 하단 고정 */}
-          <div className="sticky bottom-3 z-10 mt-4">
-            <button
-              type="button"
-              disabled={!canTest}
-              onClick={() => canTest && setTesting(true)}
-              className={cn(
-                "w-full px-6 py-3 text-sm font-bold shadow-lg",
-                canTest ? "af-btn animate-pop" : "cursor-not-allowed rounded-xl bg-muted text-muted-foreground",
-              )}
-            >
-              {testing ? `⏳ ${ui.testingLine}` : `🏛️ ${finalStage.testButton}`}
-            </button>
-            {picked < budget && !testing && (
-              <p className="mt-1.5 text-center text-[11px] font-semibold text-muted-foreground">
-                {finalStage.needMoreLine}
-              </p>
-            )}
-          </div>
+          <TestButton
+            canTest={canTest}
+            testing={testing}
+            idleLabel={`🏛️ ${finalStage.testButton}`}
+            testingLabel={ui.testingLine}
+            onTest={startTesting}
+          />
+          {picked < budget && !testing && (
+            <p className="mt-1.5 text-center text-[11px] font-semibold text-muted-foreground">
+              {finalStage.needMoreLine}
+            </p>
+          )}
         </>
       )}
     </div>
