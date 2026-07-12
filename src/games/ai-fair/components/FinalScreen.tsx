@@ -34,7 +34,8 @@ export default function FinalScreen({ content, game }: FinalScreenProps) {
   const resultRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!testing && game.finalResult) {
-      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      resultRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
     }
   }, [testing, game.finalResult]);
 

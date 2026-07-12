@@ -40,7 +40,8 @@ export default function StageScreen({ content, game }: StageScreenProps) {
   useEffect(() => {
     if (testing) return;
     if (game.stageStatus === "solved" || game.stageStatus === "fail" || game.stageStatus === "auto") {
-      feedbackRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      feedbackRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
     }
   }, [testing, game.stageStatus]);
 
