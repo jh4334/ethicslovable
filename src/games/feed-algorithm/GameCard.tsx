@@ -86,20 +86,28 @@ const GameCard = ({ card, onDecision, onDragUpdate }: GameCardProps) => {
             </p>
           </div>
 
-          {/* 선택지 힌트 */}
+          {/* 선택지 — 드래그뿐 아니라 누르기·키보드로도 결정할 수 있다 */}
           <div className="flex w-full justify-between border-t border-white/10 pt-4 text-[11px] font-bold">
-            <div className="fa-hint-no flex w-1/2 flex-col items-start pr-3">
+            <button
+              type="button"
+              onClick={() => onDecision("NO")}
+              className="fa-hint-no flex w-1/2 flex-col items-start rounded-lg pr-3 text-left transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            >
               <span className="flex items-center gap-1">👎 거절</span>
               <span className="fa-dim mt-1.5 text-[10px] font-normal leading-tight break-keep">
                 {card.reject.label}
               </span>
-            </div>
-            <div className="fa-hint-yes flex w-1/2 flex-col items-end pl-3">
+            </button>
+            <button
+              type="button"
+              onClick={() => onDecision("YES")}
+              className="fa-hint-yes flex w-1/2 flex-col items-end rounded-lg pl-3 text-right transition-transform hover:scale-[1.03] active:scale-[0.97]"
+            >
               <span className="flex items-center gap-1">승인 👍</span>
               <span className="fa-dim mt-1.5 text-right text-[10px] font-normal leading-tight break-keep">
                 {card.approve.label}
               </span>
-            </div>
+            </button>
           </div>
         </div>
       </motion.div>

@@ -18,12 +18,28 @@ interface ChoiceListProps {
 export default function ChoiceList({ choices, feedback, onChoose }: ChoiceListProps) {
   // 라운드가 바뀌며 목록이 다시 그려지면 포커스가 body로 떨어진다 —
   // 키보드 학생이 제한시간 안에 처음부터 다시 Tab하지 않도록,
-  // 잃어버린 포커스(activeElement가 body일 때)만 첫 보기로 되살린다.
+  // '키보드로 조작 중일 때만' 잃어버린 포커스를 첫 보기로 되살린다.
+  // (마우스·터치 학생에게 매 라운드 포커스 링·스크롤 점프가 생기지 않게)
   const listRef = useRef<HTMLDivElement>(null);
+  const keyboardModeRef = useRef(false);
   useEffect(() => {
-    if (feedback !== null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Tab" || e.key === "Enter" || e.key === " ") keyboardModeRef.current = true;
+    };
+    const onPointer = () => {
+      keyboardModeRef.current = false;
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointer);
+    };
+  }, []);
+  useEffect(() => {
+    if (feedback !== null || !keyboardModeRef.current) return;
     if (document.activeElement === document.body) {
-      listRef.current?.querySelector("button")?.focus();
+      listRef.current?.querySelector("button")?.focus({ preventScroll: true });
     }
   }, [choices, feedback]);
 

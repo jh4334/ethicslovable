@@ -13,6 +13,9 @@ export default function PortalPage() {
   const done = completedCount();
   const total = GAME_IDS.length;
 
+  // 히어로 CTA — 차시 순서상 첫 미완료 퀘스트로 바로 이어 준다
+  const nextGame = GAMES.find((g) => !progress.games[g.id]);
+
   const handleReset = () => {
     if (window.confirm("진행 기록을 모두 지울까요? (이 컴퓨터에서만 지워져요)")) {
       resetProgress();
@@ -39,8 +42,19 @@ export default function PortalPage() {
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed opacity-95 sm:text-base">
             인터넷 세상 '누리마을'의 IT 회사 <b>누리소프트</b>에 새내기 알고리즘
             요원으로 입사했어요. 16개의 퀘스트를 차례대로 깨면서 추천 알고리즘과
-            인공지능의 비밀을 파헤쳐 보세요. 설치도, 로그인도 필요 없어요!
+            인공지능의 비밀을 파헤쳐 보세요. 설치도 로그인도 필요 없고,
+            개인정보도 모으지 않아요!
           </p>
+          {nextGame && (
+            <Link
+              to={nextGame.path}
+              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-black text-primary shadow-lift transition-transform hover:-translate-y-0.5"
+            >
+              {done === 0
+                ? `🚀 1차시부터 시작하기`
+                : `▶️ 이어서 하기 — ${nextGame.lesson}차시 ${nextGame.title}`}
+            </Link>
+          )}
         </div>
         <svg aria-hidden className="block w-full text-background" viewBox="0 0 1440 48" fill="currentColor" preserveAspectRatio="none">
           <path d="M0,24 C240,48 480,0 720,12 C960,24 1200,48 1440,16 L1440,48 L0,48 Z" />

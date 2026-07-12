@@ -358,7 +358,7 @@ function ReviewStep({ content, game }: MissionScreenProps) {
                     {caught ? "🔍" : "⚠️"}
                   </span>
                 )}
-                {wrongTried && !done && <span className="mr-1">✓</span>}
+                {wrongTried && !done && <span className="mr-1">✕</span>}
                 {line}
               </button>
             );
