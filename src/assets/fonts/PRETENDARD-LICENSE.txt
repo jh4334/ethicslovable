@@ -1,3 +1,5 @@
+[안내] PretendardVariable.core.woff2 는 위 폰트를 pyftsubset으로 서브셋한 파생본입니다(OFL 허용). 동일 라이선스가 적용됩니다.
+
 Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard),
 with Reserved Font Name Pretendard.
 
