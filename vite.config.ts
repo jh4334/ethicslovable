@@ -9,8 +9,13 @@ import fs from "fs";
 // 바꿀 수 있다(재빌드 불필요). 개발 서버에서도 같은 경로로 서빙한다.
 function contentAsData(): Plugin {
   const contentDir = path.resolve(__dirname, "src/content");
+  let outRoot = path.resolve(__dirname, "dist");
   return {
     name: "content-as-data",
+    configResolved(config) {
+      // 실제 outDir을 따라간다 — 오프라인 빌드(dist-offline)가 dist/를 오염시키지 않게
+      outRoot = path.resolve(config.root, config.build.outDir);
+    },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const m = req.url?.match(/^\/data\/([\w-]+\.json)$/);
@@ -26,7 +31,7 @@ function contentAsData(): Plugin {
       });
     },
     closeBundle() {
-      const outDir = path.resolve(__dirname, "dist/data");
+      const outDir = path.join(outRoot, "data");
       if (!fs.existsSync(contentDir)) return;
       fs.mkdirSync(outDir, { recursive: true });
       for (const f of fs.readdirSync(contentDir)) {
