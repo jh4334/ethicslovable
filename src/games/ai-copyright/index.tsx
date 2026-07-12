@@ -16,13 +16,26 @@ import StartScreen from "./components/StartScreen";
 import Part1Screen from "./components/Part1Screen";
 import Part2Screen from "./components/Part2Screen";
 import ResultScreen from "./components/ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: AcContent }) {
   const game = useAiCopyrightGame(content);
 
-  if (game.phase === "part1") return <Part1Screen content={content} game={game} />;
-  if (game.phase === "part2") return <Part2Screen content={content} game={game} />;
+  if (game.phase === "part1")
+    return (
+      <>
+        <ExitGuard />
+        <Part1Screen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "part2")
+    return (
+      <>
+        <ExitGuard />
+        <Part2Screen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <StartScreen content={content} onStart={game.start} />;
 }

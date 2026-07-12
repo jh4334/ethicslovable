@@ -17,13 +17,26 @@ import StartScreen from "./components/StartScreen";
 import ChatScreen from "./components/ChatScreen";
 import PromiseScreen from "./components/PromiseScreen";
 import FinaleScreen from "./components/FinaleScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: CgContent }) {
   const game = useChatGuardGame(content);
 
-  if (game.phase === "chat") return <ChatScreen content={content} game={game} />;
-  if (game.phase === "promise") return <PromiseScreen content={content} game={game} />;
+  if (game.phase === "chat")
+    return (
+      <>
+        <ExitGuard />
+        <ChatScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "promise")
+    return (
+      <>
+        <ExitGuard />
+        <PromiseScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "finale") return <FinaleScreen content={content} game={game} />;
   return <StartScreen content={content} onStart={game.start} />;
 }

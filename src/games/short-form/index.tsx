@@ -19,14 +19,33 @@ import FeedScreen from "./FeedScreen";
 import EndScreen from "./EndScreen";
 import RevealScreen from "./RevealScreen";
 import ResultScreen from "./ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: SfContent }) {
   const game = useShortFormGame(content);
 
-  if (game.phase === "feed") return <FeedScreen content={content} game={game} />;
-  if (game.phase === "ending") return <EndScreen content={content} game={game} />;
-  if (game.phase === "reveal") return <RevealScreen content={content} game={game} />;
+  if (game.phase === "feed")
+    return (
+      <>
+        <ExitGuard />
+        <FeedScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "ending")
+    return (
+      <>
+        <ExitGuard />
+        <EndScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "reveal")
+    return (
+      <>
+        <ExitGuard />
+        <RevealScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <IntroScreen content={content} onStart={game.startFeed} />;
 }

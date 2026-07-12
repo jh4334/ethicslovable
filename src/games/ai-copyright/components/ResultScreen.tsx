@@ -4,6 +4,7 @@ import { RotateCcw, Home, BookMarked, HandHeart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { AcContent } from "../types";
 import type { AiCopyrightGame } from "../useAiCopyrightGame";
 
@@ -135,6 +136,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           </div>
         </div>
 
+        <div className="mb-3">
+          <NextQuest gameId="ai-copyright" />
+        </div>
         <div className="flex gap-2">
           <button
             onClick={game.restart}

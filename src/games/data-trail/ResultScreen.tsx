@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import { cn } from "@/lib/utils";
 import ProfileCard from "./ProfileCard";
 import type { DtContent } from "./types";
@@ -89,10 +90,14 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           📄 {result.worksheetNote}
         </p>
 
+        <div className="mt-6">
+          <NextQuest gameId="data-trail" />
+        </div>
+
         <button
           type="button"
           onClick={restart}
-          className="dt-btn dt-btn-outline mt-6 w-full px-6 py-3 text-sm"
+          className="dt-btn dt-btn-outline mt-3 w-full px-6 py-3 text-sm"
         >
           <RefreshCw className="h-4 w-4" />
           {result.restartButton}

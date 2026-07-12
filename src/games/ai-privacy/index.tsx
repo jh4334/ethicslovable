@@ -17,13 +17,26 @@ import StartScreen from "./components/StartScreen";
 import Round1Screen from "./components/Round1Screen";
 import MistakeScreen from "./components/MistakeScreen";
 import ResultScreen from "./components/ResultScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: ApContent }) {
   const game = useAiPrivacyGame(content);
 
-  if (game.phase === "round1") return <Round1Screen content={content} game={game} />;
-  if (game.phase === "mistakes") return <MistakeScreen content={content} game={game} />;
+  if (game.phase === "round1")
+    return (
+      <>
+        <ExitGuard />
+        <Round1Screen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "mistakes")
+    return (
+      <>
+        <ExitGuard />
+        <MistakeScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "result") return <ResultScreen content={content} game={game} />;
   return <StartScreen content={content} onStart={game.start} />;
 }

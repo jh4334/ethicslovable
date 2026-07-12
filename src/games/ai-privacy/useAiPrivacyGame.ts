@@ -148,7 +148,7 @@ export function useAiPrivacyGame(content: ApContent): AiPrivacyGame {
 
   const mCorrect = useMemo(
     () =>
-      mAnswers.reduce((sum, a, i) => {
+      mAnswers.reduce<number>((sum, a, i) => {
         if (a == null) return sum;
         return sum + (mistakes[i].choices[a]?.isGood ? 1 : 0);
       }, 0),

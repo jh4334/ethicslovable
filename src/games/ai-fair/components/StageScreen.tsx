@@ -5,6 +5,7 @@ import type { AfContent } from "../types";
 import type { AiFairGame } from "../useAiFairGame";
 import ImprovementCard from "./ImprovementCard";
 import TestButton, { useJudgeDelay } from "./TestButton";
+import ExitGuard from "@/components/ExitGuard";
 
 /** 동작 축소 설정을 존중하는 스크롤 */
 function scrollToward(el: HTMLElement | null, block: ScrollLogicalPosition) {
@@ -68,6 +69,7 @@ export default function StageScreen({ content, game }: StageScreenProps) {
 
   return (
     <div ref={topRef} className="mx-auto w-full max-w-2xl animate-fade-in px-4 py-5 pb-6">
+      <ExitGuard />
       {/* 헤더 */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="af-pill text-[11px]">

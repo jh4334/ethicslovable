@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { RotateCcw, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { FcContent } from "../types";
 import type { FactCheckGame } from "../useFactCheckGame";
 
@@ -85,6 +86,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           📄 {labels.worksheetNote}
         </p>
 
+        <div className="mb-3">
+          <NextQuest gameId="fact-check" />
+        </div>
         <div className="flex gap-2">
           <button
             onClick={game.restart}

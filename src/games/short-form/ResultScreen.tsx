@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import { computeScore, fill, formatVirtual, pickGrade } from "./logic";
 import type { SfContent } from "./types";
 import type { ShortFormGame } from "./useShortFormGame";
@@ -114,10 +115,14 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           📄 {result.worksheetNote}
         </p>
 
+        <div className="mt-6">
+          <NextQuest gameId="short-form" />
+        </div>
+
         <button
           type="button"
           onClick={restart}
-          className="sf-btn sf-btn-outline mt-6 w-full px-6 py-3 text-sm"
+          className="sf-btn sf-btn-outline mt-3 w-full px-6 py-3 text-sm"
         >
           <RefreshCw className="h-4 w-4" />
           {result.restartButton}

@@ -23,13 +23,19 @@ import { useAiGrowGame } from "./useAiGrowGame";
 import StartScreen from "./components/StartScreen";
 import MissionScreen from "./components/MissionScreen";
 import FinaleScreen from "./components/FinaleScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: AgContent }) {
   const game = useAiGrowGame(content);
 
   if (game.phase === "mission")
-    return <MissionScreen content={content} game={game} />;
+    return (
+      <>
+        <ExitGuard />
+        <MissionScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "finale")
     return <FinaleScreen content={content} game={game} />;
   return <StartScreen content={content} onStart={game.start} />;

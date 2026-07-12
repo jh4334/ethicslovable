@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { GbContent, GbGrade } from "../types";
 import type { GachaGame } from "../useGachaGame";
 import { formatCoins, legendaryOf } from "../format";
@@ -146,7 +147,11 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           ✅ {result.finishNote}
         </p>
         <div className="mt-3 flex flex-col gap-2">
-          <Link to="/" className="gb-btn w-full px-6 py-3 text-center text-sm">
+          <NextQuest gameId="gacha-box" />
+          <Link
+            to="/"
+            className="w-full rounded-xl border bg-card px-6 py-3 text-center text-sm font-bold text-foreground transition-colors hover:bg-muted"
+          >
             {result.mapButton}
           </Link>
           <button

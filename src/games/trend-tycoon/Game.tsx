@@ -10,6 +10,7 @@ import WeightSlider from "./WeightSlider";
 import VideoCard from "./VideoCard";
 import AftermathPanel from "./AftermathPanel";
 import ClearScreen from "./ClearScreen";
+import ExitGuard from "@/components/ExitGuard";
 
 /** 레벨 시작 시 기본 가중치 */
 const DEFAULT_WEIGHTS: Weights = { clicks: 5, watchTime: 5, likes: 5, intensity: 1 };
@@ -186,6 +187,7 @@ export default function Game({ content }: GameProps) {
 
   return (
     <div className="flex flex-col bg-background text-foreground md:h-[calc(100vh-2.75rem)] md:overflow-hidden">
+      <ExitGuard />
       <GameHeader
         labName={content.intro.labName}
         platformName={content.intro.platformName}

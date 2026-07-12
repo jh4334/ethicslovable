@@ -4,6 +4,7 @@ import { RotateCcw, Home, BookMarked, ListChecks } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { SdContent } from "../types";
 import type { SearchDetectiveGame } from "../useSearchDetectiveGame";
 
@@ -125,6 +126,9 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
           📄 {labels.worksheetNote}
         </p>
 
+        <div className="mb-3">
+          <NextQuest gameId="search-detective" />
+        </div>
         <div className="flex gap-2">
           <button
             onClick={game.restart}

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Medal, PencilLine, RotateCcw, ScrollText, Sparkles, Star, Trophy } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import { cn } from "@/lib/utils";
 import type { ClearContent, FinalReportContent, GradeContent } from "./types";
 
@@ -172,6 +173,10 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
         </motion.section>
       )}
 
+      <div className="z-10 mb-4 w-full max-w-sm">
+        <NextQuest gameId="trend-tycoon" />
+      </div>
+
       <motion.button
         onClick={onReset}
         initial={{ opacity: 0, y: 20 }}
@@ -179,7 +184,7 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
         transition={{ delay: 0.8 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 rounded-full bg-white px-8 py-3 text-lg font-extrabold text-foreground shadow-2xl"
+        className="z-10 flex items-center gap-2 rounded-full bg-white px-8 py-3 text-lg font-extrabold text-foreground shadow-2xl"
       >
         <RotateCcw aria-hidden /> {clear.restartLabel}
       </motion.button>

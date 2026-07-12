@@ -16,14 +16,33 @@ import TrainScreen from "./components/TrainScreen";
 import TestScreen from "./components/TestScreen";
 import RoundResultScreen from "./components/RoundResultScreen";
 import ReflectionScreen from "./components/ReflectionScreen";
+import ExitGuard from "@/components/ExitGuard";
 import "./styles.css";
 
 function GameBody({ content }: { content: DbContent }) {
   const game = useDataBiasGame(content);
 
-  if (game.phase === "train") return <TrainScreen content={content} game={game} />;
-  if (game.phase === "test") return <TestScreen content={content} game={game} />;
-  if (game.phase === "roundResult") return <RoundResultScreen content={content} game={game} />;
+  if (game.phase === "train")
+    return (
+      <>
+        <ExitGuard />
+        <TrainScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "test")
+    return (
+      <>
+        <ExitGuard />
+        <TestScreen content={content} game={game} />
+      </>
+    );
+  if (game.phase === "roundResult")
+    return (
+      <>
+        <ExitGuard />
+        <RoundResultScreen content={content} game={game} />
+      </>
+    );
   if (game.phase === "reflection") return <ReflectionScreen content={content} game={game} />;
   return <IntroScreen content={content} onStart={game.start} />;
 }

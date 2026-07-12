@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Home, RotateCcw } from "lucide-react";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import type { CgContent } from "../types";
 import type { ChatGuardGame } from "../useChatGuardGame";
 
@@ -101,6 +102,9 @@ export default function FinaleScreen({ content, game }: FinaleScreenProps) {
           <p className="text-muted-foreground">{finale.graduationMessage}</p>
         </div>
 
+        <div className="mx-auto mb-3 max-w-md">
+          <NextQuest gameId="chat-guard" />
+        </div>
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           <button
             onClick={game.restart}

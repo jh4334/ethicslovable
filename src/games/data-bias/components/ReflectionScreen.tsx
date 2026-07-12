@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { markCompleted } from "@/lib/progress";
+import NextQuest from "@/components/NextQuest";
 import { cn } from "@/lib/utils";
 import type { DbContent } from "../types";
 import type { DataBiasGame } from "../useDataBiasGame";
@@ -112,7 +113,11 @@ export default function ReflectionScreen({ content, game }: ReflectionScreenProp
           </div>
 
           <div className="mt-4 flex flex-col gap-2">
-            <Link to="/" className="db-btn w-full px-6 py-3 text-center text-sm">
+            <NextQuest gameId="data-bias" />
+            <Link
+              to="/"
+              className="w-full rounded-xl border bg-card px-6 py-3 text-center text-sm font-bold text-foreground transition-colors hover:bg-muted"
+            >
               {reflection.mapButton}
             </Link>
             <button
