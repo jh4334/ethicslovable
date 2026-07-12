@@ -1,4 +1,5 @@
 {
+  "$설명": "1차시 '알고리즘 설계자' 콘텐츠. 플레이어는 누리피드 알고리즘 설계실의 요원이 되어 콘텐츠 카드를 승인/거절하며 7일을 버틴다. cards[]가 딜레마 카드(각 선택이 eng·safe·profit·trust 수치를 바꿈), endings가 게임오버·성향 엔딩, principles가 성찰 수칙이다. 배포본에서는 data/feed-algorithm.json 을 텍스트로 고치면 재빌드 없이 내용이 바뀐다. 문체는 해요체, 실존 브랜드·인물 금지(누리마을 세계관).",
   "meta": {
     "maxDays": 7,
     "startValue": 50
@@ -60,12 +61,22 @@
       "text": "한 사용자가 '지구가 사실은 네모라고?' 같은 이상한 소문 영상을 끝까지 봤어요. 비슷한 영상을 계속 추천해서 누리피드에 오래 머물게 할까요?",
       "approve": {
         "label": "추천해요! 계속 보게 해요.",
-        "effects": { "eng": 20, "safe": -20, "profit": 10, "trust": -15 },
+        "effects": {
+          "eng": 20,
+          "safe": -20,
+          "profit": 10,
+          "trust": -15
+        },
         "message": "그 사용자는 '토끼굴'에 갇혔어요. 비슷한 영상만 끝없이 이어져요."
       },
       "reject": {
         "label": "아니요, 다양한 영상을 섞어요.",
-        "effects": { "eng": -10, "safe": 15, "profit": -5, "trust": 10 },
+        "effects": {
+          "eng": -10,
+          "safe": 15,
+          "profit": -5,
+          "trust": 10
+        },
         "message": "다양한 세상을 보여 줬지만, 사용자가 금방 앱을 꺼 버렸어요."
       }
     },
@@ -77,12 +88,22 @@
       "text": "높은 곳에서 뛰어내리는 '아찔한 챌린지'가 유행하며 조회수가 폭발하고 있어요. 알고리즘 추천을 계속할까요?",
       "approve": {
         "label": "유행이니까 그냥 둬요.",
-        "effects": { "eng": 30, "safe": -40, "profit": 20, "trust": -25 },
+        "effects": {
+          "eng": 30,
+          "safe": -40,
+          "profit": 20,
+          "trust": -25
+        },
         "message": "조회수는 폭발했지만, 따라 하다가 다친 아이들이 생겼어요."
       },
       "reject": {
         "label": "지금 바로 차단해요.",
-        "effects": { "eng": -15, "safe": 25, "profit": -10, "trust": 15 },
+        "effects": {
+          "eng": -15,
+          "safe": 25,
+          "profit": -10,
+          "trust": 15
+        },
         "message": "안전은 지켰지만, '재미없는 앱'이라는 불만이 쏟아져요."
       }
     },
@@ -94,12 +115,22 @@
       "text": "얼굴을 자동으로 바꿔 주는 '완벽 얼굴 필터'를 기본으로 켤까요? 사람들이 사진을 훨씬 많이 올리게 돼요.",
       "approve": {
         "label": "예쁘게 나오는 게 최고죠. 켜요.",
-        "effects": { "eng": 20, "safe": -25, "profit": 10, "trust": -5 },
+        "effects": {
+          "eng": 20,
+          "safe": -25,
+          "profit": 10,
+          "trust": -5
+        },
         "message": "사진은 늘었지만, '진짜 내 얼굴이 싫어요'라는 친구들이 많아졌어요."
       },
       "reject": {
         "label": "있는 그대로가 좋아요. 꺼요.",
-        "effects": { "eng": -10, "safe": 20, "profit": -5, "trust": 5 },
+        "effects": {
+          "eng": -10,
+          "safe": 20,
+          "profit": -5,
+          "trust": 5
+        },
         "message": "필터가 없으니 사진이 안 예쁘다며 다른 앱으로 떠나는 사람이 생겼어요."
       }
     },
@@ -111,12 +142,22 @@
       "text": "'아이돌 은하수 다섯이 해체한대!'라는 확인 안 된 소문이 빠르게 퍼지고 있어요. 사람들이 몰려드는데, 계속 추천할까요?",
       "approve": {
         "label": "화제잖아요. 그냥 둬요.",
-        "effects": { "eng": 25, "safe": -20, "profit": 15, "trust": -30 },
+        "effects": {
+          "eng": 25,
+          "safe": -20,
+          "profit": 15,
+          "trust": -30
+        },
         "message": "소문은 가짜였어요. 은하수 다섯 멤버들은 큰 상처를 받았어요."
       },
       "reject": {
         "label": "사실 확인이 끝날 때까지 막아요.",
-        "effects": { "eng": -15, "safe": 15, "profit": -10, "trust": 20 },
+        "effects": {
+          "eng": -15,
+          "safe": 15,
+          "profit": -10,
+          "trust": 20
+        },
         "message": "소문이 퍼지는 건 막았지만, '왜 못 보게 하냐'는 항의가 들어왔어요."
       }
     },
@@ -128,12 +169,22 @@
       "text": "마이크로 사용자의 대화를 몰래 듣고, 방금 말한 장난감 광고를 바로 띄울까요? 돈은 확실하게 벌 수 있어요.",
       "approve": {
         "label": "돈을 벌어야죠. 진행해요.",
-        "effects": { "eng": 5, "safe": -10, "profit": 30, "trust": -30 },
+        "effects": {
+          "eng": 5,
+          "safe": -10,
+          "profit": 30,
+          "trust": -30
+        },
         "message": "수익은 올랐지만, 사람들이 '누리피드가 나를 감시해!'라며 무서워해요."
       },
       "reject": {
         "label": "소름 돋아요. 절대 안 돼요.",
-        "effects": { "eng": 0, "safe": 10, "profit": -25, "trust": 15 },
+        "effects": {
+          "eng": 0,
+          "safe": 10,
+          "profit": -25,
+          "trust": 15
+        },
         "message": "개인정보는 지켰지만, 광고 수익이 뚝 떨어져서 사장님께 혼났어요."
       }
     },
@@ -145,12 +196,22 @@
       "text": "화면을 넘길 때마다 뽑기 기계처럼 새 영상이 쏟아지는 '무한 스크롤'을 더 강하게 만들까요?",
       "approve": {
         "label": "멈추지 못하게 만들어요.",
-        "effects": { "eng": 30, "safe": -30, "profit": 20, "trust": -10 },
+        "effects": {
+          "eng": 30,
+          "safe": -30,
+          "profit": 20,
+          "trust": -10
+        },
         "message": "사람들이 새벽까지 잠들지 못하고 화면만 넘기고 있어요."
       },
       "reject": {
         "label": "휴식 알림을 띄워요.",
-        "effects": { "eng": -20, "safe": 20, "profit": -15, "trust": 10 },
+        "effects": {
+          "eng": -20,
+          "safe": 20,
+          "profit": -15,
+          "trust": 10
+        },
         "message": "건강은 지켰지만, 사람들이 앱을 보는 시간이 절반으로 줄었어요."
       }
     },
@@ -162,12 +223,22 @@
       "text": "한 학생이 같은 반 친구를 대놓고 놀리는 '저격 영상'을 올렸어요. 신고가 들어왔지만 조회수는 계속 오르고 있어요. 계속 추천할까요?",
       "approve": {
         "label": "싸움 구경이 제일 재밌죠. 둬요.",
-        "effects": { "eng": 25, "safe": -35, "profit": 10, "trust": -20 },
+        "effects": {
+          "eng": 25,
+          "safe": -35,
+          "profit": 10,
+          "trust": -20
+        },
         "message": "영상 속 친구는 학교 가기가 무서워졌어요. 놀림은 점점 심해졌어요."
       },
       "reject": {
         "label": "바로 내리고 경고를 보내요.",
-        "effects": { "eng": -10, "safe": 25, "profit": -5, "trust": 15 },
+        "effects": {
+          "eng": -10,
+          "safe": 25,
+          "profit": -5,
+          "trust": 15
+        },
         "message": "한 사람을 지켰어요. 하지만 '왜 내 영상을 지웠냐'는 항의가 왔어요."
       }
     },
@@ -179,12 +250,22 @@
       "text": "크리에이터 '요리왕 뚝딱'이 '내 돈 주고 산 최애 과자!'라는 영상을 올렸는데, 사실은 과자 회사에서 돈을 받은 광고였어요. '광고' 표시 없이 그대로 둘까요?",
       "approve": {
         "label": "인기 영상이니 모른 척해요.",
-        "effects": { "eng": 15, "safe": -15, "profit": 25, "trust": -25 },
+        "effects": {
+          "eng": 15,
+          "safe": -15,
+          "profit": 25,
+          "trust": -25
+        },
         "message": "광고인 줄 모르고 과자를 산 아이들이 '속았다!'며 화를 냈어요."
       },
       "reject": {
         "label": "'광고입니다' 표시를 붙이게 해요.",
-        "effects": { "eng": -5, "safe": 15, "profit": -15, "trust": 20 },
+        "effects": {
+          "eng": -5,
+          "safe": 15,
+          "profit": -15,
+          "trust": 20
+        },
         "message": "정직함은 지켰지만, 협찬 회사들이 광고를 줄이겠다고 했어요."
       }
     }
