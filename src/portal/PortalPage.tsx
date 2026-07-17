@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Clock, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
+import { Award, CheckCircle2, Clock, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 import { CHAPTERS, GAMES } from "./games";
 import { getProgress, resetProgress, completedCount, GAME_IDS } from "@/lib/progress";
 import { cn } from "@/lib/utils";
@@ -78,10 +78,18 @@ export default function PortalPage() {
               />
             </div>
             <span className="text-sm font-black tabular-nums">{done}/{total}</span>
+            <Link
+              to="/certificate"
+              className="inline-flex min-h-[36px] items-center gap-1 rounded-lg border border-primary/30 bg-primary/5 px-2.5 py-1 text-xs font-bold text-primary transition-colors hover:bg-primary/10"
+              title="배지 컬렉션과 수료증 보기"
+            >
+              <Award className="h-3.5 w-3.5" />
+              배지·수료증
+            </Link>
             {done > 0 && (
               <button
                 onClick={handleReset}
-                className="inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted"
+                className="inline-flex min-h-[36px] items-center gap-1 rounded-lg border px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted"
                 title="진행 기록 지우기"
               >
                 <RotateCcw className="h-3 w-3" />

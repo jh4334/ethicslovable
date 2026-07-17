@@ -3,6 +3,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "sonner";
 import PortalPage from "./portal/PortalPage";
+import CertificatePage from "./portal/CertificatePage";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -79,6 +80,7 @@ export default function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
           <Route path="/" element={<PortalPage />} />
+          <Route path="/certificate" element={<CertificatePage />} />
           <Route path="/games/feed-algorithm" element={<FeedAlgorithmGame />} />
           <Route path="/games/filter-bubble" element={<FilterBubbleGame />} />
           <Route path="/games/social-insight" element={<SocialInsightGame />} />
