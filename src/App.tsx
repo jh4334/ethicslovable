@@ -1,8 +1,10 @@
 import { lazy, Suspense, type ComponentType } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { MotionConfig } from "framer-motion";
 import { Toaster } from "sonner";
 import PortalPage from "./portal/PortalPage";
 import NotFound from "./pages/NotFound";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 /**
  * 게임은 라우트별로 지연 로딩한다 — 저사양 PC에서 첫 화면을 가볍게.
@@ -65,12 +67,17 @@ function Loading() {
 }
 
 // HashRouter — 웹 서버 하위 경로 배포와 file:// 오프라인 실행을 모두 지원.
+// MotionConfig reducedMotion="user" — 사용자의 '동작 줄이기' 설정을 framer-motion
+// 전역에서 존중한다(개별 컴포넌트 수정 없이 한 곳에서). ErrorBoundary — 게임
+// 하나의 예외가 앱 전체를 무너뜨리지 않게 라우트 전체를 감싼다.
 export default function App() {
   return (
-    <HashRouter>
-      <Toaster position="top-center" richColors />
-      <Suspense fallback={<Loading />}>
-        <Routes>
+    <MotionConfig reducedMotion="user">
+      <HashRouter>
+        <Toaster position="top-center" richColors />
+        <ErrorBoundary>
+          <Suspense fallback={<Loading />}>
+            <Routes>
           <Route path="/" element={<PortalPage />} />
           <Route path="/games/feed-algorithm" element={<FeedAlgorithmGame />} />
           <Route path="/games/filter-bubble" element={<FilterBubbleGame />} />
@@ -88,9 +95,11 @@ export default function App() {
           <Route path="/games/ai-fair" element={<AiFairGame />} />
           <Route path="/games/ai-copyright" element={<AiCopyrightGame />} />
           <Route path="/games/ai-grow" element={<AiGrowGame />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </HashRouter>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </HashRouter>
+    </MotionConfig>
   );
 }
