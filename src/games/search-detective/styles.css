@@ -193,8 +193,10 @@
 .game-search-detective .sd-select-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
-  padding: 0.3rem 0.6rem;
+  min-height: 2.25rem; /* 태블릿 터치 영역 확보 */
+  padding: 0.4rem 0.7rem;
   border-radius: 9999px;
   border: 1.5px solid hsl(210 40% 82%);
   background: hsl(0 0% 100%);
@@ -216,8 +218,10 @@
 .game-search-detective .sd-preview-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
-  padding: 0.3rem 0.6rem;
+  min-height: 2.25rem; /* 태블릿 터치 영역 확보 */
+  padding: 0.4rem 0.7rem;
   border-radius: 9999px;
   background: hsl(210 40% 94%);
   color: hsl(212 25% 38%);

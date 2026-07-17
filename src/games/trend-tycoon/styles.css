@@ -92,6 +92,7 @@
   );
 }
 .game-trend-tycoon .tt-slider-thumb {
+  position: relative;
   display: block;
   width: 1.375rem;
   height: 1.375rem;
@@ -100,6 +101,17 @@
   border: 3px solid hsl(var(--tt-slider-color, var(--tt-brand)));
   box-shadow: 0 1px 4px hsl(var(--foreground) / 0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+/* 보이는 손잡이는 작게 두되, 손가락 터치 영역은 44px 이상으로 넓힌다
+   (모양은 그대로, 눌리는 범위만 확장 — 태블릿에서 놓치지 않게) */
+.game-trend-tycoon .tt-slider-thumb::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 .game-trend-tycoon .tt-slider-thumb:hover {
   transform: scale(1.12);
