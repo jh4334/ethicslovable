@@ -4,3 +4,6 @@ dist-offline
 *.local
 .DS_Store
 *.tsbuildinfo
+
+# 콘텐츠 검증 스크립트 음성 테스트용 임시 폴더(커밋 대상 아님)
+dummy-non-existing-folder/
