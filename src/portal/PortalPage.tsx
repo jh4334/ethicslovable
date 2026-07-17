@@ -168,8 +168,13 @@ export default function PortalPage() {
                           </div>
                         </div>
                         {record?.summary && (
-                          <p className="mt-3 rounded-xl bg-muted/70 px-3 py-1.5 text-xs font-medium text-muted-foreground">
-                            🏅 지난 기록: {record.summary}
+                          <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl bg-muted/70 px-3 py-1.5 text-xs font-medium text-muted-foreground">
+                            <span>🏅 지난 기록: {record.summary}</span>
+                            {record.bestScore !== undefined && (
+                              <span className="rounded-full bg-warning/15 px-2 py-0.5 font-bold text-warning">
+                                최고 {record.bestScore.toLocaleString()}점
+                              </span>
+                            )}
                           </p>
                         )}
                       </Link>

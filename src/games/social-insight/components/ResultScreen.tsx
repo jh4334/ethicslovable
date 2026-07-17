@@ -29,6 +29,7 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
     markCompleted(
       "social-insight",
       `${difficulty.label} 난이도 ${score}점 · 최대 콤보 ${maxCombo}`,
+      score,
     );
   }, [difficulty.label, score, maxCombo]);
 
