@@ -5,10 +5,12 @@ import type { CgChoice, CgContent, CgEpisode, CgMember, CgQuality } from "../typ
 import type { ChatGuardGame } from "../useChatGuardGame";
 import { clockAfter } from "../useChatGuardGame";
 
+// 색만 다른 하트(💚💛❤️)는 색각이상 학생에게 구분되지 않으므로
+// '모양이 다른' 기호를 쓴다.
 const QUALITY_EMOJI: Record<CgQuality, string> = {
-  wise: "💚",
-  soso: "💛",
-  risky: "❤️",
+  wise: "✅",
+  soso: "⚠️",
+  risky: "⛔",
 };
 
 interface ChatScreenProps {
@@ -284,13 +286,16 @@ export default function ChatScreen({ content, game }: ChatScreenProps) {
               return (
                 <span
                   key={i}
+                  title={q === "wise" ? "현명" : q === "soso" ? "보통" : q === "risky" ? "위험" : undefined}
                   className={cn(
-                    "cg-ep-dot h-2 w-2 rounded-full",
-                    q === "wise" && "bg-success",
-                    q === "soso" && "bg-warning",
-                    q === "risky" && "bg-destructive",
-                    q == null && i === game.epIndex && "cg-ep-dot-current bg-success/50",
-                    q == null && i !== game.epIndex && "bg-foreground/15",
+                    // 색만이 아니라 '모양'으로도 구분 (색각이상 배려):
+                    // 현명=원 · 보통=테두리 원 · 위험=사각형
+                    "cg-ep-dot h-2.5 w-2.5",
+                    q === "wise" && "rounded-full bg-success",
+                    q === "soso" && "rounded-full border-2 border-warning bg-transparent",
+                    q === "risky" && "rounded-[2px] bg-destructive",
+                    q == null && i === game.epIndex && "cg-ep-dot-current rounded-full bg-success/50",
+                    q == null && i !== game.epIndex && "rounded-full bg-foreground/15",
                   )}
                 />
               );

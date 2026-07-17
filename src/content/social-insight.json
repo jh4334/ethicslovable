@@ -15,6 +15,15 @@
   },
   "difficulties": [
     {
+      "id": "practice",
+      "label": "연습",
+      "emoji": "🐢",
+      "timeLimit": 0,
+      "choiceCount": 2,
+      "trapFromRound": null,
+      "description": "시간 제한 없이 천천히 골라요 · 함정 없음 · 점수는 안 세요"
+    },
+    {
       "id": "easy",
       "label": "쉬움",
       "emoji": "🌱",

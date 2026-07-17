@@ -46,7 +46,12 @@ export function findComboPraise(
 export function useSocialInsightGame(content: SiContent) {
   const [phase, setPhase] = useState<Phase>("start");
   // 기본 난이도는 '쉬움' — 그냥 시작 버튼을 누르는 학생이 가장 편한 길로
-  const [difficultyId, setDifficultyId] = useState(() => content.difficulties[0].id);
+  // 기본은 '쉬움'(있으면) — 연습(무제한) 모드는 선택지로 두되 기본값은 아니게
+  const [difficultyId, setDifficultyId] = useState(
+    () =>
+      content.difficulties.find((d) => d.id === "easy")?.id ??
+      content.difficulties[0].id,
+  );
   const [playerName, setPlayerName] = useState(() => getSavedPlayerName());
   const [score, setScore] = useState(0);
   const [round, setRound] = useState(1);
@@ -69,6 +74,8 @@ export function useSocialInsightGame(content: SiContent) {
     content.difficulties.find((d) => d.id === difficultyId) ??
     content.difficulties[0];
   const totalRounds = content.rules.totalRounds;
+  // timeLimit 0 = 연습(무제한) 모드 — 초읽기·시간초과 없이 천천히
+  const timed = difficulty.timeLimit > 0;
 
   // setTimeout/이펙트 안에서 최신 값을 읽기 위한 참조
   const latest = useRef({ round, score, maxCombo, difficulty, playerName });
@@ -234,41 +241,45 @@ export function useSocialInsightGame(content: SiContent) {
     [feedback, phase, combo, maxCombo, question, content],
   );
 
-  // 초읽기 — 피드백이 뜨면 멈춘다. cleanup 덕분에 StrictMode에서도 안전.
+  // 초읽기 — 피드백이 뜨면 멈춘다. 연습(무제한) 모드에선 아예 돌지 않는다.
   useEffect(() => {
-    if (phase !== "playing" || feedback || !question) return;
+    if (!timed || phase !== "playing" || feedback || !question) return;
     const id = setInterval(
       () => setTimeLeft((t) => (t > 0 ? t - 1 : 0)),
       1000,
     );
     return () => clearInterval(id);
-  }, [phase, feedback, question]);
+  }, [timed, phase, feedback, question]);
 
-  // 시간 초과 처리 (상태만 바꾸므로 여러 번 실행돼도 결과가 같다)
+  // 시간 초과 처리 — 연습 모드에선 없음. 문구는 속도를 탓하지 않는다.
   useEffect(() => {
-    if (phase !== "playing" || feedback || !question || timeLeft > 0) return;
+    if (!timed || phase !== "playing" || feedback || !question || timeLeft > 0) return;
     setCombo(0);
     setFeedback({
       type: "fail",
-      title: "시간 초과!",
-      message: "다음에는 조금 더 빨리 골라 보아요",
+      title: "시간이 지났어요",
+      message: "괜찮아요, 이 친구는 어떤 걸 좋아할까 다시 살펴볼까요?",
     });
-  }, [phase, feedback, question, timeLeft]);
+  }, [timed, phase, feedback, question, timeLeft]);
 
-  // 피드백을 잠깐 보여 준 뒤 다음 라운드 또는 결과로 넘어간다
+  /** 다음 라운드(또는 결과)로 넘어간다 — 시간제한 모드는 자동, 연습 모드는 버튼으로 */
+  const advance = useCallback(() => {
+    const { round: r, score: s } = latest.current;
+    if (r >= totalRounds) {
+      finish(s);
+    } else {
+      setRound(r + 1);
+      setupRound(r + 1);
+    }
+  }, [totalRounds, finish, setupRound]);
+
+  // 시간제한 모드: 피드백을 잠깐 보여 준 뒤 자동으로 넘어간다.
+  // 연습 모드: 자동으로 넘어가지 않고 학생이 '다음 ▶' 버튼을 눌러 넘긴다(해설을 충분히 읽게).
   useEffect(() => {
-    if (phase !== "playing" || !feedback) return;
-    const t = setTimeout(() => {
-      const { round: r, score: s } = latest.current;
-      if (r >= totalRounds) {
-        finish(s);
-      } else {
-        setRound(r + 1);
-        setupRound(r + 1);
-      }
-    }, FEEDBACK_MS);
+    if (!timed || phase !== "playing" || !feedback) return;
+    const t = setTimeout(advance, FEEDBACK_MS);
     return () => clearTimeout(t);
-  }, [phase, feedback, totalRounds, finish, setupRound]);
+  }, [timed, phase, feedback, advance]);
 
   // 콤보 칭찬 문구는 잠깐만 보여 준다
   useEffect(() => {
@@ -293,6 +304,7 @@ export function useSocialInsightGame(content: SiContent) {
     choices,
     feedback,
     timeLeft,
+    timed,
     hasTrap,
     showHint,
     setShowHint,
@@ -302,6 +314,7 @@ export function useSocialInsightGame(content: SiContent) {
     start,
     goToStart,
     choose,
+    advance,
   };
 }
 
