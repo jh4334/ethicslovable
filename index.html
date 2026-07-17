@@ -2,6 +2,16 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      콘텐츠 보안 정책 — 개인정보 수집·외부 전송이 없다는 원칙을 브라우저 차원에서 강제한다.
+      connect-src 'self': 같은 출처(같은 폴더의 data/*.json)만 불러오고, 어떤 외부 서버로도
+      데이터를 보내지 못하게 막는다. 인라인 스타일/스크립트는 단일 파일 오프라인 빌드가
+      모든 자원을 문서 안에 넣기 때문에 허용한다. data:는 내장 파비콘·폰트용.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' data: blob: 'unsafe-inline'; connect-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
     <!-- 파비콘은 오프라인 단일 파일 배포를 위해 data URI로 내장 -->
     <link
       rel="icon"
