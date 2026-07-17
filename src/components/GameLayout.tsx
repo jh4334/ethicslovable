@@ -19,11 +19,19 @@ interface GameLayoutProps {
 export default function GameLayout({ gameId, lesson, title, children, className }: GameLayoutProps) {
   return (
     <div className={cn(`game-${gameId}`, "flex min-h-screen flex-col", className)}>
+      {/* 키보드·스크린리더 사용자용 본문 바로가기 */}
+      <a
+        href="#game-main"
+        className="sr-only rounded-lg bg-card px-3 py-2 text-sm font-bold text-foreground shadow focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[60]"
+      >
+        본문 바로가기
+      </a>
       <nav className="sticky top-0 z-50 border-b border-border/60 bg-card/85 backdrop-blur-md">
         <div className="container flex h-12 items-center justify-between">
+          {/* 히트영역 최소 44px 확보(태블릿) — 시각 크기는 그대로, 세로 패딩만 확대 */}
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-2.5 py-2.5 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <Home className="h-4 w-4" />
             퀘스트 지도로
@@ -36,7 +44,10 @@ export default function GameLayout({ gameId, lesson, title, children, className 
           </span>
         </div>
       </nav>
-      <div className="flex-1">{children}</div>
+      {/* 게임 본문 랜드마크 — SR 랜드마크 탐색과 스킵 링크 목표 */}
+      <main id="game-main" className="flex-1">
+        {children}
+      </main>
     </div>
   );
 }

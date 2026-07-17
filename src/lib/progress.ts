@@ -45,6 +45,8 @@ export interface GameRecord {
   completedAt: string;
   /** 게임별 요약 한 줄 (예: "필터버블 위험도 72점") — 포털 카드에 표시 */
   summary?: string;
+  /** 점수형 게임의 최고 기록 — 여러 번 하면 가장 높은 점수를 남긴다 */
+  bestScore?: number;
 }
 
 export interface Progress {
@@ -68,12 +70,23 @@ export function getProgress(): Progress {
   return { games: {} };
 }
 
-export function markCompleted(gameId: GameId, summary?: string): void {
+export function markCompleted(
+  gameId: GameId,
+  summary?: string,
+  bestScore?: number,
+): void {
   try {
     const progress = getProgress();
+    const prev = progress.games[gameId];
+    // 점수형 게임을 다시 하면 더 높은 점수만 남긴다(도전 동기 부여)
+    const best =
+      bestScore !== undefined
+        ? Math.max(bestScore, prev?.bestScore ?? bestScore)
+        : prev?.bestScore;
     progress.games[gameId] = {
       completedAt: new Date().toISOString(),
       summary,
+      ...(best !== undefined ? { bestScore: best } : {}),
     };
     localStorage.setItem(KEY, JSON.stringify(progress));
   } catch {

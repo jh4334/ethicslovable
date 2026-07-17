@@ -154,6 +154,9 @@ export default function RevealScreen({ content, game }: RevealScreenProps) {
                   answered && !isPicked && !isAnswer && "border-border bg-muted text-muted-foreground opacity-60",
                 )}
               >
+                {/* 색만이 아니라 기호로도 정답/오답을 구분 (색각이상 배려) */}
+                {answered && isAnswer && <span aria-hidden>✓ </span>}
+                {answered && isPicked && !isAnswer && <span aria-hidden>✗ </span>}
                 {choice}
               </button>
             );

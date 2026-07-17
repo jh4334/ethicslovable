@@ -57,7 +57,11 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
   useEffect(() => {
     if (marked.current) return;
     marked.current = true;
-    markCompleted("trend-tycoon", `최종 등급 ${grade} · 총점 ${totalScore.toLocaleString()}점`);
+    markCompleted(
+      "trend-tycoon",
+      `최종 등급 ${grade} · 총점 ${totalScore.toLocaleString()}점`,
+      totalScore,
+    );
   }, [grade, totalScore]);
 
   return (

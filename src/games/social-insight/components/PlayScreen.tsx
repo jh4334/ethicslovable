@@ -47,17 +47,21 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
             <span className="mlq-chip bg-secondary text-secondary-foreground">
               {game.score}점
             </span>
-            <span
-              className={cn(
-                "mlq-chip tabular-nums",
-                game.timeLeft <= 3
-                  ? "si-timer-danger bg-destructive text-destructive-foreground shadow-soft"
-                  : "bg-secondary text-foreground",
-              )}
-            >
-              <Timer className="h-3.5 w-3.5" />
-              {game.timeLeft}초
-            </span>
+            {game.timed ? (
+              <span
+                className={cn(
+                  "mlq-chip tabular-nums",
+                  game.timeLeft <= 3
+                    ? "si-timer-danger bg-destructive text-destructive-foreground shadow-soft"
+                    : "bg-secondary text-foreground",
+                )}
+              >
+                <Timer className="h-3.5 w-3.5" />
+                {game.timeLeft}초
+              </span>
+            ) : (
+              <span className="mlq-chip bg-secondary text-foreground">🐢 천천히</span>
+            )}
           </div>
         </div>
         {/* 라운드 진행 표시 */}
@@ -174,6 +178,16 @@ export default function PlayScreen({ content, game }: PlayScreenProps) {
             <p className="mt-0.5 text-center text-xs text-muted-foreground">
               {game.feedback.message}
             </p>
+            {/* 연습(무제한) 모드: 해설을 충분히 읽고 학생이 직접 넘긴다 */}
+            {!game.timed && (
+              <button
+                type="button"
+                onClick={game.advance}
+                className="mlq-btn-primary mt-3 inline-flex items-center gap-1 px-5 py-2 text-sm font-bold"
+              >
+                다음 <span aria-hidden>▶</span>
+              </button>
+            )}
           </div>
         </div>
       )}

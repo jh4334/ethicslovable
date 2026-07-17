@@ -310,8 +310,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem; /* 44px — 태블릿 터치 영역 */
+  height: 2.75rem;
   border-radius: 9999px;
   color: hsl(var(--dt-ink));
   transition:

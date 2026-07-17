@@ -35,6 +35,11 @@ function fillMissing<T>(fallback: T, loaded: unknown): T {
 }
 
 export async function loadContent<T>(name: string, fallback: T): Promise<T> {
+  // 오프라인 단일 파일(file://)에서는 data/*.json fetch가 CORS로 무조건 막혀
+  // 콘솔이 빨간 에러로 도배된다. 이 경우 곧바로 내장 콘텐츠를 쓴다(정상 동작).
+  if (typeof location !== "undefined" && location.protocol === "file:") {
+    return fallback;
+  }
   try {
     const url = `${import.meta.env.BASE_URL}data/${name}.json`;
     const res = await fetch(url, { cache: "no-cache" });

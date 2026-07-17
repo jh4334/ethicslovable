@@ -181,3 +181,22 @@
     .animate-float { animation: none; }
   }
 }
+
+/* 수료증 인쇄 — 화면에선 배지·상단바를 보여 주되,
+   인쇄 시엔 수료증 한 장만 A4에 깔끔히 남긴다. */
+@media print {
+  .cert-noprint {
+    display: none !important;
+  }
+  .cert-print-area {
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  .cert-sheet {
+    border-color: hsl(var(--primary) / 0.3) !important;
+    box-shadow: none !important;
+  }
+  .cert-name-input {
+    border-bottom-color: transparent !important;
+  }
+}

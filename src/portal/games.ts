@@ -6,9 +6,9 @@ import type { GameId } from "@/lib/progress";
  */
 export interface GameMeta {
   id: GameId;
-  /** 차시 (1~8) */
+  /** 차시 (1~16) */
   lesson: number;
-  /** 챕터: 1부(추천 알고리즘) / 2부(AI 알고리즘) / 3부(디지털 생활) */
+  /** 챕터: 1부(추천 알고리즘) / 2부(AI 알고리즘) / 3부(디지털 생활) / 4부(AI 윤리) */
   chapter: 1 | 2 | 3 | 4;
   title: string;
   subtitle: string;

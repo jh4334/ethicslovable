@@ -10,11 +10,15 @@ import fs from "fs";
 function contentAsData(): Plugin {
   const contentDir = path.resolve(__dirname, "src/content");
   let outRoot = path.resolve(__dirname, "dist");
+  let isOffline = false;
   return {
     name: "content-as-data",
     configResolved(config) {
       // 실제 outDir을 따라간다 — 오프라인 빌드(dist-offline)가 dist/를 오염시키지 않게
       outRoot = path.resolve(config.root, config.build.outDir);
+      // 오프라인(단일 파일) 모드에서는 data/를 복사하지 않는다 — file://에선
+      // fetch가 막혀 내장 콘텐츠(fallback)만 쓰이므로, 복사본은 도달 불가한 죽은 무게다.
+      isOffline = config.mode === "offline";
     },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
@@ -31,6 +35,7 @@ function contentAsData(): Plugin {
       });
     },
     closeBundle() {
+      if (isOffline) return; // 오프라인 단일 파일엔 data/ 복사 불필요
       const outDir = path.join(outRoot, "data");
       if (!fs.existsSync(contentDir)) return;
       fs.mkdirSync(outDir, { recursive: true });
