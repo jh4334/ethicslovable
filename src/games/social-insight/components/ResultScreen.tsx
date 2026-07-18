@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react";
 import { Trophy, RotateCcw, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import NextQuest from "@/components/NextQuest";
 import type { SiContent } from "../types";
 import type { SocialInsightGame } from "../useSocialInsightGame";
@@ -22,16 +21,11 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
   const isTop3 = myRank > 0 && myRank <= 3;
 
   // 결과 화면에 도착하면 학습 완료로 기록 (StrictMode에서도 1회만)
-  const reportedRef = useRef(false);
-  useEffect(() => {
-    if (reportedRef.current) return;
-    reportedRef.current = true;
-    markCompleted(
-      "social-insight",
-      `${difficulty.label} 난이도 ${score}점 · 최대 콤보 ${maxCombo}`,
-      score,
-    );
-  }, [difficulty.label, score, maxCombo]);
+  useMarkCompleted(
+    "social-insight",
+    `${difficulty.label} 난이도 ${score}점 · 최대 콤보 ${maxCombo}`,
+    score,
+  );
 
   return (
     <div className="flex min-h-[calc(100vh-2.75rem)] items-center justify-center p-4">
