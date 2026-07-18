@@ -3,10 +3,9 @@
  * 총 시청 영상·가상 시간·퀴즈 오차·멈추기 결과 + 지킴이 등급 + 실천 팁 3가지.
  * 도착 시 markCompleted를 한 번만 기록한다(StrictMode 이중 실행 대비 ref 가드).
  */
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import NextQuest from "@/components/NextQuest";
 import { computeScore, fill, formatVirtual, pickGrade } from "./logic";
 import type { SfContent } from "./types";
@@ -26,15 +25,10 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
   const grade = pickGrade(grades, computeScore(kind, stats));
 
   // 학습 기록은 한 번만 저장 (StrictMode 이중 실행 대비)
-  const markedRef = useRef(false);
-  useEffect(() => {
-    if (markedRef.current) return;
-    markedRef.current = true;
-    markCompleted(
-      "short-form",
-      fill(result.summaryTemplate, { 시간: timeLabel, 멈춤: result.summaryStop[kind] }),
-    );
-  }, [result, timeLabel, kind]);
+  useMarkCompleted(
+    "short-form",
+    fill(result.summaryTemplate, { 시간: timeLabel, 멈춤: result.summaryStop[kind] }),
+  );
 
   const statItems = [
     { label: result.statVideos, value: `${stats.watched}개` },

@@ -5,10 +5,10 @@
  * 지킴이 등급 점수(최대 6점):
  *   확률 퀴즈 정답 +2 · 시나리오 선택 +1 · 체크리스트 체크 1개당 +1(최대 3)
  */
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import NextQuest from "@/components/NextQuest";
 import type { GbContent, GbGrade } from "../types";
 import type { GachaGame } from "../useGachaGame";
@@ -39,13 +39,8 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
   }, [content.rarities]);
 
   // 학습 완료 기록 — StrictMode 이중 실행에도 한 번만 저장한다
-  const savedRef = useRef(false);
   const pullCount = game.pulls.length;
-  useEffect(() => {
-    if (savedRef.current) return;
-    savedRef.current = true;
-    markCompleted("gacha-box", `${pullCount}회 뽑기 조사 · 전설 확률의 비밀 해부`);
-  }, [pullCount]);
+  useMarkCompleted("gacha-box", `${pullCount}회 뽑기 조사 · 전설 확률의 비밀 해부`);
 
   return (
     <div className="mx-auto w-full max-w-md px-4 py-6 pb-10">
