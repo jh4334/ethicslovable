@@ -101,6 +101,14 @@
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
+
+  /* 키보드 포커스 표시 — 마우스 없이 조작하는 학생이 지금 어디에 있는지
+     항상 또렷이 보이게 한다. 마우스 클릭(:focus)에는 링을 띄우지 않는다.
+     개별 컴포넌트가 자체 focus-visible를 정의하면 그쪽이 우선한다. */
+  :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
