@@ -6,6 +6,7 @@ import PortalPage from "./portal/PortalPage";
 import CertificatePage from "./portal/CertificatePage";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
+import FontScaleControl from "./components/FontScaleControl";
 
 /**
  * 게임은 라우트별로 지연 로딩한다 — 저사양 PC에서 첫 화면을 가볍게.
@@ -76,6 +77,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <HashRouter>
         <Toaster position="top-center" richColors />
+        <FontScaleControl />
         <ErrorBoundary>
           <Suspense fallback={<Loading />}>
             <Routes>
