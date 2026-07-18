@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Medal, PencilLine, RotateCcw, ScrollText, Sparkles, Star, Trophy } from "lucide-react";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import NextQuest from "@/components/NextQuest";
 import { cn } from "@/lib/utils";
 import type { ClearContent, FinalReportContent, GradeContent } from "./types";
@@ -52,17 +51,12 @@ export default function ClearScreen({ totalScore, levelScores, grades, clear, fi
   const { grade, message } = getGrade(grades, totalScore);
   const gradeClass = GRADE_CLASSES[grade] ?? "tt-grade-d";
 
-  // 게임 완료를 학습 기록에 한 번만 저장 (markCompleted 자체가 덮어쓰기라 중복 호출도 안전)
-  const marked = useRef(false);
-  useEffect(() => {
-    if (marked.current) return;
-    marked.current = true;
-    markCompleted(
-      "trend-tycoon",
-      `최종 등급 ${grade} · 총점 ${totalScore.toLocaleString()}점`,
-      totalScore,
-    );
-  }, [grade, totalScore]);
+  // 게임 완료를 학습 기록에 한 번만 저장
+  useMarkCompleted(
+    "trend-tycoon",
+    `최종 등급 ${grade} · 총점 ${totalScore.toLocaleString()}점`,
+    totalScore,
+  );
 
   return (
     <div className="tt-clear-bg relative flex min-h-[calc(100vh-2.75rem)] flex-col items-center justify-center overflow-hidden p-6">

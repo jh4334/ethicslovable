@@ -199,7 +199,12 @@ export default function PortalPage() {
         </div>
 
         <footer className="mt-8 pb-4 text-center text-xs font-medium text-muted-foreground">
-          미디어 리터러시 퀘스트 — 교육용 무료 배포 자료
+          <p>
+            <Link to="/report" className="underline-offset-2 hover:text-foreground hover:underline">
+              교사용 · 학습 기록 리포트
+            </Link>
+          </p>
+          <p className="mt-1.5">미디어 리터러시 퀘스트 — 교육용 무료 배포 자료</p>
         </footer>
       </main>
     </div>

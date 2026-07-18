@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import { analyzePlayStyle, buildSummary } from "./logic";
 import type { EndingInfo, FeedAlgorithmContent, GameLogEntry, Stats } from "./types";
 
@@ -16,15 +15,12 @@ interface ResultScreenProps {
 /** 엔딩 + 관리자 리포트 + 선택 기록을 보여주는 결과 화면 */
 const ResultScreen = ({ content, ending, day, stats, log, onContinue }: ResultScreenProps) => {
   const style = content.playStyles[analyzePlayStyle(stats)];
-  const completedRef = useRef(false);
 
-  // 결과 화면에 도달하면 학습 완료로 기록한다(중복 호출 방지).
-  useEffect(() => {
-    if (completedRef.current) return;
-    completedRef.current = true;
-    markCompleted("feed-algorithm", buildSummary(content, ending.survived, day, stats, ending.title));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // 결과 화면에 도달하면 학습 완료로 기록한다(StrictMode에서도 1회만).
+  useMarkCompleted(
+    "feed-algorithm",
+    buildSummary(content, ending.survived, day, stats, ending.title),
+  );
 
   return (
     <motion.div

@@ -2,10 +2,9 @@
  * 결과 화면 — 데이터 방패 수 + 프로필 카드 다시 보기 + 핵심 배움 문구.
  * 도착 시 markCompleted를 한 번만 기록한다(StrictMode 이중 실행 대비 ref 가드).
  */
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
-import { markCompleted } from "@/lib/progress";
+import { useMarkCompleted } from "@/lib/useMarkCompleted";
 import NextQuest from "@/components/NextQuest";
 import { cn } from "@/lib/utils";
 import ProfileCard from "./ProfileCard";
@@ -23,12 +22,10 @@ export default function ResultScreen({ content, game }: ResultScreenProps) {
   const totalShields = content.protect.scenarios.length;
 
   // 학습 기록은 한 번만 저장 (StrictMode 이중 실행 대비)
-  const markedRef = useRef(false);
-  useEffect(() => {
-    if (markedRef.current) return;
-    markedRef.current = true;
-    markCompleted("data-trail", result.summaryTemplate.replace("{개수}", String(shields)));
-  }, [shields, result.summaryTemplate]);
+  useMarkCompleted(
+    "data-trail",
+    result.summaryTemplate.replace("{개수}", String(shields)),
+  );
 
   const shieldMessage =
     [...result.shieldMessages]
